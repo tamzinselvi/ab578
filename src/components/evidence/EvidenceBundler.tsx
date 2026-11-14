@@ -4,7 +4,7 @@ import {
   formatBytes,
   type BuiltEvidencePdf,
 } from "../../lib/evidence";
-import { evidenceStrings as s } from "./strings";
+import { DEFAULT_LOCALE, t, type Locale } from "../../i18n";
 import "./evidence.css";
 
 export interface EvidenceBundlerProps {
@@ -12,6 +12,8 @@ export interface EvidenceBundlerProps {
   platform?: string;
   /** Incident date as YYYY-MM-DD; defaults to today when omitted. */
   date?: string;
+  /** UI locale for every string. Defaults to English. */
+  locale?: Locale;
 }
 
 interface EvidenceItem {
@@ -29,6 +31,7 @@ const FILE_INPUT_ID = "evidence-file-input";
  * happens on the device; nothing is uploaded.
  */
 export default function EvidenceBundler(props: EvidenceBundlerProps) {
+  const locale = props.locale ?? DEFAULT_LOCALE;
   const [items, setItems] = useState<EvidenceItem[]>([]);
   const [busy, setBusy] = useState(false);
   const [progress, setProgress] = useState("");
@@ -92,9 +95,10 @@ export default function EvidenceBundler(props: EvidenceBundlerProps) {
     setError(null);
     setResult(null);
     setProgress(
-      s.compressingProgress
-        .replace("{done}", "0")
-        .replace("{total}", String(items.length)),
+      t(locale, "evidenceCompressingProgress", {
+        done: "0",
+        total: String(items.length),
+      }),
     );
     try {
       const date = props.date ? new Date(`${props.date}T00:00:00`) : new Date();
@@ -104,14 +108,15 @@ export default function EvidenceBundler(props: EvidenceBundlerProps) {
           platform: props.platform ?? "",
           date: Number.isNaN(date.getTime()) ? new Date() : date,
           onProgress: (event) => {
-            const template =
+            const key =
               event.phase === "rendering"
-                ? s.compressingProgress
-                : s.assemblingProgress;
+                ? "evidenceCompressingProgress"
+                : "evidenceAssemblingProgress";
             setProgress(
-              template
-                .replace("{done}", String(event.done))
-                .replace("{total}", String(event.total)),
+              t(locale, key, {
+                done: String(event.done),
+                total: String(event.total),
+              }),
             );
           },
         },
@@ -124,8 +129,8 @@ export default function EvidenceBundler(props: EvidenceBundlerProps) {
     } catch (cause) {
       setError(
         cause instanceof Error && cause.message.length > 0
-          ? `${s.buildFailed} (${cause.message})`
-          : s.buildFailed,
+          ? `${t(locale, "evidenceBuildFailed")} (${cause.message})`
+          : t(locale, "evidenceBuildFailed"),
       );
     } finally {
       setBusy(false);
@@ -135,11 +140,13 @@ export default function EvidenceBundler(props: EvidenceBundlerProps) {
 
   return (
     <section class="evidence" aria-labelledby="evidence-heading">
-      <h2 id="evidence-heading">{s.heading}</h2>
-      <p class="evidence-intro">{s.intro}</p>
+      <h2 id="evidence-heading">{t(locale, "evidenceHeading")}</h2>
+      <p class="evidence-intro">{t(locale, "evidenceIntro")}</p>
 
       <label class="evidence-add button" htmlFor={FILE_INPUT_ID}>
-        {items.length === 0 ? s.addImages : s.addMore}
+        {items.length === 0
+          ? t(locale, "evidenceAddImages")
+          : t(locale, "evidenceAddMore")}
         <input
           id={FILE_INPUT_ID}
           class="evidence-file-input"
@@ -152,12 +159,16 @@ export default function EvidenceBundler(props: EvidenceBundlerProps) {
           }}
         />
       </label>
-      {items.length === 0 && <p class="evidence-hint">{s.emptyHint}</p>}
+      {items.length === 0 && (
+        <p class="evidence-hint">{t(locale, "evidenceEmptyHint")}</p>
+      )}
 
       {items.length > 0 && (
         <>
           <p class="evidence-count" data-evidence-count={items.length}>
-            {s.imageCount.replace("{count}", String(items.length))}
+            {t(locale, "evidenceImageCount", {
+              count: String(items.length),
+            })}
           </p>
           <ol class="evidence-list">
             {items.map((item, index) => (
@@ -172,25 +183,31 @@ export default function EvidenceBundler(props: EvidenceBundlerProps) {
                   <p class="evidence-item-name">{item.file.name}</p>
                   <label class="evidence-caption-label">
                     <span class="evidence-caption-label-text">
-                      {s.captionLabel.replace("{name}", item.file.name)}
+                      {t(locale, "evidenceCaptionLabel", {
+                        name: item.file.name,
+                      })}
                     </span>
                     <input
                       class="evidence-caption-input"
                       type="text"
                       value={item.caption}
-                      placeholder={s.captionPlaceholder}
+                      placeholder={t(locale, "evidenceCaptionPlaceholder")}
                       onInput={(event) =>
                         setCaption(item.id, event.currentTarget.value)
                       }
                     />
                   </label>
-                  <p class="evidence-caption-hint">{s.captionHint}</p>
+                  <p class="evidence-caption-hint">
+                    {t(locale, "evidenceCaptionHint")}
+                  </p>
                 </div>
                 <div class="evidence-item-actions">
                   <button
                     type="button"
                     class="evidence-move"
-                    aria-label={s.moveEarlier.replace("{name}", item.file.name)}
+                    aria-label={t(locale, "evidenceMoveEarlier", {
+                      name: item.file.name,
+                    })}
                     disabled={index === 0 || busy}
                     onClick={() => moveItem(index, -1)}
                   >
@@ -199,7 +216,9 @@ export default function EvidenceBundler(props: EvidenceBundlerProps) {
                   <button
                     type="button"
                     class="evidence-move"
-                    aria-label={s.moveLater.replace("{name}", item.file.name)}
+                    aria-label={t(locale, "evidenceMoveLater", {
+                      name: item.file.name,
+                    })}
                     disabled={index === items.length - 1 || busy}
                     onClick={() => moveItem(index, 1)}
                   >
@@ -208,7 +227,9 @@ export default function EvidenceBundler(props: EvidenceBundlerProps) {
                   <button
                     type="button"
                     class="evidence-remove"
-                    aria-label={s.removeImage.replace("{name}", item.file.name)}
+                    aria-label={t(locale, "evidenceRemoveImage", {
+                      name: item.file.name,
+                    })}
                     disabled={busy}
                     onClick={() => removeItem(item.id)}
                   >
@@ -228,7 +249,7 @@ export default function EvidenceBundler(props: EvidenceBundlerProps) {
           disabled={busy}
           onClick={() => void build()}
         >
-          {busy ? s.building : s.build}
+          {busy ? t(locale, "evidenceBuilding") : t(locale, "evidenceBuild")}
         </button>
       )}
 
@@ -251,19 +272,26 @@ export default function EvidenceBundler(props: EvidenceBundlerProps) {
           data-evidence-pages={result.pages}
           data-evidence-bytes={result.bytes}
         >
-          <h3>{s.resultHeading}</h3>
+          <h3>{t(locale, "evidenceResultHeading")}</h3>
           <p>
-            {s.resultPages.replace("{pages}", String(result.pages))} ·{" "}
-            {s.resultSize.replace("{size}", formatBytes(result.bytes))}
+            {t(locale, "evidenceResultPages", {
+              pages: String(result.pages),
+            })}{" "}
+            ·{" "}
+            {t(locale, "evidenceResultSize", {
+              size: formatBytes(result.bytes),
+            })}
           </p>
           {result.overBudget && (
             <p class="evidence-overbudget" role="alert">
-              {s.overBudgetWarning}
+              {t(locale, "evidenceOverBudgetWarning")}
             </p>
           )}
           {result.skipped.length > 0 && (
             <p class="evidence-skipped">
-              {s.skippedFiles.replace("{names}", result.skipped.join(", "))}
+              {t(locale, "evidenceSkippedFiles", {
+                names: result.skipped.join(", "),
+              })}
             </p>
           )}
           {resultUrl && (
@@ -272,7 +300,7 @@ export default function EvidenceBundler(props: EvidenceBundlerProps) {
               href={resultUrl}
               download={result.filename}
             >
-              {s.download.replace("{filename}", result.filename)}
+              {t(locale, "evidenceDownload", { filename: result.filename })}
             </a>
           )}
         </div>
