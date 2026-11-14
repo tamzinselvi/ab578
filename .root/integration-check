@@ -1,0 +1,1 @@
+npm ci && npm run typecheck && npm run check:copy && npm test && npm run build
