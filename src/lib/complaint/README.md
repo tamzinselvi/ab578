@@ -35,7 +35,7 @@ import type {
   narrative clauses. The wizard should offer issues in this order.
 - `getTemplates(locale)` / `templateFiles` in `templates/index.ts` — the
   template registry (used by tests and the translation task).
-- `KitView` in `src/components/kit/KitView.tsx` — stub renderer; props are
+- `KitView` in `src/components/kit/KitView.tsx` — kit screen renderer; props are
   `{ kit: ComplaintKit }`.
 
 Both `KitOptions` fields default to `'en'`. Outgoing messages render in
