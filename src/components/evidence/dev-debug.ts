@@ -1,8 +1,8 @@
 /**
- * Debug hook for the dev-only demo page (src/pages/dev/evidence.astro).
+ * Debug hook for the dev-only kit page (src/pages/dev/kit.astro).
  * Lets the Playwright suite exercise the real decode/render functions in a
  * real browser, including checking caption pixels. Not part of the public
- * component API; the integrator can drop this file with the demo page.
+ * component API; the integrator can drop this file with the dev page.
  */
 import { decodeImageFile, renderEvidenceJpeg } from "../../lib/evidence";
 

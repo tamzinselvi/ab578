@@ -3,7 +3,6 @@ import { agFormFields } from "../../src/data/destinations";
 import { readings, statuteRules } from "../../src/data/law";
 import { getPlatform } from "../../src/data/platforms";
 import { generateKit, ISSUE_ORDER } from "../../src/lib/complaint/generate";
-import KitView from "../../src/components/kit/KitView";
 import { enTemplates } from "../../src/lib/complaint/templates/en";
 import { templateFiles } from "../../src/lib/complaint/templates/index";
 import type {
@@ -580,16 +579,5 @@ describe("generateKit: locales", () => {
     } finally {
       delete templateFiles.vi;
     }
-  });
-});
-
-describe("KitView stub", () => {
-  it("renders a full kit as plain sections without throwing", () => {
-    const kit = generateKit(makeIncident(), CONTACT);
-    const view = KitView({ kit });
-    const sections = Array.isArray(view.props.children)
-      ? view.props.children
-      : [view.props.children];
-    expect(sections.length).toBeGreaterThan(5);
   });
 });

@@ -8,7 +8,6 @@ import {
 } from "./helpers/png";
 
 const BASE = process.env.BASE_PATH ?? "/ab578";
-const ORIGIN = "http://127.0.0.1:4321";
 const FOUR_MB = 4 * 1024 * 1024;
 
 const fixtures = [
@@ -33,9 +32,12 @@ test("builds one PDF from screenshots with CJK captions, fully offline", async (
   page,
 }) => {
   const requests: string[] = [];
+  // Same-origin means the suite's own preview server, whichever port the
+  // Playwright config picked.
+  const origin = test.info().project.use.baseURL ?? "http://127.0.0.1:4321";
   page.on("request", (request) => requests.push(request.url()));
 
-  await page.goto(`${BASE}/dev/evidence`);
+  await page.goto(`${BASE}/dev/kit`);
 
   await page.getByLabel("Add screenshots").setInputFiles(
     fixtures.map((fixture) => ({
@@ -110,10 +112,10 @@ test("builds one PDF from screenshots with CJK captions, fully offline", async (
   // data: loads are device-local and never reach the network.
   const duringBuild = requests.slice(buildStartedAt);
   for (const url of duringBuild) {
-    expect(url.startsWith(ORIGIN)).toBe(true);
+    expect(url.startsWith(origin)).toBe(true);
   }
   const external = requests.filter(
-    (url) => !url.startsWith(ORIGIN) && !url.startsWith("blob:"),
+    (url) => !url.startsWith(origin) && !url.startsWith("blob:"),
   );
   expect(external).toEqual([]);
 });
@@ -121,7 +123,7 @@ test("builds one PDF from screenshots with CJK captions, fully offline", async (
 test("draws Chinese and Korean captions onto the image with system fonts", async ({
   page,
 }) => {
-  await page.goto(`${BASE}/dev/evidence`);
+  await page.goto(`${BASE}/dev/kit`);
   const whitePng = pngFixture(800, 400, solidPaint([255, 255, 255]));
 
   const report = await page.evaluate(async (pngBase64) => {

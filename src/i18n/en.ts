@@ -136,6 +136,108 @@ const source = {
   platformFileLegal:
     "Not legal advice. Not affiliated with the State of California or any delivery company.",
 
+  // Evidence PDF bundler (embedded in the kit screen).
+  evidenceHeading: "Turn your screenshots into one PDF",
+  evidenceIntro:
+    "The complaint form accepts PDF, Word or Excel files, not images. Pick your screenshots, add a caption to each if you like, and download one PDF ready to attach. Everything happens on your device. Nothing is uploaded.",
+  evidenceAddImages: "Add screenshots",
+  evidenceAddMore: "Add more screenshots",
+  evidenceImageCount: "{count} images",
+  evidenceCaptionLabel: "Caption for {name}",
+  evidenceCaptionHint: "Captions are drawn onto the image, in any language.",
+  evidenceCaptionPlaceholder: "For example: this is not what I ordered",
+  evidenceMoveEarlier: "Move {name} earlier",
+  evidenceMoveLater: "Move {name} later",
+  evidenceRemoveImage: "Remove {name}",
+  evidenceBuild: "Build the PDF",
+  evidenceBuilding: "Building the PDF",
+  evidenceCompressingProgress: "Compressing image {done} of {total}",
+  evidenceAssemblingProgress: "Assembling the PDF, page {done} of {total}",
+  evidenceResultHeading: "Your evidence PDF is ready",
+  evidenceResultPages: "{pages} pages",
+  evidenceResultSize: "File size: {size}",
+  evidenceOverBudgetWarning:
+    "This PDF is over the 4 MB upload limit. Remove a screenshot or two and build again.",
+  evidenceDownload: "Download {filename}",
+  evidenceSkippedFiles:
+    "Left out because this browser could not read them: {names}. Another browser may open them.",
+  evidenceBuildFailed:
+    "Building the PDF failed. Try again, or use fewer or smaller screenshots.",
+  evidenceEmptyHint: "JPEG or PNG screenshots work best.",
+
+  // Kit screen. {platform} is the platform's own name, {language} the
+  // locale's own name, {amount} and {section} already formatted.
+  kitTitle: "Your complaint kit",
+  kitAsksHeading: "What you're asking for",
+  kitAskLabelSettled: "The law requires this",
+  kitAskLabelArgued: "Backed by California law, as we read it",
+  kitAskLabelPlain: "A plain request under the platform's own policy",
+  kitFloorLine: "At minimum, they owe you {amount}",
+  kitFloorFallback: "At minimum: {fallback}",
+  kitWhyLink: "Why?",
+  kitEstimateHeading: "Refund estimate",
+  kitOutgoingLanguage: "Language of the messages you send",
+  kitSendInLanguage: "Send in {language}",
+  kitSendInEnglish: "Send in English",
+  kitTranslationLabel: "Translation",
+  kitPlatformCardTitle: "Get your refund from {platform}",
+  kitPlatformFallbackName: "the delivery app",
+  kitMessageShortLabel: "Short version, for chat",
+  kitMessageLongLabel: "Longer version, for email or web forms",
+  kitCopy: "Copy",
+  kitCopied: "Copied",
+  kitCopyLabel: "Copy {what}",
+  kitShare: "Share the message",
+  kitOpenSupport: "Open {platform} support",
+  kitHumanTipsHeading: "How to reach a real person",
+  kitAgCardTitle: "Report to the California Attorney General",
+  kitAgIntro:
+    "Copy each answer into the state's online form, in this order. The form itself is in English.",
+  kitAgOpenForm: "Open the AG form",
+  kitAgUploadHeading: "Attach your evidence",
+  kitAgUploadGuidance:
+    "You can attach up to {count} files ({types}), each under {limit} MB. Build one PDF with the tool below and attach that.",
+  kitAgUploadLink: "Go to the evidence tool",
+  kitAgMailInNote:
+    "You can also print a complaint form in {language} and mail it in.",
+  kitAgMailInLink: "Download the {language} mail-in form (PDF)",
+  kitMoreCardTitle: "More ways to act",
+  kitMoreCardHint: "Your district attorney, the FTC, and small claims court",
+  kitDestDa: "Find your district attorney or city attorney",
+  kitDestDaNote: "They enforce California's consumer laws in your county.",
+  kitDestFtc: "Report to the FTC",
+  kitDestFtcNote:
+    "Your report goes into the federal database shared with law enforcement.",
+  kitDestSmallClaims: "Take the platform to small claims court",
+  kitDestSmallClaimsNote:
+    "California's official self-help guide. The court expects you to ask for the money before you file.",
+  kitDemandLetterHeading: "Printable demand letter",
+  kitDemandLetterIntro:
+    "Send this to the platform before you file. It states what you are owed and why.",
+  kitSaveHeading: "Save a record",
+  kitSaveIntro: "Keep a dated copy of this kit for your files.",
+  kitPrint: "Print this kit",
+  kitDownloadRecord: "Download the record",
+  kitClipboardFallbackHeading: "Copy manually",
+  kitClipboardFallbackIntro:
+    "This browser blocked automatic copying. The text below is selected. Copy it yourself.",
+  kitClipboardFallbackLabel: "Text to copy manually",
+  kitCitationsHeading: "The law behind this kit",
+  kitCitationVerified: "Checked {date}.",
+  kitCitationArgued: "Argued reading. The clear floor is {section}.",
+  kitCitationSource: "Read the section",
+
+  // Kit screen: plain-text record for print and download.
+  kitRecordTitle: "AB 578 complaint kit record",
+  kitRecordSaved: "Saved on {date}",
+  kitRecordAsks: "What you're asking for",
+  kitRecordPlatformMessage: "Message to the platform",
+  kitRecordAgForm: "Attorney General complaint",
+  kitRecordAgFormUrl: "Form: {url}",
+  kitRecordDemandLetter: "Demand letter",
+  kitRecordDestinations: "Where else to complain",
+  kitRecordCitations: "The law behind this kit",
+
   // 404.
   notFoundTitle: "Page not found",
   notFoundHeading: "Page not found",
