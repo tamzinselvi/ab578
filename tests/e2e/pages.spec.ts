@@ -3,6 +3,8 @@ import AxeBuilder from "@axe-core/playwright";
 import type { Page } from "@playwright/test";
 
 const BASE = process.env.BASE_PATH ?? "/ab578";
+// Must match astro.config.mjs: CI builds with the real owner origin.
+const SITE = process.env.SITE_URL ?? "https://owner.github.io";
 
 async function expectNoA11yViolations(page: Page) {
   const results = await new AxeBuilder({ page }).analyze();
@@ -161,7 +163,7 @@ test("seo meta: descriptions, og images, canonical and hreflang", async ({
   );
   await expect(
     page.locator('link[rel="alternate"][hreflang="es"]'),
-  ).toHaveAttribute("href", `https://owner.github.io${BASE}/es/about`);
+  ).toHaveAttribute("href", `${SITE}${BASE}/es/about`);
 });
 test("sitemap covers every locale and content page", async ({ page }) => {
   const response = await page.goto(`${BASE}/sitemap.xml`);
@@ -185,9 +187,7 @@ test("sitemap covers every locale and content page", async ({ page }) => {
       "/vi",
       "/ko",
     ]) {
-      expect(body).toContain(
-        `<loc>https://owner.github.io${BASE}${prefix}${suffix}</loc>`,
-      );
+      expect(body).toContain(`<loc>${SITE}${BASE}${prefix}${suffix}</loc>`);
     }
   }
 });
@@ -199,7 +199,7 @@ test("robots.txt allows crawlers and points at the sitemap", async ({
   expect(response?.status()).toBe(200);
   const body = await response?.text();
   expect(body).toContain("User-agent: *");
-  expect(body).toContain(`Sitemap: https://owner.github.io${BASE}/sitemap.xml`);
+  expect(body).toContain(`Sitemap: ${SITE}${BASE}/sitemap.xml`);
 });
 
 test("unknown paths get the 404 page", async ({ page }) => {
