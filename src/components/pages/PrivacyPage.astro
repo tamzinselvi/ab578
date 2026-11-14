@@ -1,0 +1,26 @@
+---
+import Base from "../../layouts/Base.astro";
+import { t, type Locale } from "../../i18n";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+---
+
+<Base
+  locale={locale}
+  title={`${t(locale, "privacyTitle")} | ${t(locale, "siteName")}`}
+  description={t(locale, "privacyMetaDescription")}
+  currentPath="/privacy"
+>
+  <article class="prose">
+    <h1>{t(locale, "privacyHeading")}</h1>
+    <p>
+      <strong>{t(locale, "privacyP1")}</strong>
+    </p>
+    <p>{t(locale, "privacyP2")}</p>
+    <p>{t(locale, "privacyP3")}</p>
+  </article>
+</Base>

@@ -1,0 +1,56 @@
+---
+import Base from "../../layouts/Base.astro";
+import { t, localePath, type Locale } from "../../i18n";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const items = [
+  { q: t(locale, "faqCreditsQuestion"), a: t(locale, "faqCreditsAnswer") },
+  { q: t(locale, "faqTipsQuestion"), a: t(locale, "faqTipsAnswer") },
+  {
+    q: t(locale, "faqFullRefundQuestion"),
+    a: t(locale, "faqFullRefundAnswer"),
+  },
+  { q: t(locale, "faqAgQuestion"), a: t(locale, "faqAgAnswer") },
+  { q: t(locale, "faqAccountQuestion"), a: t(locale, "faqAccountAnswer") },
+  { q: t(locale, "faqLegalQuestion"), a: t(locale, "faqLegalAnswer") },
+  { q: t(locale, "faqEnglishQuestion"), a: t(locale, "faqEnglishAnswer") },
+];
+const index = 2; // the full-refund question links on to /about#why
+---
+
+<Base
+  locale={locale}
+  title={`${t(locale, "faqTitle")} | ${t(locale, "siteName")}`}
+  description={t(locale, "faqMetaDescription")}
+  currentPath="/faq"
+>
+  <article class="prose faq">
+    <h1>{t(locale, "faqHeading")}</h1>
+    {items.map((item, i) => (
+      <section aria-labelledby={`faq-q-${i}`}>
+        <h2 id={`faq-q-${i}`}>{item.q}</h2>
+        {i === index ? (
+          <>
+            <p>{item.a}</p>
+            <p>
+              <a href={`${localePath(locale, "/about")}#why`}>
+                {t(locale, "faqFullRefundLink")}
+              </a>
+            </p>
+          </>
+        ) : (
+          <p>{item.a}</p>
+        )}
+      </section>
+    ))}
+    <p class="cta-row">
+      <a class="button" href={localePath(locale, "/file")}>
+        {t(locale, "homeCta")}
+      </a>
+    </p>
+  </article>
+</Base>
