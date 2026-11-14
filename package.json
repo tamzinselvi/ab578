@@ -20,6 +20,7 @@
     "check:copy": "npm run check:i18n && npm run check:emdash"
   },
   "dependencies": {
+    "pdf-lib": "^1.17.1",
     "preact": "^11.2.0"
   },
   "engines": {
