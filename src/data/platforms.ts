@@ -13,24 +13,25 @@
  * This module must not import from outside src/data/.
  */
 
-import type { Platform } from './types';
+import type { Platform } from "./types";
 
-const VER = '2026-11-14';
+const VER = "2026-11-14";
 
 export const platforms: readonly Platform[] = [
   {
-    id: 'doordash',
-    name: 'DoorDash',
-    subsidiaries: ['Caviar'],
-    legalName: 'DoorDash, Inc.',
-    mailingAddress: 'DoorDash, Inc., 303 2nd Street, Suite 800, San Francisco, CA 94107',
-    phone: '855-431-0459',
-    website: 'https://www.doordash.com',
-    supportUrl: 'https://help.doordash.com/en-us/consumers',
+    id: "doordash",
+    name: "DoorDash",
+    subsidiaries: ["Caviar"],
+    legalName: "DoorDash, Inc.",
+    mailingAddress:
+      "DoorDash, Inc., 303 2nd Street, Suite 800, San Francisco, CA 94107",
+    phone: "855-431-0459",
+    website: "https://www.doordash.com",
+    supportUrl: "https://help.doordash.com/en-us/consumers",
     refundHelpUrl:
-      'https://help.doordash.com/en-us/consumers/article/my-order-was-missing-an-item-incorrect-order',
+      "https://help.doordash.com/en-us/consumers/article/my-order-was-missing-an-item-incorrect-order",
     inAppRefundPath:
-      'Mobile app: open Orders, select the order, tap Help, then under Order Issues choose Missing or incorrect items and follow the prompts. Desktop: open the menu (three lines, top left), choose Orders, select the order, select Help on the right, then under Order Issues choose Missing items or Items made incorrectly. Caviar orders: sign in at www.trycaviar.com or in the Caviar app, open Orders, select the order, select Help, choose the issue(s) under Order Issues and submit.',
+      "Mobile app: open Orders, select the order, tap Help, then under Order Issues choose Missing or incorrect items and follow the prompts. Desktop: open the menu (three lines, top left), choose Orders, select the order, select Help on the right, then under Order Issues choose Missing items or Items made incorrectly. Caviar orders: sign in at www.trycaviar.com or in the Caviar app, open Orders, select the order, select Help, choose the issue(s) under Order Issues and submit.",
     humanContact:
       'Chat and phone support 24/7 (DoorDash: "Our chat and call support are available 24/7"). Chat starts at doordash.com/orders/help?chat=true; guided help at doordash.com/orders/help. Phone: 855-431-0459.',
     smallClaimsAllowed: true,
@@ -39,15 +40,16 @@ export const platforms: readonly Platform[] = [
     verifiedOn: VER,
   },
   {
-    id: 'ubereats',
-    name: 'Uber Eats',
-    subsidiaries: ['Postmates'],
-    legalName: 'Uber Technologies, Inc.',
-    mailingAddress: 'Uber Technologies, Inc., Attn: Legal Department, 1725 3rd Street, San Francisco, CA 94158',
-    website: 'https://www.ubereats.com',
-    supportUrl: 'https://help.uber.com/ubereats',
+    id: "ubereats",
+    name: "Uber Eats",
+    subsidiaries: ["Postmates"],
+    legalName: "Uber Technologies, Inc.",
+    mailingAddress:
+      "Uber Technologies, Inc., Attn: Legal Department, 1725 3rd Street, San Francisco, CA 94158",
+    website: "https://www.ubereats.com",
+    supportUrl: "https://help.uber.com/ubereats",
     refundHelpUrl:
-      'https://help.uber.com/ubereats/restaurants/article/wrong-or-missing-items?nodeId=c2248362-09f4-45f4-98a8-d0b6816c3a61',
+      "https://help.uber.com/ubereats/restaurants/article/wrong-or-missing-items?nodeId=c2248362-09f4-45f4-98a8-d0b6816c3a61",
     inAppRefundPath:
       'In the Uber Eats app or website, open the order in order history and use its help flow: select the order, report what was wrong or missing, describe the issue and add photos. Uber\u2019s Terms of Use (Section 7, Refunds) direct refund requests to the "Help" tab in your Account within the timeframe specified in the app, otherwise within 30 days of the charge; help articles recommend reporting within 48 hours. Postmates orders are handled in the same Uber systems (help.uber.com/postmates).',
     humanContact:
@@ -58,15 +60,17 @@ export const platforms: readonly Platform[] = [
     verifiedOn: VER,
   },
   {
-    id: 'grubhub',
-    name: 'Grubhub',
-    subsidiaries: ['Seamless'],
-    legalName: 'Grubhub Holdings Inc.',
-    mailingAddress: 'Grubhub, Attn: Dispute Resolutions, 222 W Merchandise Mart Plaza, Suite 800, Chicago, IL 60654',
-    phone: '1-877-585-7878',
-    website: 'https://www.grubhub.com',
-    supportUrl: 'https://www.grubhub.com/help/contact-us',
-    refundHelpUrl: 'https://www.grubhub.com/answers/how-do-i-get-a-refund-from-grubhub',
+    id: "grubhub",
+    name: "Grubhub",
+    subsidiaries: ["Seamless"],
+    legalName: "Grubhub Holdings Inc.",
+    mailingAddress:
+      "Grubhub, Attn: Dispute Resolutions, 222 W Merchandise Mart Plaza, Suite 800, Chicago, IL 60654",
+    phone: "1-877-585-7878",
+    website: "https://www.grubhub.com",
+    supportUrl: "https://www.grubhub.com/help/contact-us",
+    refundHelpUrl:
+      "https://www.grubhub.com/answers/how-do-i-get-a-refund-from-grubhub",
     inAppRefundPath:
       'Sign in to your Grubhub account, open your order history, select the order, and use its help flow to report the issue and request a refund ("If you would like to request a refund on an order, sign in to your Grubhub account and select the order you need help with"). Refunds may take up to 5 business days to process, longer at some banks. Seamless works the same way at seamless.com.',
     humanContact:
@@ -79,7 +83,7 @@ export const platforms: readonly Platform[] = [
 ] as const;
 
 /** Look up a platform record by id. */
-export function getPlatform(id: Platform['id']): Platform {
+export function getPlatform(id: Platform["id"]): Platform {
   const found = platforms.find((p) => p.id === id);
   if (!found) {
     throw new Error(`Unknown platform: ${id}`);

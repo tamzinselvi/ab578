@@ -22,7 +22,7 @@ export type LawRule = StatuteRule | ReadingRule;
 
 /** Verbatim text of an official code section, as displayed on leginfo. */
 export interface StatuteRule {
-  readonly kind: 'statute';
+  readonly kind: "statute";
   /** Stable id, e.g. 'bpc-22599-2-a'. */
   readonly id: string;
   /** Citation as the app prints it, e.g. '§ 22599.2(a)'. */
@@ -42,7 +42,7 @@ export interface StatuteRule {
 
 /** The app's argued, consumer-favorable reading of an ambiguous section. Never statute text. */
 export interface ReadingRule {
-  readonly kind: 'reading';
+  readonly kind: "reading";
   /** Stable id, e.g. 'reading-missing-items-wrong-order'. */
   readonly id: string;
   /** The section being read, e.g. '§ 22599.2(a)'. */
@@ -59,7 +59,7 @@ export interface ReadingRule {
 }
 
 /** The three delivery platforms the app ships with. The wizard's 'other' is handled outside src/data. */
-export type PlatformId = 'doordash' | 'ubereats' | 'grubhub';
+export type PlatformId = "doordash" | "ubereats" | "grubhub";
 
 export interface Platform {
   readonly id: PlatformId;
@@ -107,14 +107,14 @@ export interface Destination {
 }
 
 export type AgFormFieldType =
-  | 'text'
-  | 'email'
-  | 'tel'
-  | 'select'
-  | 'textarea'
-  | 'radio'
-  | 'checkbox'
-  | 'file';
+  | "text"
+  | "email"
+  | "tel"
+  | "select"
+  | "textarea"
+  | "radio"
+  | "checkbox"
+  | "file";
 
 /** One field of the California AG consumer complaint form, in the form's own order. */
 export interface AgFormField {
