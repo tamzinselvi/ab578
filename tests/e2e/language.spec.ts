@@ -8,16 +8,16 @@ test("switching language keeps the same page and survives a reload", async ({
 }) => {
   await page.goto(`${BASE}/file`);
   await page.getByRole("link", { name: "Español" }).click();
-  await expect(page).toHaveURL(new RegExp(`${BASE}/es/file/?$`));
+  await expect(page).toHaveURL(new RegExp(`${BASE}/es/file/?(#.*)?$`));
   await expect(page.locator("html")).toHaveAttribute("lang", "es");
   expect(
     await page.evaluate((key) => localStorage.getItem(key), STORAGE_KEY),
   ).toBe("es");
 
   await page.reload();
-  await expect(page).toHaveURL(new RegExp(`${BASE}/es/file/?$`));
+  await expect(page).toHaveURL(new RegExp(`${BASE}/es/file/?(#.*)?$`));
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "File a complaint",
+    "What went wrong?",
   );
 });
 

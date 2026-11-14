@@ -1,0 +1,353 @@
+/* Complaint wizard styles. Mobile-first, logical properties, CJK-safe
+   wrapping. Tap targets stay at or above 44px. Colors come from global.css
+   variables so dark mode keeps working. */
+
+.wizard {
+  display: grid;
+  gap: 1rem;
+}
+
+.wizard-progress ol {
+  display: flex;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.wizard-progress li {
+  flex: 1;
+  padding: 0.375rem 0.25rem;
+  border-block-end: 4px solid var(--border);
+  font-size: 0.75rem;
+  line-height: 1.3;
+  color: var(--color-muted);
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.wizard-progress li[aria-current="step"] {
+  border-block-end-color: var(--color-accent);
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.wizard h1 {
+  font-size: 1.5rem;
+}
+
+.wizard-hint {
+  margin-block: 0;
+  color: var(--color-muted);
+}
+
+.wizard-note {
+  margin-block: 0;
+  color: var(--color-muted);
+  font-size: 0.875rem;
+}
+
+/* Big multi-select options. The label is the tap target. */
+.wizard-choices {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.wizard-choice {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  min-height: 56px;
+  padding: 0.75rem 1rem;
+  border: var(--border);
+  border-radius: 10px;
+  background-color: var(--color-bg);
+  cursor: pointer;
+  line-height: 1.4;
+}
+
+.wizard-choice:has(input:checked) {
+  border-color: var(--color-accent);
+  background-color: var(--color-wash);
+}
+
+.wizard-choice input {
+  inline-size: 1.375rem;
+  block-size: 1.375rem;
+  margin-block-start: 0.125rem;
+  flex: none;
+  accent-color: var(--color-accent);
+}
+
+.wizard-choice span {
+  overflow-wrap: anywhere;
+}
+
+.wizard-choice .choice-note {
+  display: block;
+  color: var(--color-muted);
+  font-size: 0.875rem;
+}
+
+/* Single-select platform buttons. */
+.wizard-options {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.wizard-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  min-height: 56px;
+  padding: 0.75rem 1rem;
+  border: var(--border);
+  border-radius: 10px;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  text-align: start;
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+
+.wizard-option[data-selected="true"] {
+  border-color: var(--color-accent);
+  background-color: var(--color-wash);
+}
+
+.wizard-option .option-check {
+  flex: none;
+  color: var(--color-accent);
+  font-size: 1.25rem;
+}
+
+/* Forms */
+.wizard-fields {
+  display: grid;
+  gap: 1rem;
+}
+
+.wizard-field {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.wizard-field > label {
+  font-weight: 600;
+}
+
+.wizard-field input,
+.wizard-field select,
+.wizard-field textarea {
+  min-block-size: 48px;
+  padding: 0.5rem 0.75rem;
+  border: var(--border);
+  border-radius: 8px;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font: inherit;
+}
+
+.wizard-field input[aria-invalid="true"],
+.wizard-field textarea[aria-invalid="true"] {
+  border-color: #b3261e;
+}
+
+.wizard-field textarea {
+  min-block-size: 72px;
+  resize: vertical;
+}
+
+.wizard-field .field-hint {
+  color: var(--color-muted);
+  font-size: 0.875rem;
+}
+
+.field-error {
+  margin: 0;
+  color: #b3261e;
+  font-weight: 600;
+}
+
+@media (prefers-color-scheme: dark) {
+  .field-error {
+    color: #f2b8b5;
+  }
+}
+
+/* Radio rows */
+.wizard-radios {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.wizard-radios legend,
+.wizard-choices legend {
+  font-weight: 600;
+  padding: 0;
+  margin-block-end: 0.5rem;
+}
+
+.wizard-radio {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 48px;
+  padding: 0.5rem 1rem;
+  border: var(--border);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.wizard-radio:has(input:checked) {
+  border-color: var(--color-accent);
+  background-color: var(--color-wash);
+}
+
+.wizard-radio input {
+  inline-size: 1.25rem;
+  block-size: 1.25rem;
+  flex: none;
+  accent-color: var(--color-accent);
+}
+
+/* Numeric keypad */
+.wizard-keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+}
+
+.wizard-keypad button {
+  min-block-size: 52px;
+  border: var(--border);
+  border-radius: 10px;
+  background-color: var(--color-wash);
+  color: var(--color-text);
+  font-size: 1.375rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Optional details fold-out */
+.wizard-optional {
+  border: var(--border);
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+}
+
+.wizard-optional summary {
+  cursor: pointer;
+  font-weight: 600;
+  min-block-size: 44px;
+  display: flex;
+  align-items: center;
+}
+
+.wizard-optional[open] summary {
+  margin-block-end: 0.75rem;
+}
+
+/* Nav buttons */
+.wizard-nav {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.wizard-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.wizard-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-block-start: 1rem;
+  padding-block-start: 1rem;
+  border-block-start: var(--border);
+}
+
+.wizard-footer button,
+button.wizard-link {
+  min-block-size: 44px;
+  padding-inline: 0.5rem;
+  border: 0;
+  background: none;
+  color: var(--color-accent);
+  font-size: 0.9375rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* Contact panel inside the kit step */
+.wizard-contact {
+  display: grid;
+  gap: 0.75rem;
+  margin-block-start: 1.5rem;
+  padding: 1rem;
+  border: var(--border);
+  border-radius: 10px;
+}
+
+.wizard-contact h2 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.wizard-contact-grid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.wizard-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  min-block-size: 44px;
+  padding: 0.5rem 0;
+}
+
+.wizard-check input {
+  inline-size: 1.375rem;
+  block-size: 1.375rem;
+  flex: none;
+  margin-block-start: 0.2rem;
+  accent-color: var(--color-accent);
+}
+
+.wizard-check span {
+  overflow-wrap: anywhere;
+}
+
+/* Screen-reader-only live regions and labels */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* The kit's letter blocks (demand letter, copyable messages) are wide by
+   default; wrap them so a 390px viewport never overflows horizontally. */
+.wizard pre {
+  max-width: 100%;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}

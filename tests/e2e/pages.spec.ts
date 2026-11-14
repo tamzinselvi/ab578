@@ -26,14 +26,14 @@ test("home page shows the hero and primary actions", async ({ page }) => {
   await expectNoA11yViolations(page);
 });
 
-test("file page shows the wizard shell placeholder", async ({ page }) => {
+test("file page opens the wizard at the first question", async ({ page }) => {
   await page.goto(`${BASE}/file`);
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "File a complaint",
+    "What went wrong?",
   );
   await expect(
-    page.getByRole("link", { name: "Back to the home page" }),
-  ).toHaveAttribute("href", `${BASE}/`);
+    page.getByRole("checkbox", { name: "It never arrived" }),
+  ).toBeVisible();
   await expectNoA11yViolations(page);
 });
 
