@@ -1,0 +1,64 @@
+---
+import Base from "../../layouts/Base.astro";
+import { t, localePath, type Locale } from "../../i18n";
+import { getPlatform } from "../../data/platforms";
+import type { PlatformId } from "../../data/types";
+
+interface Props {
+  locale: Locale;
+  platformId: PlatformId;
+}
+
+const { locale, platformId } = Astro.props;
+const platform = getPlatform(platformId);
+const vars = { name: platform.name };
+const fileHref = `${localePath(locale, "/file")}?platform=${platform.id}`;
+const external = { target: "_blank", rel: "noopener noreferrer" };
+---
+
+<Base
+  locale={locale}
+  title={`${t(locale, "platformHeading", vars)} | ${t(locale, "siteName")}`}
+  description={t(locale, "platformMetaDescription", vars)}
+  currentPath={`/${platform.id}`}
+>
+  <article class="prose">
+    <h1>{t(locale, "platformHeading", vars)}</h1>
+    <p>{t(locale, "platformIntro", vars)}</p>
+
+    <section aria-labelledby="refund-heading">
+      <h2 id="refund-heading">{t(locale, "platformRefundHeading")}</h2>
+      <p>{t(locale, "platformRefundLaw")}</p>
+      <h3>{t(locale, "platformRefundPathLabel", vars)}</h3>
+      <p>{platform.inAppRefundPath}</p>
+      <p>
+        <a href={platform.refundHelpUrl} {...external}>
+          {t(locale, "platformRefundHelpLink", vars)}
+        </a>
+      </p>
+    </section>
+
+    <section aria-labelledby="human-heading">
+      <h2 id="human-heading">{t(locale, "platformHumanHeading")}</h2>
+      <p>{t(locale, "platformHumanLaw")}</p>
+      <h3>{t(locale, "platformHumanLabel", vars)}</h3>
+      <p>{platform.humanContact}</p>
+      <p>
+        <a href={platform.supportUrl} {...external}>
+          {t(locale, "platformSupportLink", vars)}
+        </a>
+      </p>
+    </section>
+
+    <section aria-labelledby="file-heading">
+      <h2 id="file-heading">{t(locale, "fileHeading")}</h2>
+      <p>{t(locale, "platformFileIntro", vars)}</p>
+      <p class="cta-row">
+        <a class="button" href={fileHref}>
+          {t(locale, "homeCta")}
+        </a>
+      </p>
+      <p class="fine-print">{t(locale, "platformFileLegal")}</p>
+    </section>
+  </article>
+</Base>

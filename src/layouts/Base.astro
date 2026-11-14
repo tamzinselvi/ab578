@@ -16,10 +16,24 @@ interface Props {
   title: string;
   /** Route path without locale prefix or base, for example '/' or '/file'. */
   currentPath: string;
+  /** Per-page meta description; defaults to the site description. */
+  description?: string;
+  /** Base-relative OG image path, for example '/og/home.png'. */
+  ogImage?: string;
 }
 
-const { locale, title, currentPath } = Astro.props;
+const {
+  locale,
+  title,
+  currentPath,
+  description = t(locale, "metaDescription"),
+  ogImage = "/og/home.png",
+} = Astro.props;
 const meta = locales[locale];
+const canonical = absoluteUrl(localePath(locale, currentPath));
+const ogImageUrl = absoluteUrl(
+  `${import.meta.env.BASE_URL.replace(/\/$/, "")}${ogImage}`,
+);
 
 // Astro injects the Content-Security-Policy meta tag (astro.config.mjs
 // security.csp): same-origin only, plus data: and blob: images for the
@@ -32,8 +46,18 @@ const meta = locales[locale];
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
-    <meta name="description" content={t(locale, "metaDescription")} />
-    <link rel="canonical" href={absoluteUrl(localePath(locale, currentPath))} />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={t(locale, "siteName")} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={title} />
+    <meta name="twitter:card" content="summary_large_image" />
     {localeList.map((l) => (
       <link
         rel="alternate"

@@ -204,12 +204,68 @@ p {
   margin-block: 0.75rem;
 }
 
+/* Long-form content pages: About, FAQ, Privacy, platform pages */
+.prose section {
+  margin-block-start: 2rem;
+}
+
+.prose h2 {
+  margin-block: 0.5rem;
+  font-size: 1.375rem;
+  line-height: 1.25;
+}
+
+.prose h3 {
+  margin-block: 1rem 0.25rem;
+  font-size: 1rem;
+}
+
+.prose ol,
+.prose ul {
+  margin-block: 0.5rem;
+  padding-inline-start: 1.5rem;
+}
+
+.prose li {
+  margin-block: 0.4rem;
+}
+
+.prose section[id] {
+  scroll-margin-block-start: 1.5rem;
+}
+
+.faq h2 {
+  font-size: 1.125rem;
+}
+
+.cta-row {
+  margin-block: 2rem 0.5rem;
+}
+
+.fine-print {
+  color: var(--color-muted);
+  font-size: 0.875rem;
+}
+
 /* Footer */
 .site-footer {
   border-block-start: var(--border);
   padding-block: 1.25rem;
   color: var(--color-muted);
   font-size: 0.875rem;
+}
+
+.footer-nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.25rem;
+  margin: 0 0 0.5rem;
+  padding: 0;
+  list-style: none;
+}
+
+.footer-nav a {
+  color: var(--color-text);
 }
 
 .site-footer p {

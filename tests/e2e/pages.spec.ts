@@ -37,12 +37,169 @@ test("file page shows the wizard shell placeholder", async ({ page }) => {
   await expectNoA11yViolations(page);
 });
 
-test("about page shows its placeholder", async ({ page }) => {
+test("about page carries the approved sections, story and disclaimer", async ({
+  page,
+}) => {
   await page.goto(`${BASE}/about`);
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("About");
+  const headings = page.getByRole("heading", { level: 2 });
+  await expect(headings).toHaveText([
+    "How it works",
+    "Why we ask for a full refund",
+    "California law is on your side",
+    "Why the complaint matters",
+    "Why did you build this?",
+  ]);
+  for (const anchor of ["how", "why", "california-law", "story"]) {
+    await expect(page.locator(`#${anchor}`)).toBeAttached();
+  }
+  await expect(
+    page.getByText(
+      "Not legal advice. We're not affiliated with the State of California, DoorDash, Uber Eats, Grubhub or any other company.",
+    ),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "File a complaint →" }),
+  ).toHaveAttribute("href", `${BASE}/file`);
+  await expectNoA11yViolations(page);
+});
+
+test("faq answers the seven questions and links the full-refund one", async ({
+  page,
+}) => {
+  await page.goto(`${BASE}/faq`);
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("FAQ");
+  await expect(page.getByRole("heading", { level: 2 })).toHaveCount(7);
+  await expect(
+    page.getByRole("link", { name: "Why we ask for a full refund" }),
+  ).toHaveAttribute("href", `${BASE}/about#why`);
+  await expect(
+    page.getByText("the app can't take it back out of the driver's pay"),
+  ).toBeVisible();
+  await expectNoA11yViolations(page);
+});
+
+test("privacy page keeps everything on the device", async ({ page }) => {
+  await page.goto(`${BASE}/privacy`);
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Privacy");
+  await expect(
+    page.getByText("Nothing you type leaves your device."),
+  ).toBeVisible();
+  await expectNoA11yViolations(page);
+});
+
+test("platform page pulls support info from the verified data", async ({
+  page,
+}) => {
+  await page.goto(`${BASE}/doordash`);
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "How this works",
+    "Get your DoorDash money back",
+  );
+  const support = page.getByRole("link", { name: "Open DoorDash support" });
+  await expect(support).toHaveAttribute(
+    "href",
+    "https://help.doordash.com/en-us/consumers",
+  );
+  await expect(support).toHaveAttribute("rel", "noopener noreferrer");
+  await expect(support).toHaveAttribute("target", "_blank");
+  await expect(page.getByText("855-431-0459").first()).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "File a complaint →" }),
+  ).toHaveAttribute("href", `${BASE}/file?platform=doordash`);
+  await expectNoA11yViolations(page);
+});
+
+test("footer links about, faq and privacy", async ({ page }) => {
+  await page.goto(`${BASE}/`);
+  const nav = page.locator("footer nav");
+  await expect(nav.getByRole("link", { name: "About" })).toHaveAttribute(
+    "href",
+    `${BASE}/about`,
+  );
+  await expect(nav.getByRole("link", { name: "FAQ" })).toHaveAttribute(
+    "href",
+    `${BASE}/faq`,
+  );
+  await expect(nav.getByRole("link", { name: "Privacy" })).toHaveAttribute(
+    "href",
+    `${BASE}/privacy`,
+  );
+});
+
+test("localized content routes render with English fallback", async ({
+  page,
+}) => {
+  await page.goto(`${BASE}/es/faq`);
+  await expect(page.locator("html")).toHaveAttribute("lang", "es");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("FAQ");
+  await expect(page.getByRole("contentinfo")).toContainText(
+    "Translated automatically. The English version is the official one.",
   );
   await expectNoA11yViolations(page);
+});
+
+test("seo meta: descriptions, og images, canonical and hreflang", async ({
+  page,
+}) => {
+  await page.goto(`${BASE}/`);
+  await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+    "content",
+    "File a food delivery refund complaint under California AB 578 in about a minute. Free, private, no account.",
+  );
+  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
+    "content",
+    /\/og\/home\.png$/,
+  );
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+    "href",
+    new RegExp(`${BASE}/?$`),
+  );
+  await page.goto(`${BASE}/about`);
+  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
+    "content",
+    /\/og\/about\.png$/,
+  );
+  await expect(
+    page.locator('link[rel="alternate"][hreflang="es"]'),
+  ).toHaveAttribute("href", `https://owner.github.io${BASE}/es/about`);
+});
+test("sitemap covers every locale and content page", async ({ page }) => {
+  const response = await page.goto(`${BASE}/sitemap.xml`);
+  expect(response?.status()).toBe(200);
+  const body = await response?.text();
+  for (const suffix of [
+    "/about",
+    "/faq",
+    "/privacy",
+    "/file",
+    "/doordash",
+    "/ubereats",
+    "/grubhub",
+  ]) {
+    for (const prefix of [
+      "",
+      "/es",
+      "/zh-hant",
+      "/zh-hans",
+      "/tl",
+      "/vi",
+      "/ko",
+    ]) {
+      expect(body).toContain(
+        `<loc>https://owner.github.io${BASE}${prefix}${suffix}</loc>`,
+      );
+    }
+  }
+});
+
+test("robots.txt allows crawlers and points at the sitemap", async ({
+  page,
+}) => {
+  const response = await page.goto(`${BASE}/robots.txt`);
+  expect(response?.status()).toBe(200);
+  const body = await response?.text();
+  expect(body).toContain("User-agent: *");
+  expect(body).toContain(`Sitemap: https://owner.github.io${BASE}/sitemap.xml`);
 });
 
 test("unknown paths get the 404 page", async ({ page }) => {
