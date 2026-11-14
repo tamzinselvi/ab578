@@ -219,9 +219,9 @@ test("contact info stays out of localStorage until Remember is checked", async (
   // Remember stays unchecked.
   await page.locator(".wizard-contact button[type='submit']").click();
 
-  await expect(page.getByRole("status")).toContainText(
-    "Your contact details are in the kit.",
-  );
+  await expect(
+    page.getByRole("status").filter({ hasText: "Your contact details" }),
+  ).toContainText("Your contact details are in the kit.");
   // The kit itself now carries the name, proving the regen used contact info.
   await expect(page.locator("article.kit")).toContainText("Dana");
 
