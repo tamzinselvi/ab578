@@ -1,0 +1,24 @@
+---
+import Base from "../../layouts/Base.astro";
+import { t, localePath, type Locale } from "../../i18n";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+---
+
+<Base
+  locale={locale}
+  title={`${t(locale, "notFoundTitle")} | ${t(locale, "siteName")}`}
+  currentPath="/"
+>
+  <section>
+    <h1>{t(locale, "notFoundHeading")}</h1>
+    <p>{t(locale, "notFoundBody")}</p>
+    <p>
+      <a href={localePath(locale, "/")}>{t(locale, "notFoundHome")}</a>
+    </p>
+  </section>
+</Base>

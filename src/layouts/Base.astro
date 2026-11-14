@@ -1,0 +1,104 @@
+---
+import "../styles/global.css";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import {
+  absoluteUrl,
+  localeList,
+  localePath,
+  locales,
+  t,
+  type Locale,
+} from "../i18n";
+
+interface Props {
+  locale: Locale;
+  title: string;
+  /** Route path without locale prefix or base, for example '/' or '/file'. */
+  currentPath: string;
+  /** Per-page meta description; defaults to the site description. */
+  description?: string;
+  /** Base-relative OG image path, for example '/og/home.png'. */
+  ogImage?: string;
+}
+
+const {
+  locale,
+  title,
+  currentPath,
+  description = t(locale, "metaDescription"),
+  ogImage = "/og/home.png",
+} = Astro.props;
+const meta = locales[locale];
+const canonical = absoluteUrl(localePath(locale, currentPath));
+const ogImageUrl = absoluteUrl(
+  `${import.meta.env.BASE_URL.replace(/\/$/, "")}${ogImage}`,
+);
+
+// Astro injects the Content-Security-Policy meta tag (astro.config.mjs
+// security.csp): same-origin only, plus data: and blob: images for the
+// evidence tool, with hashes for every bundled script and style.
+---
+
+<!doctype html>
+<html lang={meta.htmlLang} dir={meta.dir}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={t(locale, "siteName")} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={title} />
+    <meta name="twitter:card" content="summary_large_image" />
+    {localeList.map((l) => (
+      <link
+        rel="alternate"
+        hreflang={locales[l].htmlLang}
+        href={absoluteUrl(localePath(l, currentPath))}
+      />
+    ))}
+    <link
+      rel="alternate"
+      hreflang="x-default"
+      href={absoluteUrl(localePath("en", currentPath))}
+    />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">
+      {t(locale, "skipToContent")}
+    </a>
+    <SiteHeader locale={locale} currentPath={currentPath} />
+    <main id="main" class="container">
+      <slot />
+    </main>
+    <SiteFooter locale={locale} />
+    <script>
+      // Remember the language the visitor chose, from the picker or the
+      // suggestion bar. Both mark links with data-locale-link; the picker
+      // stays plain anchor navigation so it works without JavaScript.
+      document.addEventListener("click", (event) => {
+        const link =
+          event.target instanceof Element
+            ? event.target.closest("[data-locale-link]")
+            : null;
+        const chosen = link?.getAttribute("data-locale-link");
+        if (chosen) {
+          try {
+            localStorage.setItem("ab578.lang", chosen);
+          } catch {
+            // Storage unavailable (private mode): the choice is simply not
+            // remembered.
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

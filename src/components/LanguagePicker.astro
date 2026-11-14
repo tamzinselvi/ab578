@@ -1,0 +1,28 @@
+---
+import { localeList, locales, localePath, t, type Locale } from "../i18n";
+
+interface Props {
+  locale: Locale;
+  currentPath: string;
+}
+
+const { locale, currentPath } = Astro.props;
+---
+
+<nav class="language-picker" aria-label={t(locale, "languageLabel")}>
+  <ul>
+    {localeList.map((l) => (
+      <li>
+        <a
+          href={localePath(l, currentPath)}
+          hreflang={locales[l].htmlLang}
+          lang={locales[l].htmlLang}
+          data-locale-link={l}
+          aria-current={l === locale ? "page" : undefined}
+        >
+          {locales[l].label}
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>

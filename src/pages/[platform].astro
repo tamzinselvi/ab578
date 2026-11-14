@@ -1,0 +1,13 @@
+---
+import PlatformPage from "../components/pages/PlatformPage.astro";
+import { platforms } from "../data/platforms";
+import type { PlatformId } from "../data/types";
+
+export function getStaticPaths() {
+  return platforms.map((platform) => ({ params: { platform: platform.id } }));
+}
+
+const { platform } = Astro.params as { platform: PlatformId };
+---
+
+<PlatformPage locale="en" platformId={platform} />

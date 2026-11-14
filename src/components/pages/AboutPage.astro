@@ -1,0 +1,71 @@
+---
+import Base from "../../layouts/Base.astro";
+import { t, localePath, type Locale } from "../../i18n";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const howSteps = [
+  t(locale, "aboutHowStep1"),
+  t(locale, "aboutHowStep2"),
+  t(locale, "aboutHowStep3"),
+];
+---
+
+<Base
+  locale={locale}
+  title={`${t(locale, "aboutTitle")} | ${t(locale, "siteName")}`}
+  description={t(locale, "aboutMetaDescription")}
+  currentPath="/about"
+  ogImage="/og/about.png"
+>
+  <article class="prose">
+    <h1>{t(locale, "aboutHeading")}</h1>
+
+    <section id="how" aria-labelledby="how-heading">
+      <h2 id="how-heading">{t(locale, "aboutHowHeading")}</h2>
+      <ol>
+        {howSteps.map((step) => (
+          <li>{step}</li>
+        ))}
+      </ol>
+      <p>{t(locale, "aboutHowNote")}</p>
+    </section>
+
+    <section id="why" aria-labelledby="why-heading">
+      <h2 id="why-heading">{t(locale, "aboutWhyHeading")}</h2>
+      <p>{t(locale, "aboutWhyP1")}</p>
+      <p>{t(locale, "aboutWhyP2")}</p>
+      <p>{t(locale, "aboutWhyP3")}</p>
+      <p>{t(locale, "aboutWhyP4")}</p>
+    </section>
+
+    <section id="california-law" aria-labelledby="law-heading">
+      <h2 id="law-heading">{t(locale, "aboutLawHeading")}</h2>
+      <p>{t(locale, "aboutLawP1")}</p>
+      <p>{t(locale, "aboutLawP2")}</p>
+      <p>{t(locale, "aboutLawP3")}</p>
+    </section>
+
+    <section id="why-complaint" aria-labelledby="impact-heading">
+      <h2 id="impact-heading">{t(locale, "aboutImpactHeading")}</h2>
+      <p>{t(locale, "aboutImpactP1")}</p>
+      <p>{t(locale, "aboutImpactP2")}</p>
+    </section>
+
+    <section id="story" aria-labelledby="story-heading">
+      <h2 id="story-heading">{t(locale, "aboutStoryHeading")}</h2>
+      <p>{t(locale, "aboutStoryP1")}</p>
+      <p>{t(locale, "aboutStoryP2")}</p>
+    </section>
+
+    <p class="cta-row">
+      <a class="button" href={localePath(locale, "/file")}>
+        {t(locale, "homeCta")}
+      </a>
+    </p>
+    <p class="fine-print">{t(locale, "aboutNotLegalAdvice")}</p>
+  </article>
+</Base>

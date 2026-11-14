@@ -1,0 +1,29 @@
+---
+// Test-only kit page for the Playwright suite, standing in for the wizard
+// until it ships. Renders the real engine's fixture kit through the real
+// KitView (which embeds the evidence bundler). Not linked anywhere in the
+// site and outside the sitemap's content list. The owner can drop this page
+// (and src/components/evidence/dev-debug.ts) once the wizard renders the kit.
+import "../../styles/global.css";
+import KitDevHarness from "../../components/kit/KitDevHarness";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Complaint kit (dev)</title>
+  </head>
+  <body>
+    <main class="container">
+      <h1>Complaint kit (dev)</h1>
+      <KitDevHarness client:only="preact" />
+    </main>
+    <script>
+      import { evidenceDebugHook } from "../../components/evidence/dev-debug";
+      // Debug hook for the Playwright caption-rendering check. Dev page only.
+      window.__evidenceDebug = evidenceDebugHook;
+    </script>
+  </body>
+</html>
