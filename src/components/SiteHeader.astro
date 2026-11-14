@@ -1,0 +1,34 @@
+---
+import LanguagePicker from "./LanguagePicker.astro";
+import LanguageSuggest from "./LanguageSuggest.tsx";
+import { localeList, localePath, locales, t, type Locale } from "../i18n";
+
+interface Props {
+  locale: Locale;
+  currentPath: string;
+}
+
+const { locale, currentPath } = Astro.props;
+const alternates = localeList.map((l) => ({
+  locale: l,
+  label: locales[l].label,
+  url: localePath(l, currentPath),
+}));
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="wordmark" href={localePath(locale, "/")}>
+      {t(locale, "siteName")}
+    </a>
+    <LanguagePicker locale={locale} currentPath={currentPath} />
+  </div>
+</header>
+<LanguageSuggest
+  client:load
+  currentLocale={locale}
+  alternates={alternates}
+  prompt={t(locale, "languageSuggestPrompt")}
+  dismissLabel={t(locale, "languageSuggestDismiss")}
+  regionLabel={t(locale, "languageSuggestRegion")}
+/>

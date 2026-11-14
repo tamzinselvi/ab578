@@ -1,0 +1,17 @@
+# build output
+dist/
+
+# generated types
+.astro/
+
+# dependencies
+node_modules/
+
+# test output
+playwright-report/
+test-results/
+coverage/
+
+# misc
+.DS_Store
+*.log

@@ -1,0 +1,80 @@
+---
+import "../styles/global.css";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import {
+  absoluteUrl,
+  localeList,
+  localePath,
+  locales,
+  t,
+  type Locale,
+} from "../i18n";
+
+interface Props {
+  locale: Locale;
+  title: string;
+  /** Route path without locale prefix or base, for example '/' or '/file'. */
+  currentPath: string;
+}
+
+const { locale, title, currentPath } = Astro.props;
+const meta = locales[locale];
+
+// Astro injects the Content-Security-Policy meta tag (astro.config.mjs
+// security.csp): same-origin only, plus data: and blob: images for the
+// evidence tool, with hashes for every bundled script and style.
+---
+
+<!doctype html>
+<html lang={meta.htmlLang} dir={meta.dir}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={t(locale, "metaDescription")} />
+    <link rel="canonical" href={absoluteUrl(localePath(locale, currentPath))} />
+    {localeList.map((l) => (
+      <link
+        rel="alternate"
+        hreflang={locales[l].htmlLang}
+        href={absoluteUrl(localePath(l, currentPath))}
+      />
+    ))}
+    <link
+      rel="alternate"
+      hreflang="x-default"
+      href={absoluteUrl(localePath("en", currentPath))}
+    />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">
+      {t(locale, "skipToContent")}
+    </a>
+    <SiteHeader locale={locale} currentPath={currentPath} />
+    <main id="main" class="container">
+      <slot />
+    </main>
+    <SiteFooter locale={locale} />
+    <script>
+      // Remember the language the visitor chose, from the picker or the
+      // suggestion bar. Both mark links with data-locale-link; the picker
+      // stays plain anchor navigation so it works without JavaScript.
+      document.addEventListener("click", (event) => {
+        const link =
+          event.target instanceof Element
+            ? event.target.closest("[data-locale-link]")
+            : null;
+        const chosen = link?.getAttribute("data-locale-link");
+        if (chosen) {
+          try {
+            localStorage.setItem("ab578.lang", chosen);
+          } catch {
+            // Storage unavailable (private mode): the choice is simply not
+            // remembered.
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
