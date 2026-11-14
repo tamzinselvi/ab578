@@ -1,6 +1,8 @@
 ---
 import Base from "../../layouts/Base.astro";
-import { t, localePath, type Locale } from "../../i18n";
+import Wizard from "../wizard/Wizard";
+import { t, type Locale } from "../../i18n";
+import { agFormFacts } from "../../data/destinations";
 
 interface Props {
   locale: Locale;
@@ -14,11 +16,16 @@ const { locale } = Astro.props;
   title={`${t(locale, "fileTitle")} | ${t(locale, "siteName")}`}
   currentPath="/file"
 >
-  <section>
-    <h1>{t(locale, "fileHeading")}</h1>
-    <p>{t(locale, "fileBody")}</p>
-    <p>
-      <a href={localePath(locale, "/")}>{t(locale, "fileBackHome")}</a>
-    </p>
-  </section>
+  <noscript>
+    <section>
+      <h1>{t(locale, "wizardNoJsHeading")}</h1>
+      <p>{t(locale, "wizardNoJsBody")}</p>
+      <p>
+        <a class="button" href={agFormFacts.formUrl} rel="noopener">
+          {t(locale, "wizardNoJsLink")}
+        </a>
+      </p>
+    </section>
+  </noscript>
+  <Wizard client:load locale={locale} />
 </Base>

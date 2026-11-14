@@ -25,12 +25,115 @@ const source = {
   homeCta: "File a complaint →",
   homeHow: "How?",
 
-  // File (wizard shell placeholder; the wizard task owns the real page).
+  // File (wizard page; strings below drive the wizard island).
   fileTitle: "File a complaint",
   fileHeading: "File a complaint",
-  fileBody:
-    "The complaint wizard is being built. It will ask what went wrong with your order and turn your answers into a refund demand and an Attorney General complaint in about a minute.",
-  fileBackHome: "Back to the home page",
+
+  // Wizard: progress, navigation and data controls.
+  wizardProgressLabel: "Complaint steps",
+  wizardStepLabel: "Step {current} of {total}",
+  wizardStepIssues: "What went wrong",
+  wizardStepPlatform: "Which app",
+  wizardStepDetails: "Order details",
+  wizardStepKit: "Your kit",
+  wizardBack: "Back",
+  wizardNext: "Next",
+  wizardContinue: "Continue",
+  wizardStartOver: "Start over",
+  wizardClearData: "Clear my data",
+  wizardClearedNote: "Cleared everything this site saved on your device.",
+  wizardDraftRestored: "Welcome back. Your earlier answers are still here.",
+
+  // Wizard step 1: what went wrong.
+  wizardIssuesHeading: "What went wrong?",
+  wizardIssuesHint:
+    "Choose everything that happened. You can change this later.",
+  wizardIssueNotDelivered: "It never arrived",
+  wizardIssueWrongOrder: "The whole order was wrong",
+  wizardIssueWrongItems: "Some items were wrong",
+  wizardIssueMissingItems: "Some items were missing",
+  wizardIssueUnusableItems:
+    "Items arrived unusable (spilled, crushed or opened)",
+  wizardIssueCredits: "I was offered only app credit",
+  wizardIssueRefundDenied: "My refund was denied",
+  wizardIssueNoHuman: "I couldn't reach a human",
+  wizardIssueNotCovered: "It was late, cold or poor quality",
+  wizardIssueNotCoveredNote: "Not covered by AB 578, but we'll help you ask",
+  wizardIssuesError: "Choose at least one thing that went wrong.",
+
+  // Wizard step 2: which app.
+  wizardPlatformHeading: "Which app was your order on?",
+  wizardPlatformHint: "Tap your app. We'll write the complaint for it.",
+  wizardPlatformOther: "Another app",
+  wizardPlatformOtherLabel: "App name",
+  wizardPlatformOtherError: "Type the app's name, or pick a listed app.",
+
+  // Wizard step 3: order details.
+  wizardDetailsHeading: "Order details",
+  wizardOrderDateLabel: "Order date",
+  wizardOrderTotalLabel: "Order total",
+  wizardMoneyExampleHint: "Numbers only, like 24.50",
+  wizardKeypadLabel: "Order total keypad",
+  wizardKeypadDelete: "Delete",
+  wizardRefundedHeading: "Refunded so far",
+  wizardRefundNone: "Nothing yet",
+  wizardRefundCredits: "Only app credit",
+  wizardRefundPartial: "Part of it",
+  wizardRefundFull: "All of it",
+  wizardRefundedAmountLabel: "How much came back?",
+  wizardOptionalSummary: "Optional details that strengthen the complaint",
+  wizardAffectedTotalLabel: "Price of the missing, wrong or unusable items",
+  wizardAffectedTotalHint: "Used for the refund estimate",
+  wizardOrderNumberLabel: "Order number",
+  wizardRestaurantLabel: "Restaurant",
+  wizardItemsLabel: "What was wrong, missing or unusable?",
+  wizardItemsPlaceholder: "For example: 2 x chicken teriyaki, no sauce",
+  wizardContactedLabel: "I contacted the app about this order",
+  wizardContactedDateLabel: "Contact date",
+  wizardContactedMethodLabel: "How did you contact them?",
+  wizardMethodChat: "Chat",
+  wizardMethodPhone: "Phone",
+  wizardMethodEmail: "Email",
+  wizardMethodOther: "Other",
+  wizardContactedResultLabel: "What happened?",
+  wizardContactedResultPlaceholder:
+    "For example: they offered 5 dollars in credit",
+  wizardContactedResultError:
+    "Write a line about what happened, or untick the box.",
+  wizardDetailsErrorTotal: "Enter the order total, like 24.50",
+  wizardDetailsErrorDate: "Enter a valid date.",
+
+  // Wizard step 4: the kit and its contact panel.
+  wizardKitHeading: "Your complaint kit",
+  wizardKitIntro:
+    "Copy each part where you need it. Everything stays on your device.",
+  wizardKitIncomplete: "Finish the earlier steps to see your kit.",
+  wizardKitIncompleteBack: "Go back to the questions",
+  wizardContactHeading: "Your contact details",
+  wizardContactIntro:
+    "The Attorney General's form asks for your name and address. Fill this in and your kit fills those answers too.",
+  wizardContactFirstName: "First name",
+  wizardContactLastName: "Last name",
+  wizardContactStreet: "Street address",
+  wizardContactStreet2: "Apartment or suite (optional)",
+  wizardContactCity: "City",
+  wizardContactState: "State",
+  wizardContactZip: "ZIP code",
+  wizardContactEmail: "Email (optional)",
+  wizardContactPhone: "Phone (optional)",
+  wizardContactRemember: "Remember on this device",
+  wizardContactRememberNote:
+    "Saved only on this device, never sent anywhere, until you clear it.",
+  wizardContactAdd: "Add my contact details",
+  wizardContactSavedNote: "Your contact details are in the kit.",
+  wizardContactError:
+    "First name, last name, street, city and ZIP code are needed.",
+
+  // No-JavaScript fallback on /file.
+  wizardNoJsHeading: "The wizard needs JavaScript",
+  wizardNoJsBody:
+    "This tool works entirely in your browser. Without JavaScript, go straight to the California Attorney General's complaint form:",
+  wizardNoJsLink: "Open the AG complaint form",
 
   // About. Approved copy from the design doc, plus the owner's story.
   aboutTitle: "About",
