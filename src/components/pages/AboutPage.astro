@@ -1,0 +1,24 @@
+---
+import Base from "../../layouts/Base.astro";
+import { t, localePath, type Locale } from "../../i18n";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+---
+
+<Base
+  locale={locale}
+  title={`${t(locale, "aboutTitle")} | ${t(locale, "siteName")}`}
+  currentPath="/about"
+>
+  <section>
+    <h1>{t(locale, "aboutHeading")}</h1>
+    <p>{t(locale, "aboutBody")}</p>
+    <p>
+      <a href={localePath(locale, "/")}>{t(locale, "fileBackHome")}</a>
+    </p>
+  </section>
+</Base>
