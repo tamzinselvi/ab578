@@ -198,8 +198,6 @@ describe("English output snapshots", () => {
 
       What went wrong: the order never arrived.
 
-      I was at the delivery address at the time of delivery, and nothing was delivered.
-
       I haven't received any refund.
 
       The order was not delivered. § 22599.2(a) says: “A food delivery platform shall provide a full refund, including all taxes, commissions, fees, and gratuities, to the customer if an order is not delivered or the wrong order is delivered, unless the food delivery platform determines that the customer was responsible for the nondelivery or finds evidence indicating the refund request may be fraudulent.” That means I'm owed a full refund of $31.00, including all taxes, commissions, fees, and gratuities.
@@ -242,8 +240,6 @@ describe("English output snapshots", () => {
 
       What went wrong: the order never arrived.
 
-      I was at the delivery address at the time of delivery, and nothing was delivered.
-
       I haven't received any refund.
 
       The order was not delivered. § 22599.2(a) says: “A food delivery platform shall provide a full refund, including all taxes, commissions, fees, and gratuities, to the customer if an order is not delivered or the wrong order is delivered, unless the food delivery platform determines that the customer was responsible for the nondelivery or finds evidence indicating the refund request may be fraudulent.” That means I'm owed a full refund of $31.00, including all taxes, commissions, fees, and gratuities.
@@ -262,8 +258,6 @@ describe("English output snapshots", () => {
       On November 1, 2026 I ordered from a restaurant through Uber Eats. The total charged was $31.00.
 
       What went wrong: the order never arrived.
-
-      I was at the delivery address at the time of delivery, and nothing was delivered.
 
       The order was not delivered. § 22599.2(a) says: “A food delivery platform shall provide a full refund, including all taxes, commissions, fees, and gratuities, to the customer if an order is not delivered or the wrong order is delivered, unless the food delivery platform determines that the customer was responsible for the nondelivery or finds evidence indicating the refund request may be fraudulent.” That means I'm owed a full refund of $31.00, including all taxes, commissions, fees, and gratuities.
 

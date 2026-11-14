@@ -364,6 +364,17 @@ export default function Wizard({ locale }: { locale: Locale }) {
               </label>
             ))}
           </fieldset>
+          {draft.issues.includes("not_delivered") ? (
+            <label class="wizard-choice" htmlFor="wizard-at-address">
+              <input
+                id="wizard-at-address"
+                type="checkbox"
+                checked={draft.atAddress === true}
+                onChange={() => patch({ atAddress: draft.atAddress !== true })}
+              />
+              <span>{t(locale, "wizardAtAddress")}</span>
+            </label>
+          ) : null}
           {issueError ? (
             <p class="field-error" role="alert">
               {t(locale, "wizardIssuesError")}

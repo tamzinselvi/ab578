@@ -277,7 +277,10 @@ function longRequest(ctx: TemplateContext): string {
   const clauses = factClauses(ctx);
   if (clauses.length > 0)
     paragraphs.push(`What went wrong: ${joinList(clauses)}.`);
-  if (ctx.incident.issues.includes("not_delivered"))
+  if (
+    ctx.incident.issues.includes("not_delivered") &&
+    ctx.incident.atAddressConfirmed === true
+  )
     paragraphs.push(atAddressSentence());
 
   if (refundClaimed(ctx)) {
@@ -308,7 +311,10 @@ function agDescription(ctx: TemplateContext): string {
   const parts: string[] = [orderSentence(ctx)];
   const clauses = factClauses(ctx);
   if (clauses.length > 0) parts.push(`What went wrong: ${joinList(clauses)}.`);
-  if (ctx.incident.issues.includes("not_delivered"))
+  if (
+    ctx.incident.issues.includes("not_delivered") &&
+    ctx.incident.atAddressConfirmed === true
+  )
     parts.push(atAddressSentence());
   const contact = contactSentence(ctx);
   if (contact) parts.push(contact);
@@ -382,7 +388,10 @@ function demandLetter(ctx: TemplateContext): string {
   const body: string[] = [orderSentence(ctx)];
   const clauses = factClauses(ctx);
   if (clauses.length > 0) body.push(`What went wrong: ${joinList(clauses)}.`);
-  if (ctx.incident.issues.includes("not_delivered"))
+  if (
+    ctx.incident.issues.includes("not_delivered") &&
+    ctx.incident.atAddressConfirmed === true
+  )
     body.push(atAddressSentence());
   const contact = contactSentence(ctx);
   if (contact) body.push(contact);

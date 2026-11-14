@@ -60,6 +60,8 @@ export interface WizardDraft {
   restaurant: string;
   itemsAffected: string;
   contacted: ContactedDraft;
+  /** User confirmed they were at the delivery address (never-arrived orders). */
+  atAddress: boolean;
 }
 
 /** Local-time ISO date (YYYY-MM-DD) for "today" defaults. */
@@ -75,6 +77,7 @@ export function initialDraft(): WizardDraft {
     v: 1,
     step: "issues",
     issues: [],
+    atAddress: false,
     platform: null,
     otherPlatformName: "",
     orderDate: todayISO(),
@@ -231,6 +234,9 @@ export function draftToIncident(draft: WizardDraft): Incident | null {
     };
   }
   if (draft.issues.includes("no_human")) incident.reachedHuman = false;
+  if (draft.issues.includes("not_delivered") && draft.atAddress === true) {
+    incident.atAddressConfirmed = true;
+  }
   return incident;
 }
 

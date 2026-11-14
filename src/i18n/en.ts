@@ -59,6 +59,8 @@ const source = {
   wizardIssueNoHuman: "I couldn't reach a human",
   wizardIssueNotCovered: "It was late, cold or poor quality",
   wizardIssueNotCoveredNote: "Not covered by AB 578, but we'll help you ask",
+  wizardAtAddress:
+    "I was at the delivery address when it was marked delivered (optional, only check if true)",
   wizardIssuesError: "Choose at least one thing that went wrong.",
 
   // Wizard step 2: which app.

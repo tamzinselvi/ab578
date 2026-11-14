@@ -278,14 +278,27 @@ describe("generateKit: floors and firmness for argued asks", () => {
     expect(kit.platformRequest.long.text).toContain(`\u201C${body}\u201D`);
   });
 
-  it("pre-empts the nondelivery exception with facts", () => {
+  it("pre-empts the nondelivery exception with facts the customer confirmed", () => {
     const kit = generateKit(
-      makeIncident({ issues: ["not_delivered"] }),
+      makeIncident({ issues: ["not_delivered"], atAddressConfirmed: true }),
       CONTACT,
     );
     const texts = messageTexts(kit);
     expect(texts.long).toContain("I was at the delivery address");
     expect(texts.agDescription).toContain("I was at the delivery address");
+  });
+
+  it("never states the at-address fact unless the customer confirmed it", () => {
+    const kit = generateKit(
+      makeIncident({ issues: ["not_delivered"] }),
+      CONTACT,
+    );
+    const texts = messageTexts(kit);
+    expect(texts.long).not.toContain("I was at the delivery address");
+    expect(texts.agDescription).not.toContain("I was at the delivery address");
+    expect(kit.demandLetter.text).not.toContain(
+      "I was at the delivery address",
+    );
   });
 });
 

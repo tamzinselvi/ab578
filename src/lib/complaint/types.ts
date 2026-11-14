@@ -65,6 +65,11 @@ export interface Incident {
   itemsAffected?: string;
   contactedPlatform?: ContactedPlatform;
   reachedHuman?: boolean;
+  /**
+   * The customer confirmed they were at the delivery address when the order
+   * was marked delivered. Only then do messages state that fact.
+   */
+  atAddressConfirmed?: boolean;
 }
 
 /** The customer's own contact details, for the AG form's consumer block. */
