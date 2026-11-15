@@ -21,15 +21,24 @@ describe("t", () => {
   });
 
   it("falls back to English when a locale catalog has no entry", () => {
-    expect(t("es", "homeHeadline")).toBe("Get your delivery order money back");
-    expect(t("zh-hant", "footerDisclaimer")).toBe(
-      "Not legal advice. Not affiliated with the State of California or any delivery company.",
-    );
+    const es = catalogs.es as Record<string, string | undefined>;
+    const saved = es.homeHeadline;
+    delete es.homeHeadline;
+    try {
+      expect(t("es", "homeHeadline")).toBe(
+        "Get your delivery order money back",
+      );
+    } finally {
+      es.homeHeadline = saved;
+    }
   });
 
   it("prefers the locale catalog over English", () => {
-    expect(t("en", "languageSuggestPrompt", { language: "Español" })).toBe(
-      "Prefer Español?",
+    expect(t("es", "homeHeadline")).toBe(
+      "Recupera el dinero de tu pedido a domicilio",
+    );
+    expect(t("es", "languageSuggestPrompt", { language: "English" })).toBe(
+      "¿Prefieres English?",
     );
   });
 

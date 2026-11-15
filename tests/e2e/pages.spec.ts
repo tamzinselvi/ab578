@@ -128,14 +128,14 @@ test("footer links about, faq and privacy", async ({ page }) => {
   );
 });
 
-test("localized content routes render with English fallback", async ({
-  page,
-}) => {
+test("localized content routes render translated", async ({ page }) => {
   await page.goto(`${BASE}/es/faq`);
   await expect(page.locator("html")).toHaveAttribute("lang", "es");
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("FAQ");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "Preguntas frecuentes",
+  );
   await expect(page.getByRole("contentinfo")).toContainText(
-    "Translated automatically. The English version is the official one.",
+    "Traducido automáticamente. La versión en inglés es la oficial.",
   );
   await expectNoA11yViolations(page);
 });
@@ -218,9 +218,9 @@ test("locale routes render with their lang attribute", async ({ page }) => {
   await page.goto(`${BASE}/ko/`);
   await expect(page.locator("html")).toHaveAttribute("lang", "ko");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "Get your delivery order money back",
+    "배달 주문 금액을 돌려받으세요",
   );
   await expect(page.getByRole("contentinfo")).toContainText(
-    "Translated automatically. The English version is the official one.",
+    "기계 번역입니다. 영어판이 공식 버전입니다.",
   );
 });
