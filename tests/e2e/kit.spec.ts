@@ -74,6 +74,8 @@ test.describe("kit screen", () => {
     await page.goto(`${BASE}/dev/kit`);
 
     const labels = page.locator(".kit-ag-label-en");
+    // count() does not wait; let the island hydrate first.
+    await expect(labels.first()).toBeVisible();
     const count = await labels.count();
     expect(count).toBeGreaterThan(5);
 
@@ -116,7 +118,7 @@ test.describe("kit screen", () => {
       destinationUrl("ca-ag-complaint-form-pdf-es"),
     );
     await expect(mailIn).toHaveAttribute("rel", "noopener noreferrer");
-    await expect(page.getByText("At minimum, they owe you")).toContainText(
+    await expect(page.getByText("Como mínimo, te deben")).toContainText(
       "18,25",
     );
   });
@@ -245,13 +247,13 @@ test.describe("kit screen: outgoing language", () => {
     await expect(page.locator("html")).toHaveAttribute("lang", "es");
     // Argued asks link to the localized About anchor.
     await expect(
-      page.getByRole("link", { name: "Why?" }).first(),
+      page.getByRole("link", { name: "¿Por qué?" }).first(),
     ).toHaveAttribute("href", `${BASE}/es/about#california-law`);
 
     const kit = page.locator("article.kit");
     const short = page.locator(".kit-message").first().locator(".kit-outgoing");
     const copyShort = page.getByRole("button", {
-      name: "Copy Short version, for chat",
+      name: "Copiar Versión corta, para el chat",
     });
 
     // Default: outgoing is the English text; the translation stays visible
@@ -269,7 +271,7 @@ test.describe("kit screen: outgoing language", () => {
     );
 
     // Toggle to Spanish: the translation becomes the outgoing text.
-    await page.getByRole("button", { name: "Send in Español" }).click();
+    await page.getByRole("button", { name: "Enviar en Español" }).click();
     await expect(kit).toHaveAttribute("data-send-in-ui", "true");
     const spanishOutgoing = (await short.textContent())?.trim() ?? "";
     expect(spanishOutgoing).toContain("[es]");
@@ -280,7 +282,7 @@ test.describe("kit screen: outgoing language", () => {
 
     // Toggle label now offers the way back.
     await expect(
-      page.getByRole("button", { name: "Send in English" }),
+      page.getByRole("button", { name: "Enviar en inglés" }),
     ).toBeVisible();
 
     // AG answers copy their outgoing value too, under the exact form label.
@@ -289,7 +291,7 @@ test.describe("kit screen: outgoing language", () => {
       .locator(".kit-outgoing");
     const descriptionOutgoing = (await description.textContent())?.trim() ?? "";
     await page
-      .getByRole("button", { name: "Copy Complaint description" })
+      .getByRole("button", { name: "Copiar Complaint description" })
       .click();
     expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
       descriptionOutgoing,
@@ -306,18 +308,23 @@ test.describe("kit screen: outgoing language", () => {
 
 test.describe("kit screen: accessibility and narrow layout", () => {
   for (const variant of [
-    { name: "en", url: `${BASE}/dev/kit` },
-    { name: "es with translations", url: `${BASE}/dev/kit?ui=es&translate=1` },
+    { name: "en", url: `${BASE}/dev/kit`, heading: "Your complaint kit" },
+    {
+      name: "es with translations",
+      url: `${BASE}/dev/kit?ui=es&translate=1`,
+      heading: "Tu kit de queja",
+    },
     {
       name: "zh-hant with CJK stress strings",
       url: `${BASE}/dev/kit?ui=zh-hant&translate=1&stress=1`,
+      heading: "你的投訴資料",
     },
   ]) {
     test(`passes axe and fits 320 px: ${variant.name}`, async ({ page }) => {
       await page.setViewportSize({ width: 320, height: 600 });
       await page.goto(variant.url);
       await expect(
-        page.getByRole("heading", { name: "Your complaint kit" }),
+        page.getByRole("heading", { name: variant.heading }),
       ).toBeVisible();
 
       // Long strings and CJK text must not push the page wider than 320 px.

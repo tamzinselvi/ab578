@@ -17,7 +17,7 @@ test("switching language keeps the same page and survives a reload", async ({
   await page.reload();
   await expect(page).toHaveURL(new RegExp(`${BASE}/es/file/?(#.*)?$`));
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "What went wrong?",
+    "¿Qué salió mal?",
   );
 });
 
