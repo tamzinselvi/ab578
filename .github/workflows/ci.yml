@@ -6,8 +6,6 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    env:
-      SITE_URL: https://${{ github.repository_owner }}.github.io
     steps:
       - uses: actions/checkout@v5
 

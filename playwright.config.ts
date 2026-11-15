@@ -1,8 +1,9 @@
 import { defineConfig } from "@playwright/test";
 
-// BASE_PATH must match the Astro base used at build time ('/ab578' for the
-// GitHub Pages project site, '/' for a custom domain).
-const BASE = process.env.BASE_PATH ?? "/ab578";
+// BASE_PATH must match the Astro base used at build time ('/' for the custom
+// domain, '/ab578' for a GitHub Pages project site). Normalized without a
+// trailing slash so the root base is the empty string.
+const BASE = (process.env.BASE_PATH ?? "/").replace(/\/+$/, "");
 const HOST = "127.0.0.1";
 const PORT = 4321;
 

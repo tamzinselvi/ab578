@@ -8,7 +8,7 @@ import {
 } from "../../src/data/destinations";
 import { getPlatform } from "../../src/data/platforms";
 
-const BASE = process.env.BASE_PATH ?? "/ab578";
+const BASE = (process.env.BASE_PATH ?? "/").replace(/\/+$/, "");
 
 function destinationUrl(id: string): string {
   const found = destinations.find((destination) => destination.id === id);

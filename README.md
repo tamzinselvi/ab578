@@ -17,15 +17,15 @@ Requires Node 22.12 or newer and npm.
 
 ```sh
 npm install
-npm run dev        # dev server at http://localhost:4321/ab578/
+npm run dev        # dev server at http://localhost:4321/
 ```
 
 Environment variables (all optional):
 
-| Variable    | Default                   | Purpose                                          |
-| ----------- | ------------------------- | ------------------------------------------------ |
-| `SITE_URL`  | `https://owner.github.io` | Origin used for canonical and hreflang URLs      |
-| `BASE_PATH` | `/ab578`                  | Deploy base. Use `/` when a custom domain is set |
+| Variable    | Default             | Purpose                                                  |
+| ----------- | ------------------- | -------------------------------------------------------- |
+| `SITE_URL`  | `https://ab578.com` | Origin used for canonical, hreflang and sitemap URLs     |
+| `BASE_PATH` | `/`                 | Deploy base. Use `/ab578` to serve from a github.io path |
 
 ## Tests and checks
 
@@ -65,9 +65,18 @@ One manual step, once, by the repository owner:
 
 1. Settings → Pages → Source: **GitHub Actions**.
 
-Moving to a custom domain later: set `BASE_PATH=/` (for example as a repository
-variable or in the deploy workflow environment) and set `SITE_URL` to the
-domain. No code changes needed.
+The site is served from the custom domain **https://ab578.com**. To set it up
+(once):
+
+1. At the domain registrar, point `ab578.com` at GitHub Pages with `A` records
+   for `185.199.108.153`, `185.199.109.153`, `185.199.110.153` and
+   `185.199.111.153` (optionally the matching `AAAA` records), and add a
+   `CNAME` record for `www` pointing at `<owner>.github.io`.
+2. Settings → Pages → Custom domain: `ab578.com`, then tick **Enforce HTTPS**
+   once the certificate is issued.
+
+To serve from the github.io project URL instead, build with
+`SITE_URL=https://<owner>.github.io` and `BASE_PATH=/ab578`.
 
 ## Adding a language
 

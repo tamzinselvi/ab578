@@ -2,9 +2,9 @@ import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import type { Page } from "@playwright/test";
 
-const BASE = process.env.BASE_PATH ?? "/ab578";
+const BASE = (process.env.BASE_PATH ?? "/").replace(/\/+$/, "");
 // Must match astro.config.mjs: CI builds with the real owner origin.
-const SITE = process.env.SITE_URL ?? "https://owner.github.io";
+const SITE = process.env.SITE_URL ?? "https://ab578.com";
 
 async function expectNoA11yViolations(page: Page) {
   const results = await new AxeBuilder({ page }).analyze();
