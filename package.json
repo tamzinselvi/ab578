@@ -17,6 +17,7 @@
     "test:e2e": "playwright test",
     "check:i18n": "tsx scripts/check-translation-parity.ts",
     "check:emdash": "node scripts/check-em-dash.mjs",
+    "check:ag-form": "tsx scripts/check-ag-form.ts",
     "check:copy": "npm run check:i18n && npm run check:emdash"
   },
   "dependencies": {

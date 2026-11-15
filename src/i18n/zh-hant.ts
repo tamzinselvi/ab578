@@ -270,6 +270,30 @@ export const zhHant: Messages = {
   kitAgUploadLink: "前往證據工具",
   kitAgMailInNote: "你也可以列印{language}的投訴表格並郵寄。",
   kitAgMailInLink: "下載{language}郵寄表格（PDF）",
+  kitAgFillHeading: "讓電腦幫你填",
+  kitAgFillIntro: "一個書籤會用你的答案填好州檢察長的表格。只需設定一次。",
+  kitAgFillStep1: "把這個按鈕拖到瀏覽器的書籤列：",
+  kitAgFillBookmarkName: "填寫 AG 表格",
+  kitAgFillBarHint: "看不到書籤列？按 Ctrl+Shift+B，Mac 請按 ⌘+Shift+B。",
+  kitAgFillStep2: "複製你的答案：",
+  kitAgFillCopy: "複製我的答案",
+  kitAgFillStep3:
+    "開啟州檢察長表格，點一下「填寫 AG 表格」書籤，再按 Ctrl+V 貼上（Mac 請按 ⌘+V）。",
+  kitAgFillStep4:
+    "檢查答案，附上你的證據 PDF，回答最下面的問題，然後按 Submit。",
+  kitAgFillDragHint: "請把這個按鈕拖到書籤列。在這裡點擊不會有任何作用。",
+  kitAgFillNoContact:
+    "在上方加入你的聯絡資料，書籤也會一併填入你的姓名和地址。",
+  kitAgManualSummary: "改為逐一複製答案",
+  agFillPrompt: "在這裡貼上你的答案：按 Ctrl+V，Mac 請按 ⌘+V。",
+  agFillPasteLabel: "在這裡貼上你的答案",
+  agFillWrongPage: "請先開啟州檢察長的投訴表格，再點一次這個書籤。",
+  agFillOpenForm: "開啟州檢察長投訴表格",
+  agFillNotKit:
+    "這看起來不是你的答案。請回到你的投訴資料，點「複製我的答案」，然後再貼上一次。",
+  agFillDone:
+    "完成。已填入 {count} 個答案。請檢查答案，附上證據，回答最下面的問題，然後按 Submit。",
+  agFillClose: "關閉",
   kitMoreCardTitle: "更多行動方式",
   kitMoreCardHint: "你所在地的地方檢察官、FTC 和小額訴訟法庭",
   kitDestDa: "找到你的地方檢察官或市檢察官",

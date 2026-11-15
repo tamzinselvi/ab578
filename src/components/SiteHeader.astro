@@ -19,7 +19,8 @@ const alternates = localeList.map((l) => ({
 <header class="site-header">
   <div class="container header-inner">
     <a class="wordmark" href={localePath(locale, "/")}>
-      {t(locale, "siteName")}
+      <span class="wordmark-mark" aria-hidden="true"></span>
+      <span>{t(locale, "siteName")}</span>
     </a>
     <LanguagePicker locale={locale} currentPath={currentPath} />
   </div>

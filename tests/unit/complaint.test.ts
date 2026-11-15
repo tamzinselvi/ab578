@@ -338,7 +338,8 @@ describe("generateKit: refund statuses", () => {
     const dispute = kit.agForm.fields.find(
       (field) => field.label === "Amount in dispute",
     );
-    expect(dispute?.value.text).toBe("$32.50");
+    // The AG form's amount field is numeric, so no currency symbol.
+    expect(dispute?.value.text).toBe("32.50");
   });
 
   it("full: no refund claim, facts only", () => {

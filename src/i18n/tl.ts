@@ -289,6 +289,35 @@ export const tl: Messages = {
   kitAgMailInNote:
     "Puwede ka ring mag-print ng complaint form sa {language} at ipadala ito sa koreo.",
   kitAgMailInLink: "I-download ang mail-in form sa {language} (PDF)",
+  kitAgFillHeading: "Hayaang ang computer mo ang magpuno",
+  kitAgFillIntro:
+    "Pupunan ng isang bookmark ang form ng AG gamit ang mga sagot mo. Isang beses mo lang itong ise-set up.",
+  kitAgFillStep1: "I-drag ang button na ito pataas sa bookmarks bar mo:",
+  kitAgFillBookmarkName: "Punan ang AG form",
+  kitAgFillBarHint:
+    "Walang bookmarks bar? Pindutin ang Ctrl+Shift+B, o ⌘+Shift+B sa Mac.",
+  kitAgFillStep2: "Kopyahin ang mga sagot mo:",
+  kitAgFillCopy: "Kopyahin ang mga sagot ko",
+  kitAgFillStep3:
+    "Buksan ang form ng AG, i-click ang bookmark mong Punan ang AG form, tapos i-paste gamit ang Ctrl+V (⌘+V sa Mac).",
+  kitAgFillStep4:
+    "Suriin ang mga sagot, i-attach ang evidence PDF mo, sagutin ang mga tanong sa ibaba at pindutin ang Submit.",
+  kitAgFillDragHint:
+    "I-drag ang button na ito sa bookmarks bar mo. Walang mangyayari kung i-click mo ito dito.",
+  kitAgFillNoContact:
+    "Idagdag ang contact details mo sa itaas para mapunan din nito ang pangalan at address mo.",
+  kitAgManualSummary: "Kopyahin na lang ang mga sagot isa-isa",
+  agFillPrompt:
+    "I-paste dito ang mga sagot mo: pindutin ang Ctrl+V, o ⌘+V sa Mac.",
+  agFillPasteLabel: "I-paste dito ang mga sagot mo",
+  agFillWrongPage:
+    "Buksan muna ang complaint form ng Attorney General, tapos i-click ulit ang bookmark na ito.",
+  agFillOpenForm: "Buksan ang complaint form ng AG",
+  agFillNotKit:
+    "Mukhang hindi iyan ang mga sagot mo. Bumalik sa kit mo, i-click ang Kopyahin ang mga sagot ko, at i-paste ulit.",
+  agFillDone:
+    "Tapos na. {count} sagot ang napunan. Suriin ang mga ito, i-attach ang ebidensya mo, sagutin ang mga tanong sa ibaba at pindutin ang Submit.",
+  agFillClose: "Isara",
   kitMoreCardTitle: "Iba pang paraan para kumilos",
   kitMoreCardHint: "Ang district attorney mo, ang FTC, at small claims court",
   kitDestDa: "Hanapin ang district attorney o city attorney mo",

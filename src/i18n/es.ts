@@ -290,6 +290,34 @@ export const es: Messages = {
     "También puedes imprimir un formulario de queja en {language} y enviarlo por correo.",
   kitAgMailInLink:
     "Descargar el formulario en {language} para enviar por correo (PDF)",
+  kitAgFillHeading: "Deja que tu computadora lo llene",
+  kitAgFillIntro:
+    "Un marcador llena el formulario del Fiscal General con tus respuestas. Lo configuras una sola vez.",
+  kitAgFillStep1: "Arrastra este botón a tu barra de marcadores:",
+  kitAgFillBookmarkName: "Llenar formulario AG",
+  kitAgFillBarHint:
+    "¿No ves la barra de marcadores? Presiona Ctrl+Shift+B, o ⌘+Shift+B en una Mac.",
+  kitAgFillStep2: "Copia tus respuestas:",
+  kitAgFillCopy: "Copiar mis respuestas",
+  kitAgFillStep3:
+    "Abre el formulario del Fiscal General, haz clic en tu marcador Llenar formulario AG y pega con Ctrl+V (⌘+V en una Mac).",
+  kitAgFillStep4:
+    "Revisa las respuestas, adjunta tu PDF de evidencia, contesta las preguntas del final y presiona Submit.",
+  kitAgFillDragHint:
+    "Arrastra este botón a tu barra de marcadores. Hacer clic aquí no hace nada.",
+  kitAgFillNoContact:
+    "Agrega tus datos de contacto arriba para que también llene tu nombre y dirección.",
+  kitAgManualSummary: "Mejor copiar las respuestas una por una",
+  agFillPrompt: "Pega tus respuestas aquí: presiona Ctrl+V, o ⌘+V en una Mac.",
+  agFillPasteLabel: "Pega tus respuestas aquí",
+  agFillWrongPage:
+    "Primero abre el formulario de quejas del Fiscal General y luego haz clic otra vez en este marcador.",
+  agFillOpenForm: "Abrir el formulario de quejas del Fiscal General",
+  agFillNotKit:
+    "Eso no parecen tus respuestas. Vuelve a tu kit, haz clic en Copiar mis respuestas y pega otra vez.",
+  agFillDone:
+    "Listo. Se llenaron {count} respuestas. Revísalas, adjunta tu evidencia, contesta las preguntas del final y presiona Submit.",
+  agFillClose: "Cerrar",
   kitMoreCardTitle: "Más formas de actuar",
   kitMoreCardHint:
     "Tu fiscal de distrito, la FTC y la corte de reclamos menores",

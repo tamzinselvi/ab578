@@ -25,6 +25,12 @@ export const platforms: readonly Platform[] = [
     legalName: "DoorDash, Inc.",
     mailingAddress:
       "DoorDash, Inc., 303 2nd Street, Suite 800, San Francisco, CA 94107",
+    mailingParts: {
+      street: "303 2nd Street, Suite 800",
+      city: "San Francisco",
+      state: "CA",
+      zip: "94107",
+    },
     phone: "855-431-0459",
     website: "https://www.doordash.com",
     supportUrl: "https://help.doordash.com/en-us/consumers",
@@ -46,6 +52,12 @@ export const platforms: readonly Platform[] = [
     legalName: "Uber Technologies, Inc.",
     mailingAddress:
       "Uber Technologies, Inc., Attn: Legal Department, 1725 3rd Street, San Francisco, CA 94158",
+    mailingParts: {
+      street: "1725 3rd Street",
+      city: "San Francisco",
+      state: "CA",
+      zip: "94158",
+    },
     website: "https://www.ubereats.com",
     supportUrl: "https://help.uber.com/ubereats",
     refundHelpUrl:
@@ -66,6 +78,12 @@ export const platforms: readonly Platform[] = [
     legalName: "Grubhub Holdings Inc.",
     mailingAddress:
       "Grubhub, Attn: Dispute Resolutions, 222 W Merchandise Mart Plaza, Suite 800, Chicago, IL 60654",
+    mailingParts: {
+      street: "222 W Merchandise Mart Plaza, Suite 800",
+      city: "Chicago",
+      state: "IL",
+      zip: "60654",
+    },
     phone: "1-877-585-7878",
     website: "https://www.grubhub.com",
     supportUrl: "https://www.grubhub.com/help/contact-us",

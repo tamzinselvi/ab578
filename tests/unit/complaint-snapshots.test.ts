@@ -85,7 +85,7 @@ describe("English output snapshots", () => {
       Your automated support couldn't resolve this. Please connect me with a person (§ 22599.1(f)).
 
       The rules that apply: § 22599.1(b): Platforms must prominently disclose an accurate, clearly identified, itemized cost breakdown of each transaction to the customer and the food facility, covering menu price, any fee charged to the facility, each customer fee, and the tip. § 22599.1(f): Platforms must include a clear and conspicuous customer service feature to contact a natural person. An automated system may come first, but if it cannot address the concern the customer must be able to promptly connect with a person. § 22599.2(a): Full refund, including all taxes, commissions, fees and gratuities, when an order is not delivered or the wrong order is delivered, unless the platform determines the customer was responsible for the nondelivery or finds evidence the request may be fraudulent. § 22599.2(d): For an order that is only partially fulfilled, the customer is charged only for the portion received, with taxes, fees and gratuities tied to the undelivered items adjusted, and the platform must provide a way to adjust a gratuity added before delivery. § 22599.2(e): Along with any other refund options (credits stay allowed), the platform must provide a mechanism to request that the refund go back to the original method of payment. § 22599.2(a): Missing items are the most contested argued reading. The app demands a full refund under Section 22599.2(a) and always states the floor at the same time: under Section 22599.2(d) the customer must at least be charged only for the items received, with their taxes, fees and tip adjusted, and must be able to lower a tip added before delivery.",
-        "agResolution": "A full refund of $42.50, including all taxes, commissions, fees, and gratuities, paid to my original payment method, not app credit. At minimum, § 22599.2(d) requires a refund of the missing items with their taxes, fees, and tip, and the option to lower the tip I added before delivery. Your automated support couldn't resolve this. Please connect me with a person (§ 22599.1(f)).",
+        "agResolution": "Full refund of $42.50 to my original payment method. At minimum, no charge for items not received (§ 22599.2(d)).",
         "asks": [
           {
             "basis": "§ 22599.2(a)",
@@ -205,7 +205,7 @@ describe("English output snapshots", () => {
       Send the refund to my original payment method, not app credit (§ 22599.2(e)).
 
       The rules that apply: § 22599.2(a): Full refund, including all taxes, commissions, fees and gratuities, when an order is not delivered or the wrong order is delivered, unless the platform determines the customer was responsible for the nondelivery or finds evidence the request may be fraudulent. § 22599.2(e): Along with any other refund options (credits stay allowed), the platform must provide a mechanism to request that the refund go back to the original method of payment.",
-        "agResolution": "A full refund of $31.00, including all taxes, commissions, fees, and gratuities, paid to my original payment method, not app credit.",
+        "agResolution": "Full refund of $31.00 with fees and tip, to my original payment method, not app credit.",
         "asks": [
           {
             "basis": "§ 22599.2(a)",
@@ -289,7 +289,7 @@ describe("English output snapshots", () => {
       This order was not usable as delivered. Under your own policy, please refund $27.75.
 
       Send the refund to my original payment method, not app credit.",
-        "agResolution": "A refund of $27.75 under the platform's own policy, paid to my original payment method.",
+        "agResolution": "Refund of $27.75 under the app's own policy, to my original payment method.",
         "asks": [
           {
             "issue": "not_covered",

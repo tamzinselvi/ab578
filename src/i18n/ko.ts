@@ -278,6 +278,35 @@ export const ko: Messages = {
   kitAgUploadLink: "증거 도구로 가기",
   kitAgMailInNote: "{language} 민원 양식을 인쇄해 우편으로 보낼 수도 있습니다.",
   kitAgMailInLink: "{language} 우편용 양식 내려받기 (PDF)",
+  kitAgFillHeading: "컴퓨터가 대신 채우게 하세요",
+  kitAgFillIntro:
+    "북마크 하나가 검찰총장 양식을 당신의 답변으로 채워 줍니다. 한 번만 설정하면 됩니다.",
+  kitAgFillStep1: "이 버튼을 북마크바로 끌어다 놓으세요:",
+  kitAgFillBookmarkName: "AG 양식 채우기",
+  kitAgFillBarHint:
+    "북마크바가 안 보이나요? Ctrl+Shift+B를 누르세요. Mac에서는 ⌘+Shift+B입니다.",
+  kitAgFillStep2: "답변을 복사하세요:",
+  kitAgFillCopy: "내 답변 복사",
+  kitAgFillStep3:
+    '검찰총장 양식을 열고 "AG 양식 채우기" 북마크를 누른 다음 Ctrl+V(Mac은 ⌘+V)로 붙여 넣으세요.',
+  kitAgFillStep4:
+    "답변을 확인하고, 증거 PDF를 첨부하고, 맨 아래 질문에 답한 뒤 Submit을 누르세요.",
+  kitAgFillDragHint:
+    "이 버튼을 북마크바로 끌어다 놓으세요. 여기서 누르면 아무 일도 일어나지 않습니다.",
+  kitAgFillNoContact:
+    "위에 연락처 정보를 추가하면 이름과 주소도 함께 채워집니다.",
+  kitAgManualSummary: "대신 답변을 하나씩 복사하기",
+  agFillPrompt:
+    "여기에 답변을 붙여 넣으세요: Ctrl+V, Mac에서는 ⌘+V를 누르세요.",
+  agFillPasteLabel: "여기에 답변을 붙여 넣으세요",
+  agFillWrongPage:
+    "먼저 검찰총장 민원 양식을 연 다음, 이 북마크를 다시 누르세요.",
+  agFillOpenForm: "검찰총장 민원 양식 열기",
+  agFillNotKit:
+    '답변이 아닌 것 같습니다. 키트로 돌아가 "내 답변 복사"를 누른 뒤 다시 붙여 넣으세요.',
+  agFillDone:
+    "완료. 답변 {count}개를 채웠습니다. 확인하고, 증거를 첨부하고, 맨 아래 질문에 답한 뒤 Submit을 누르세요.",
+  agFillClose: "닫기",
   kitMoreCardTitle: "더 많은 대응 방법",
   kitMoreCardHint: "지방검사, FTC, 소액 재판",
   kitDestDa: "지방검사 또는 시 검사 찾기",
