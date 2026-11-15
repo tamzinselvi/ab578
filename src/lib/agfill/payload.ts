@@ -13,6 +13,15 @@ import type { AgKitField } from "../complaint/types";
 
 export const AGFILL_PREFIX = "AB578-AGFILL:v1:";
 
+/**
+ * AG form orders that hold the person's own contact details (name, address,
+ * email, phone). The handoff saved on the device leaves these out unless the
+ * person chose "Remember on this device", matching the wizard's promise.
+ */
+export function isContactField(order: number): boolean {
+  return order >= 1 && order <= 13;
+}
+
 export interface AgFillPayload {
   v: 1;
   /** [input name, value] in the order the bookmark should apply them. */

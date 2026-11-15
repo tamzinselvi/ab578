@@ -109,7 +109,7 @@ export default function Wizard({ locale }: { locale: Locale }) {
     const params = new URLSearchParams(window.location.search);
     const merged = withPreselectedPlatform(saved, params.get("platform"));
     const hash = window.location.hash.replace(/^#/, "");
-    const step = isWizardStep(hash) ? hash : merged.step;
+    const step = isWizardStep(hash) ? hash : "issues";
     setDraft({ ...merged, step });
     setRestored(hadDraft);
     if (window.location.hash !== `#${step}`) {
@@ -196,8 +196,25 @@ export default function Wizard({ locale }: { locale: Locale }) {
     }));
   };
 
+  const issuesValid = draft.issues.length > 0;
+  const platformValid =
+    draft.platform != null &&
+    (draft.platform !== "other" || draft.otherPlatformName.trim() !== "");
+  const detailValidation: DetailErrors = {};
+  if (parseMoney(draft.orderTotal) == null) detailValidation.total = true;
+  if (parseISODate(draft.orderDate) == null) detailValidation.date = true;
+  if (draft.contacted.done && !draft.contacted.result.trim()) {
+    detailValidation.contactResult = true;
+  }
+  const stepValid: Record<WizardStep, boolean> = {
+    issues: issuesValid,
+    platform: platformValid,
+    details: Object.keys(detailValidation).length === 0,
+    kit: true,
+  };
+
   const submitIssues = () => {
-    if (draft.issues.length === 0) {
+    if (!issuesValid) {
       setIssueError(true);
       document.getElementById(`issue-${ISSUE_ORDER[0]}`)?.focus();
       return;
@@ -214,7 +231,7 @@ export default function Wizard({ locale }: { locale: Locale }) {
   };
 
   const submitOtherPlatform = () => {
-    if (!draft.otherPlatformName.trim()) {
+    if (!platformValid) {
       setPlatformError(true);
       document.getElementById("other-platform-name")?.focus();
       return;
@@ -241,12 +258,7 @@ export default function Wizard({ locale }: { locale: Locale }) {
   };
 
   const submitDetails = () => {
-    const errors: DetailErrors = {};
-    if (parseMoney(draft.orderTotal) == null) errors.total = true;
-    if (parseISODate(draft.orderDate) == null) errors.date = true;
-    if (draft.contacted.done && !draft.contacted.result.trim()) {
-      errors.contactResult = true;
-    }
+    const errors = detailValidation;
     setDetailErrors(errors);
     if (errors.total) {
       document.getElementById("order-total")?.focus();
@@ -323,7 +335,16 @@ export default function Wizard({ locale }: { locale: Locale }) {
                   : undefined
               }
             >
-              {t(locale, STEP_NAME_KEY[step])}
+              {STEPS.indexOf(step) < stepIndex ||
+              STEPS.slice(0, STEPS.indexOf(step)).every(
+                (previous) => stepValid[previous],
+              ) ? (
+                <button type="button" onClick={() => go(step)}>
+                  {t(locale, STEP_NAME_KEY[step])}
+                </button>
+              ) : (
+                <span>{t(locale, STEP_NAME_KEY[step])}</span>
+              )}
             </li>
           ))}
         </ol>

@@ -3,7 +3,13 @@ import { agFormFacts } from "../../data/destinations";
 import { localePath, locales, t, type Locale } from "../../i18n";
 import type { MessageKey } from "../../i18n/en";
 import { bookmarkletHref } from "../../lib/agfill/bookmarklet";
-import { buildAgFillPayload } from "../../lib/agfill/payload";
+import { saveHandoffAnswers } from "../../lib/agfill/handoff";
+import {
+  agFillPairs,
+  buildAgFillPayload,
+  isContactField,
+} from "../../lib/agfill/payload";
+import { loadRememberedContact } from "../wizard/state";
 import type { ComplaintKit, LocalizedText } from "../../lib/complaint/types";
 import EvidenceBundler from "../evidence/EvidenceBundler";
 import {
@@ -59,6 +65,8 @@ export default function KitView({ kit }: { kit: ComplaintKit }) {
       !window.matchMedia("(pointer: coarse)").matches,
   );
   const [dragHint, setDragHint] = useState(false);
+  const [evidenceReady, setEvidenceReady] = useState<string | null>(null);
+  const [handoffHasContact, setHandoffHasContact] = useState(false);
 
   useEffect(
     () => () => {
@@ -81,19 +89,47 @@ export default function KitView({ kit }: { kit: ComplaintKit }) {
     () => buildAgFillPayload(kit.agForm.fields),
     [kit],
   );
-  const agFillHref = useMemo(
-    () =>
-      bookmarkletHref({
+  const agFillHref = useMemo(() => {
+    // The bookmark fetches answers from the site that made it, so a
+    // preview or test build hands off to itself, never to production.
+    const origin =
+      typeof window === "undefined"
+        ? "https://ab578.com"
+        : window.location.origin;
+    const handoffUrl = new URL(
+      `${import.meta.env.BASE_URL.replace(/\/$/, "")}/agfill/`,
+      origin,
+    ).href;
+    return bookmarkletHref(
+      {
+        waiting: t(locale, "agFillWaiting"),
         prompt: t(locale, "agFillPrompt"),
+        noHandoff: t(locale, "agFillNoHandoff"),
         pasteLabel: t(locale, "agFillPasteLabel"),
         wrongPage: t(locale, "agFillWrongPage"),
         openForm: t(locale, "agFillOpenForm"),
         notKit: t(locale, "agFillNotKit"),
         done: t(locale, "agFillDone"),
+        doneFile: t(locale, "agFillDoneFile"),
         close: t(locale, "agFillClose"),
-      }),
-    [locale],
-  );
+      },
+      { handoffUrl },
+    );
+  }, [locale]);
+
+  // Keep the AG answers on this device for the bookmark's one-click handoff.
+  // Name, address, email and phone are only included when the person chose
+  // "Remember on this device"; otherwise contact details never touch storage.
+  useEffect(() => {
+    const remembered = loadRememberedContact() !== null;
+    const fields = remembered
+      ? kit.agForm.fields
+      : kit.agForm.fields.filter((field) => !isContactField(field.order));
+    saveHandoffAnswers(agFillPairs(fields));
+    setHandoffHasContact(
+      remembered && kit.agForm.fields.some((field) => field.order === 1),
+    );
+  }, [kit]);
   const hasContact = kit.agForm.fields.some((field) => field.order === 1);
 
   const markCopied = (id: string) => {
@@ -259,7 +295,6 @@ export default function KitView({ kit }: { kit: ComplaintKit }) {
 
   return (
     <article class="kit" data-ui-locale={locale} data-send-in-ui={sendInUi}>
-      <h2 class="kit-title">{tt("kitTitle")}</h2>
       <p class="kit-sr-only" role="status">
         {copiedId ? tt("kitCopied") : ""}
       </p>
@@ -393,35 +428,50 @@ export default function KitView({ kit }: { kit: ComplaintKit }) {
               </li>
               <li>
                 <p>{tt("kitAgFillStep2")}</p>
-                <button
-                  type="button"
-                  class="kit-primary"
-                  data-payload={agFillPayload}
-                  onClick={() => void copy("kit-agfill-copy", agFillPayload)}
-                >
-                  {copiedId === "kit-agfill-copy"
-                    ? tt("kitCopied")
-                    : tt("kitAgFillCopy")}
-                </button>
-                {!hasContact && (
-                  <p class="kit-agfill-hint">{tt("kitAgFillNoContact")}</p>
+                {evidenceReady ? (
+                  <p class="kit-agfill-ready" role="status">
+                    {tt("kitAgFillEvidenceReady", { filename: evidenceReady })}
+                  </p>
+                ) : (
+                  <a class="kit-agfill-link" href="#kit-evidence">
+                    {tt("kitAgFillEvidenceLink")}
+                  </a>
                 )}
               </li>
               <li>
                 <p>{tt("kitAgFillStep3")}</p>
                 <a
-                  class="kit-secondary"
+                  class="kit-primary"
                   href={kit.agForm.formUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   {tt("kitAgOpenForm")}
                 </a>
+                {!hasContact && (
+                  <p class="kit-agfill-hint">{tt("kitAgFillNoContact")}</p>
+                )}
+                {hasContact && !handoffHasContact && (
+                  <p class="kit-agfill-hint">{tt("kitAgFillRememberHint")}</p>
+                )}
               </li>
               <li>
                 <p>{tt("kitAgFillStep4")}</p>
               </li>
             </ol>
+            <div class="kit-agfill-fallback">
+              <p class="kit-agfill-hint">{tt("kitAgFillFallback")}</p>
+              <button
+                type="button"
+                class="kit-secondary"
+                data-payload={agFillPayload}
+                onClick={() => void copy("kit-agfill-copy", agFillPayload)}
+              >
+                {copiedId === "kit-agfill-copy"
+                  ? tt("kitCopied")
+                  : tt("kitAgFillCopy")}
+              </button>
+            </div>
           </div>
         )}
 
@@ -456,7 +506,11 @@ export default function KitView({ kit }: { kit: ComplaintKit }) {
       </section>
 
       <div id="kit-evidence" class="kit-evidence kit-step">
-        <EvidenceBundler platform={platform} locale={locale} />
+        <EvidenceBundler
+          platform={platform}
+          locale={locale}
+          onPdfReady={setEvidenceReady}
+        />
       </div>
 
       <details class="kit-card kit-more">

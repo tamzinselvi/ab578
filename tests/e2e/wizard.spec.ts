@@ -170,6 +170,73 @@ test("draft autosaves and comes back after a reload", async ({ page }) => {
   ).toHaveAttribute("data-selected", "true");
 });
 
+for (const prefix of ["", "/es"]) {
+  test(`a fresh visit starts at issues with saved answers (${prefix || "en"})`, async ({
+    page,
+  }) => {
+    await runHappyPath(page, prefix);
+    await page.reload();
+    await waitForWizard(page, "kit");
+    await expect(page.locator("article.kit")).toBeVisible();
+
+    await page.goto(`${BASE}${prefix}/file`);
+    await waitForWizard(page, "issues");
+    await expect(page.locator("#issue-wrong_items")).toBeChecked();
+    await expect(page.locator(".wizard-note").last()).toBeVisible();
+    await page
+      .locator(".wizard-progress li")
+      .nth(2)
+      .getByRole("button")
+      .click();
+    await waitForWizard(page, "details");
+    await expect(page.locator("#order-total")).toHaveValue("12.99");
+  });
+}
+
+test("progress steps validate current answers and preserve focus and history", async ({
+  page,
+}) => {
+  await page.goto(`${BASE}/file`);
+  await waitForWizard(page, "issues");
+  const steps = page.locator(".wizard-progress li");
+  await expect(steps.nth(1).getByRole("button")).toHaveCount(0);
+  await expect(steps.nth(2).getByRole("button")).toHaveCount(0);
+  await page.locator("#issue-wrong_items").check();
+  await steps.nth(1).getByRole("button").click();
+  await waitForWizard(page, "platform");
+  await expect(page.locator("#wizard-heading")).toBeFocused();
+  await page
+    .locator("button.wizard-option", { hasText: "Another app" })
+    .click();
+  await expect(steps.nth(2).getByRole("button")).toHaveCount(0);
+  await page.locator("#other-platform-name").fill("ChowNow");
+  await steps.nth(2).getByRole("button").click();
+  await waitForWizard(page, "details");
+  await expect(steps.nth(3).getByRole("button")).toHaveCount(0);
+  await page.locator("#order-total").fill("25");
+  await page.locator("#order-date").fill("");
+  await expect(steps.nth(3).getByRole("button")).toHaveCount(0);
+  await page.locator("#order-date").fill("2026-01-01");
+  await page.locator(".wizard-optional summary").click();
+  await page.locator(".wizard-check input").check();
+  await expect(steps.nth(3).getByRole("button")).toHaveCount(0);
+  await page.locator("#contacted-result").fill("No refund");
+  await steps.nth(3).getByRole("button").click();
+  await waitForWizard(page, "kit");
+  await expect(page.locator("#wizard-heading")).toBeFocused();
+  await steps.nth(0).getByRole("button").click();
+  await waitForWizard(page, "issues");
+  await expect(page.locator("#issue-wrong_items")).toBeChecked();
+  await page.locator("#issue-wrong_items").uncheck();
+  await expect(steps.nth(3).getByRole("button")).toHaveCount(0);
+  await page.goBack();
+  await waitForWizard(page, "kit");
+  await steps.nth(2).getByRole("button").click();
+  await waitForWizard(page, "details");
+  await expect(page.locator("#order-total")).toHaveValue("25");
+  await expect(page.locator("#contacted-result")).toHaveValue("No refund");
+});
+
 test("switching language mid-wizard keeps every answer", async ({ page }) => {
   await page.goto(`${BASE}/file`);
   await waitForWizard(page, "issues");
@@ -184,6 +251,9 @@ test("switching language mid-wizard keeps every answer", async ({ page }) => {
 
   // The header picker keeps the current page and switches locale.
   await page.locator(".language-picker a[href$='/es/file']").click();
+  await waitForWizard(page, "issues");
+  await expect(page.locator("#issue-missing_items")).toBeChecked();
+  await page.locator(".wizard-progress li").nth(2).getByRole("button").click();
   await waitForWizard(page, "details");
   await expect(page.locator("html")).toHaveAttribute("lang", "es");
   await expect(page.locator("#order-total")).toHaveValue("20");

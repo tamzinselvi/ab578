@@ -11,6 +11,7 @@ import {
   agFormElementId,
   agFormFacts,
   agFormInputs,
+  agFormUpload,
 } from "../src/data/destinations";
 
 const response = await fetch(agFormFacts.formUrl, {
@@ -30,6 +31,15 @@ for (const [order, input] of Object.entries(agFormInputs)) {
   if (!html.includes(`name="${input.name}"`)) {
     missing.push(`field ${order}: ${input.name}`);
   }
+}
+
+for (const name of [
+  agFormUpload.question,
+  agFormUpload.file,
+  agFormUpload.description,
+  agFormUpload.secondQuestion,
+]) {
+  if (!html.includes(`name="${name}"`)) missing.push(`upload field: ${name}`);
 }
 
 if (missing.length > 0) {

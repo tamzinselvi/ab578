@@ -318,16 +318,20 @@ test.describe("kit screen: outgoing language", () => {
 
 test.describe("kit screen: accessibility and narrow layout", () => {
   for (const variant of [
-    { name: "en", url: `${BASE}/dev/kit`, heading: "Your complaint kit" },
+    {
+      name: "en",
+      url: `${BASE}/dev/kit`,
+      heading: "Report to the California Attorney General",
+    },
     {
       name: "es with translations",
       url: `${BASE}/dev/kit?ui=es&translate=1`,
-      heading: "Tu kit de queja",
+      heading: "Reporta al Fiscal General de California",
     },
     {
       name: "zh-hant with CJK stress strings",
       url: `${BASE}/dev/kit?ui=zh-hant&translate=1&stress=1`,
-      heading: "你的投訴資料",
+      heading: "向加州州檢察長檢舉",
     },
   ]) {
     test(`passes axe and fits 320 px: ${variant.name}`, async ({ page }) => {

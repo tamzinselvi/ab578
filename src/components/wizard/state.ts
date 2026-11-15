@@ -12,6 +12,7 @@
  * keys plus the saved language choice.
  */
 
+import { clearHandoff } from "../../lib/agfill/handoff";
 import {
   ISSUE_ORDER,
   type ContactInfo,
@@ -189,6 +190,8 @@ export function clearAllWizardData(): void {
   } catch {
     // Ignore: nothing was stored.
   }
+  // The fill-the-AG-form handoff (answers and evidence PDF).
+  clearHandoff();
 }
 
 /**

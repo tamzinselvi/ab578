@@ -6,6 +6,14 @@ import {
   type BookmarkletMessages,
 } from "../../src/lib/agfill/bookmarklet";
 import {
+  AG_ORIGIN,
+  clearHandoff,
+  HANDOFF_ANSWERS_KEY,
+  HANDOFF_TTL_MS,
+  loadHandoffAnswers,
+  saveHandoffAnswers,
+} from "../../src/lib/agfill/handoff";
+import {
   AGFILL_PREFIX,
   agFillPairs,
   buildAgFillPayload,
@@ -47,6 +55,9 @@ function makeIncident(overrides: Partial<Incident> = {}): Incident {
 }
 
 const MESSAGES: BookmarkletMessages = {
+  waiting: "Waiting",
+  noHandoff: "No handoff",
+  doneFile: "Filled {count} with file",
   prompt: "Paste here",
   pasteLabel: "Paste box",
   wrongPage: "Wrong page",
@@ -55,6 +66,8 @@ const MESSAGES: BookmarkletMessages = {
   done: "Filled {count}",
   close: "Close",
 };
+
+const CONFIG = { handoffUrl: "https://ab578.com/agfill/" };
 
 function pairsFor(incident: Incident, contact?: ContactInfo) {
   const kit = generateKit(incident, contact);
@@ -218,7 +231,7 @@ describe("buildAgFillPayload", () => {
 
 describe("bookmarklet", () => {
   it("is valid JavaScript with the messages and form details filled in", () => {
-    const code = bookmarkletCode(MESSAGES);
+    const code = bookmarkletCode(MESSAGES, CONFIG);
     expect(() => new Function(code)).not.toThrow();
     expect(code).toContain('"wrongPage":"Wrong page"');
     expect(code).toContain("webform-client-form-572546");
@@ -227,24 +240,85 @@ describe("bookmarklet", () => {
     );
     expect(code).not.toContain("__AB578_");
     expect(code.startsWith("(function")).toBe(true);
+    expect(code).toContain('"handoffUrl":"https://ab578.com/agfill/"');
+    expect(code).toContain(
+      '"file":"files[submitted_documents_upload_supporting_documents]"',
+    );
+  });
+
+  it("only accepts handoff messages from the handoff page's origin", () => {
+    const code = bookmarkletCode(MESSAGES, CONFIG);
+    expect(code).toContain("event.origin !== SITE_ORIGIN");
+    expect(code).toContain("new URL(C.handoffUrl).origin");
   });
 
   it("never submits the form or writes HTML", () => {
-    const code = bookmarkletCode(MESSAGES);
+    const code = bookmarkletCode(MESSAGES, CONFIG);
     expect(code).not.toMatch(/\.submit\s*\(/);
     expect(code).not.toMatch(/innerHTML|outerHTML|insertAdjacentHTML/);
   });
 
   it("builds a javascript: link that decodes back to the code", () => {
-    const href = bookmarkletHref(MESSAGES);
+    const href = bookmarkletHref(MESSAGES, CONFIG);
     expect(href.startsWith("javascript:")).toBe(true);
     expect(decodeURIComponent(href.slice("javascript:".length))).toBe(
-      bookmarkletCode(MESSAGES),
+      bookmarkletCode(MESSAGES, CONFIG),
     );
   });
 
   it("escapes messages safely", () => {
-    const code = bookmarkletCode({ ...MESSAGES, close: 'Cl"ose </script>' });
+    const code = bookmarkletCode(
+      { ...MESSAGES, close: 'Cl"ose </script>' },
+      CONFIG,
+    );
     expect(() => new Function(code)).not.toThrow();
+  });
+});
+
+describe("handoff storage", () => {
+  function memoryStore() {
+    const data = new Map<string, string>();
+    return {
+      getItem: (key: string) => data.get(key) ?? null,
+      setItem: (key: string, value: string) => void data.set(key, value),
+      removeItem: (key: string) => void data.delete(key),
+      data,
+    };
+  }
+  const PAIRS: [string, string][] = [
+    ["submitted[enter_your_information][first_name]", "Maria"],
+  ];
+
+  it("saves and loads the answers within the time limit", () => {
+    const store = memoryStore();
+    saveHandoffAnswers(PAIRS, 1_000, store);
+    expect(store.data.has(HANDOFF_ANSWERS_KEY)).toBe(true);
+    expect(loadHandoffAnswers(1_000 + 60_000, store)?.pairs).toEqual(PAIRS);
+  });
+
+  it("drops answers older than two hours", () => {
+    const store = memoryStore();
+    saveHandoffAnswers(PAIRS, 1_000, store);
+    expect(loadHandoffAnswers(1_000 + HANDOFF_TTL_MS + 1, store)).toBeNull();
+    expect(store.data.has(HANDOFF_ANSWERS_KEY)).toBe(false);
+  });
+
+  it("ignores broken or foreign records", () => {
+    const store = memoryStore();
+    store.setItem(HANDOFF_ANSWERS_KEY, "not json");
+    expect(loadHandoffAnswers(1_000, store)).toBeNull();
+    store.setItem(HANDOFF_ANSWERS_KEY, JSON.stringify({ v: 2, pairs: [] }));
+    expect(loadHandoffAnswers(1_000, store)).toBeNull();
+  });
+
+  it("clearHandoff removes the saved answers", () => {
+    const store = memoryStore();
+    saveHandoffAnswers(PAIRS, 1_000, store);
+    clearHandoff(store);
+    expect(store.data.has(HANDOFF_ANSWERS_KEY)).toBe(false);
+  });
+
+  it("posts only to the AG's origin", () => {
+    expect(AG_ORIGIN).toBe("https://oag.ca.gov");
   });
 });

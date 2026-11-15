@@ -410,6 +410,38 @@
   font-weight: 400;
 }
 
+.kit-agfill-ready {
+  margin: 0;
+  color: var(--color-success);
+  font-weight: 700;
+}
+
+.kit-agfill-link {
+  font-weight: 600;
+}
+
+.kit-agfill-fallback {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  margin-block-start: 1rem;
+  padding-block-start: 0.875rem;
+  border-block-start: var(--border);
+}
+
+.kit-agfill-fallback .kit-agfill-hint {
+  flex: 1 1 16rem;
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.875rem;
+}
+
+.kit-agfill-fallback .kit-secondary {
+  min-height: 44px;
+  font-size: 0.9375rem;
+}
+
 .kit-bookmarklet {
   display: inline-flex;
   align-items: center;

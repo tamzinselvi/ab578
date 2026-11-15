@@ -308,23 +308,24 @@ const source = {
   kitAgMailInLink: "Download the {language} mail-in form (PDF)",
   kitAgFillHeading: "Let your computer fill it in",
   kitAgFillIntro:
-    "A bookmark fills in the AG form with your answers. You set it up once.",
+    "A bookmark fills in the AG form with your answers and attaches your evidence PDF. You set it up once.",
   kitAgFillStep1: "Drag this button up to your bookmarks bar:",
   kitAgFillBookmarkName: "Fill AG form",
   kitAgFillBarHint:
     "No bookmarks bar? Press Ctrl+Shift+B, or ⌘+Shift+B on a Mac.",
-  kitAgFillStep2: "Copy your answers:",
+  kitAgFillStep2:
+    "Optional: build your evidence PDF in step 3 below. The bookmark attaches it for you.",
   kitAgFillCopy: "Copy my answers",
-  kitAgFillStep3:
-    "Open the AG form, click your Fill AG form bookmark, then paste with Ctrl+V (⌘+V on a Mac).",
+  kitAgFillStep3: "Open the AG form, then click your Fill AG form bookmark.",
   kitAgFillStep4:
-    "Check the answers, attach your evidence PDF, answer the questions at the bottom and press Submit.",
+    "Check the answers, answer the questions at the bottom and press Submit.",
   kitAgFillDragHint:
     "Drag this button to your bookmarks bar. Clicking it here does nothing.",
   kitAgFillNoContact:
     "Add your contact details above so it fills in your name and address too.",
   kitAgManualSummary: "Copy the answers one by one instead",
-  agFillPrompt: "Paste your answers here: press Ctrl+V, or ⌘+V on a Mac.",
+  agFillPrompt:
+    "Couldn't open your kit. Copy your answers from your kit, then paste them here with Ctrl+V (⌘+V on a Mac).",
   agFillPasteLabel: "Paste your answers here",
   agFillWrongPage:
     "Open the Attorney General's complaint form first, then click this bookmark again.",
@@ -334,6 +335,27 @@ const source = {
   agFillDone:
     "Done. {count} answers filled in. Check them, attach your evidence, answer the questions at the bottom and press Submit.",
   agFillClose: "Close",
+  kitAgFillEvidenceLink: "Go to step 3",
+  kitAgFillEvidenceReady: "Ready: {filename} will be attached.",
+  kitAgFillFallback:
+    "Nothing happened, or your browser blocked a popup? Copy your answers, click the bookmark again and paste.",
+  agFillWaiting: "Getting your answers from your kit…",
+  agFillNoHandoff:
+    "Couldn't find your answers on this computer. Copy them from your kit, then paste them here with Ctrl+V (⌘+V on a Mac).",
+  agFillDoneFile:
+    "Done. {count} answers filled in and your evidence PDF attached. Check them, answer the questions at the bottom and press Submit.",
+  agfillPageTitle: "Sending your answers",
+  agfillPageSending: "Sending your answers to the AG form…",
+  agfillPageSent: "Sent. This window will close.",
+  agfillPageNoData:
+    "No answers found on this computer. Open your complaint kit in this browser first, then click the bookmark again.",
+  agfillPageNoOpener:
+    "Open the Attorney General's complaint form, then click your Fill AG form bookmark there.",
+  agfillPageOpenKit: "Open your complaint kit",
+  privacyP4:
+    'To fill in the AG form for you, the kit keeps your answers and your evidence PDF in this browser for two hours. The Fill AG form bookmark hands them only to the Attorney General\'s form page. "Clear my data" removes them right away. Your name and address are included only if you chose "Remember on this device".',
+  kitAgFillRememberHint:
+    'To have the bookmark fill in your name and address too, tick "Remember on this device" above and add your details again.',
   kitMoreCardTitle: "More ways to act",
   kitMoreCardHint: "Your district attorney, the FTC, and small claims court",
   kitDestDa: "Find your district attorney or city attorney",

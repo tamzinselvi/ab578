@@ -291,24 +291,25 @@ export const tl: Messages = {
   kitAgMailInLink: "I-download ang mail-in form sa {language} (PDF)",
   kitAgFillHeading: "Hayaang ang computer mo ang magpuno",
   kitAgFillIntro:
-    "Pupunan ng isang bookmark ang form ng AG gamit ang mga sagot mo. Isang beses mo lang itong ise-set up.",
+    "Pupunan ng isang bookmark ang form ng AG gamit ang mga sagot mo at ia-attach ang evidence PDF mo. Isang beses mo lang itong ise-set up.",
   kitAgFillStep1: "I-drag ang button na ito pataas sa bookmarks bar mo:",
   kitAgFillBookmarkName: "Punan ang AG form",
   kitAgFillBarHint:
     "Walang bookmarks bar? Pindutin ang Ctrl+Shift+B, o ⌘+Shift+B sa Mac.",
-  kitAgFillStep2: "Kopyahin ang mga sagot mo:",
+  kitAgFillStep2:
+    "Opsyonal: gawin ang evidence PDF mo sa hakbang 3 sa ibaba. Ang bookmark ang mag-a-attach nito para sa iyo.",
   kitAgFillCopy: "Kopyahin ang mga sagot ko",
   kitAgFillStep3:
-    "Buksan ang form ng AG, i-click ang bookmark mong Punan ang AG form, tapos i-paste gamit ang Ctrl+V (⌘+V sa Mac).",
+    "Buksan ang form ng AG, tapos i-click ang bookmark mong Punan ang AG form.",
   kitAgFillStep4:
-    "Suriin ang mga sagot, i-attach ang evidence PDF mo, sagutin ang mga tanong sa ibaba at pindutin ang Submit.",
+    "Suriin ang mga sagot, sagutin ang mga tanong sa ibaba at pindutin ang Submit.",
   kitAgFillDragHint:
     "I-drag ang button na ito sa bookmarks bar mo. Walang mangyayari kung i-click mo ito dito.",
   kitAgFillNoContact:
     "Idagdag ang contact details mo sa itaas para mapunan din nito ang pangalan at address mo.",
   kitAgManualSummary: "Kopyahin na lang ang mga sagot isa-isa",
   agFillPrompt:
-    "I-paste dito ang mga sagot mo: pindutin ang Ctrl+V, o ⌘+V sa Mac.",
+    "Hindi mabuksan ang kit mo. Kopyahin ang mga sagot mo mula sa kit, tapos i-paste dito gamit ang Ctrl+V (⌘+V sa Mac).",
   agFillPasteLabel: "I-paste dito ang mga sagot mo",
   agFillWrongPage:
     "Buksan muna ang complaint form ng Attorney General, tapos i-click ulit ang bookmark na ito.",
@@ -318,6 +319,27 @@ export const tl: Messages = {
   agFillDone:
     "Tapos na. {count} sagot ang napunan. Suriin ang mga ito, i-attach ang ebidensya mo, sagutin ang mga tanong sa ibaba at pindutin ang Submit.",
   agFillClose: "Isara",
+  kitAgFillEvidenceLink: "Pumunta sa hakbang 3",
+  kitAgFillEvidenceReady: "Handa na: ia-attach ang {filename}.",
+  kitAgFillFallback:
+    "Walang nangyari, o hinarang ng browser mo ang isang popup? Kopyahin ang mga sagot mo, i-click ulit ang bookmark at i-paste.",
+  agFillWaiting: "Kinukuha ang mga sagot mo mula sa kit mo…",
+  agFillNoHandoff:
+    "Hindi nakita ang mga sagot mo sa computer na ito. Kopyahin ang mga ito mula sa kit mo, tapos i-paste dito gamit ang Ctrl+V (⌘+V sa Mac).",
+  agFillDoneFile:
+    "Tapos na. {count} sagot ang napunan at na-attach ang evidence PDF mo. Suriin ang mga ito, sagutin ang mga tanong sa ibaba at pindutin ang Submit.",
+  agfillPageTitle: "Ipinapadala ang mga sagot mo",
+  agfillPageSending: "Ipinapadala ang mga sagot mo sa form ng AG…",
+  agfillPageSent: "Naipadala na. Magsasara ang window na ito.",
+  agfillPageNoData:
+    "Walang nakitang sagot sa computer na ito. Buksan muna ang complaint kit mo sa browser na ito, tapos i-click ulit ang bookmark.",
+  agfillPageNoOpener:
+    "Buksan ang complaint form ng Attorney General, tapos i-click doon ang bookmark mong Punan ang AG form.",
+  agfillPageOpenKit: "Buksan ang complaint kit mo",
+  privacyP4:
+    'Para mapunan ang form ng AG para sa iyo, itinatabi ng kit ang mga sagot mo at ang evidence PDF mo sa browser na ito nang dalawang oras. Ibinibigay lang ito ng bookmark na Punan ang AG form sa pahina ng form ng Attorney General. Agad itong binubura ng "Burahin ang data ko". Kasama lang ang pangalan at address mo kung pinili mo ang "Tandaan sa device na ito".',
+  kitAgFillRememberHint:
+    'Para mapunan din ng bookmark ang pangalan at address mo, lagyan ng check ang "Tandaan sa device na ito" sa itaas at idagdag ulit ang detalye mo.',
   kitMoreCardTitle: "Iba pang paraan para kumilos",
   kitMoreCardHint: "Ang district attorney mo, ang FTC, at small claims court",
   kitDestDa: "Hanapin ang district attorney o city attorney mo",

@@ -424,3 +424,22 @@ export const agFormInputs: Readonly<Record<number, AgFormInput>> = {
 
 /** The AG complaint form's element id, used by the bookmark to find it. */
 export const agFormElementId = "webform-client-form-572546";
+
+/**
+ * The AG form's first evidence upload, which the bookmark fills when the kit
+ * has an evidence PDF: answer "Do you want to upload supporting documents?"
+ * Yes, attach the file, describe it (maxlength 128 on the live form) and
+ * answer No to a second document, since the kit's one PDF holds every
+ * screenshot.
+ */
+export const agFormUpload = {
+  question: "submitted[documents][do_you_want_to_upload]",
+  questionYes: "Y",
+  file: "files[submitted_documents_upload_supporting_documents]",
+  description: "submitted[documents][description_of_document]",
+  /** "Do you wish to upload a second supporting document?" (required). */
+  secondQuestion: "submitted[documents][do_you_want_to_upload2]",
+  secondQuestionNo: "N",
+  descriptionText:
+    "Screenshots of my order, the receipt and the delivery app's messages",
+} as const;
