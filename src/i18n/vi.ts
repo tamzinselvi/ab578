@@ -289,24 +289,25 @@ export const vi: Messages = {
   kitAgMailInLink: "Tải mẫu gửi qua bưu điện bằng {language} (PDF)",
   kitAgFillHeading: "Để máy tính điền giúp bạn",
   kitAgFillIntro:
-    "Một dấu trang sẽ điền mẫu đơn của Tổng Chưởng lý bằng câu trả lời của bạn. Bạn chỉ cần cài đặt một lần.",
+    "Một dấu trang sẽ điền mẫu đơn của Tổng Chưởng lý bằng câu trả lời của bạn và đính kèm PDF bằng chứng. Bạn chỉ cần cài đặt một lần.",
   kitAgFillStep1: "Kéo nút này lên thanh dấu trang của bạn:",
   kitAgFillBookmarkName: "Điền mẫu AG",
   kitAgFillBarHint:
     "Không thấy thanh dấu trang? Nhấn Ctrl+Shift+B, hoặc ⌘+Shift+B trên máy Mac.",
-  kitAgFillStep2: "Sao chép câu trả lời của bạn:",
+  kitAgFillStep2:
+    "Không bắt buộc: tạo PDF bằng chứng ở bước 3 bên dưới. Dấu trang sẽ đính kèm giúp bạn.",
   kitAgFillCopy: "Sao chép câu trả lời của tôi",
   kitAgFillStep3:
-    "Mở mẫu đơn của Tổng Chưởng lý, bấm vào dấu trang Điền mẫu AG, rồi dán bằng Ctrl+V (⌘+V trên máy Mac).",
+    "Mở mẫu đơn của Tổng Chưởng lý, rồi bấm vào dấu trang Điền mẫu AG.",
   kitAgFillStep4:
-    "Kiểm tra câu trả lời, đính kèm PDF bằng chứng, trả lời các câu hỏi ở cuối và bấm Submit.",
+    "Kiểm tra câu trả lời, trả lời các câu hỏi ở cuối và bấm Submit.",
   kitAgFillDragHint:
     "Hãy kéo nút này lên thanh dấu trang. Bấm vào đây sẽ không có tác dụng gì.",
   kitAgFillNoContact:
     "Thêm thông tin liên lạc ở trên để dấu trang điền luôn tên và địa chỉ của bạn.",
   kitAgManualSummary: "Sao chép từng câu trả lời thay vào đó",
   agFillPrompt:
-    "Dán câu trả lời của bạn vào đây: nhấn Ctrl+V, hoặc ⌘+V trên máy Mac.",
+    "Không mở được bộ khiếu nại của bạn. Hãy sao chép câu trả lời từ bộ khiếu nại, rồi dán vào đây bằng Ctrl+V (⌘+V trên máy Mac).",
   agFillPasteLabel: "Dán câu trả lời của bạn vào đây",
   agFillWrongPage:
     "Hãy mở mẫu khiếu nại của Tổng Chưởng lý trước, rồi bấm lại vào dấu trang này.",
@@ -316,6 +317,26 @@ export const vi: Messages = {
   agFillDone:
     "Xong. Đã điền {count} câu trả lời. Hãy kiểm tra, đính kèm bằng chứng, trả lời các câu hỏi ở cuối và bấm Submit.",
   agFillClose: "Đóng",
+  kitAgFillEvidenceLink: "Đến bước 3",
+  kitAgFillEvidenceReady: "Sẵn sàng: {filename} sẽ được đính kèm.",
+  kitAgFillFallback:
+    "Không có gì xảy ra, hoặc trình duyệt chặn cửa sổ bật lên? Hãy sao chép câu trả lời, bấm lại dấu trang và dán.",
+  agFillWaiting: "Đang lấy câu trả lời từ bộ khiếu nại của bạn…",
+  agFillNoHandoff:
+    "Không tìm thấy câu trả lời của bạn trên máy tính này. Hãy sao chép từ bộ khiếu nại, rồi dán vào đây bằng Ctrl+V (⌘+V trên máy Mac).",
+  agFillDoneFile:
+    "Xong. Đã điền {count} câu trả lời và đính kèm PDF bằng chứng. Hãy kiểm tra, trả lời các câu hỏi ở cuối và bấm Submit.",
+  agfillPageTitle: "Đang gửi câu trả lời của bạn",
+  agfillPageSending:
+    "Đang gửi câu trả lời của bạn đến mẫu đơn của Tổng Chưởng lý…",
+  agfillPageSent: "Đã gửi. Cửa sổ này sẽ tự đóng.",
+  agfillPageNoData:
+    "Không tìm thấy câu trả lời trên máy tính này. Hãy mở bộ khiếu nại trong trình duyệt này trước, rồi bấm lại dấu trang.",
+  agfillPageNoOpener:
+    "Hãy mở mẫu khiếu nại của Tổng Chưởng lý, rồi bấm vào dấu trang Điền mẫu AG ở đó.",
+  agfillPageOpenKit: "Mở bộ khiếu nại của bạn",
+  privacyP4:
+    'Để điền mẫu đơn của Tổng Chưởng lý giúp bạn, bộ khiếu nại giữ câu trả lời và PDF bằng chứng của bạn trong trình duyệt này trong hai giờ. Dấu trang Điền mẫu AG chỉ trao chúng cho trang mẫu đơn của Tổng Chưởng lý. "Xóa dữ liệu của tôi" sẽ xóa chúng ngay lập tức.',
   kitMoreCardTitle: "Thêm cách để hành động",
   kitMoreCardHint: "Biện lý quận của bạn, FTC, và tòa án khiếu nại nhỏ",
   kitDestDa: "Tìm biện lý quận hoặc luật sư thành phố của bạn",

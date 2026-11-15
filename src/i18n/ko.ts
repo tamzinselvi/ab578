@@ -280,24 +280,23 @@ export const ko: Messages = {
   kitAgMailInLink: "{language} 우편용 양식 내려받기 (PDF)",
   kitAgFillHeading: "컴퓨터가 대신 채우게 하세요",
   kitAgFillIntro:
-    "북마크 하나가 검찰총장 양식을 당신의 답변으로 채워 줍니다. 한 번만 설정하면 됩니다.",
+    "북마크 하나가 검찰총장 양식을 당신의 답변으로 채우고 증거 PDF도 첨부합니다. 한 번만 설정하면 됩니다.",
   kitAgFillStep1: "이 버튼을 북마크바로 끌어다 놓으세요:",
   kitAgFillBookmarkName: "AG 양식 채우기",
   kitAgFillBarHint:
     "북마크바가 안 보이나요? Ctrl+Shift+B를 누르세요. Mac에서는 ⌘+Shift+B입니다.",
-  kitAgFillStep2: "답변을 복사하세요:",
+  kitAgFillStep2:
+    "선택 사항: 아래 3단계에서 증거 PDF를 만드세요. 북마크가 대신 첨부합니다.",
   kitAgFillCopy: "내 답변 복사",
-  kitAgFillStep3:
-    '검찰총장 양식을 열고 "AG 양식 채우기" 북마크를 누른 다음 Ctrl+V(Mac은 ⌘+V)로 붙여 넣으세요.',
-  kitAgFillStep4:
-    "답변을 확인하고, 증거 PDF를 첨부하고, 맨 아래 질문에 답한 뒤 Submit을 누르세요.",
+  kitAgFillStep3: '검찰총장 양식을 연 다음 "AG 양식 채우기" 북마크를 누르세요.',
+  kitAgFillStep4: "답변을 확인하고, 맨 아래 질문에 답한 뒤 Submit을 누르세요.",
   kitAgFillDragHint:
     "이 버튼을 북마크바로 끌어다 놓으세요. 여기서 누르면 아무 일도 일어나지 않습니다.",
   kitAgFillNoContact:
     "위에 연락처 정보를 추가하면 이름과 주소도 함께 채워집니다.",
   kitAgManualSummary: "대신 답변을 하나씩 복사하기",
   agFillPrompt:
-    "여기에 답변을 붙여 넣으세요: Ctrl+V, Mac에서는 ⌘+V를 누르세요.",
+    "키트를 열 수 없었습니다. 키트에서 답변을 복사한 뒤 Ctrl+V(Mac은 ⌘+V)로 여기에 붙여 넣으세요.",
   agFillPasteLabel: "여기에 답변을 붙여 넣으세요",
   agFillWrongPage:
     "먼저 검찰총장 민원 양식을 연 다음, 이 북마크를 다시 누르세요.",
@@ -307,6 +306,25 @@ export const ko: Messages = {
   agFillDone:
     "완료. 답변 {count}개를 채웠습니다. 확인하고, 증거를 첨부하고, 맨 아래 질문에 답한 뒤 Submit을 누르세요.",
   agFillClose: "닫기",
+  kitAgFillEvidenceLink: "3단계로 가기",
+  kitAgFillEvidenceReady: "준비 완료: {filename} 파일이 첨부됩니다.",
+  kitAgFillFallback:
+    "아무 일도 없거나 브라우저가 팝업을 막았나요? 답변을 복사하고, 북마크를 다시 누른 뒤 붙여 넣으세요.",
+  agFillWaiting: "키트에서 답변을 가져오는 중…",
+  agFillNoHandoff:
+    "이 컴퓨터에서 답변을 찾을 수 없습니다. 키트에서 복사한 뒤 Ctrl+V(Mac은 ⌘+V)로 여기에 붙여 넣으세요.",
+  agFillDoneFile:
+    "완료. 답변 {count}개를 채우고 증거 PDF를 첨부했습니다. 확인하고, 맨 아래 질문에 답한 뒤 Submit을 누르세요.",
+  agfillPageTitle: "답변 보내는 중",
+  agfillPageSending: "검찰총장 양식으로 답변을 보내는 중…",
+  agfillPageSent: "보냈습니다. 이 창은 곧 닫힙니다.",
+  agfillPageNoData:
+    "이 컴퓨터에서 답변을 찾을 수 없습니다. 먼저 이 브라우저에서 민원 키트를 연 다음 북마크를 다시 누르세요.",
+  agfillPageNoOpener:
+    '검찰총장 민원 양식을 연 다음, 그곳에서 "AG 양식 채우기" 북마크를 누르세요.',
+  agfillPageOpenKit: "민원 키트 열기",
+  privacyP4:
+    '검찰총장 양식을 대신 채우기 위해, 키트는 답변과 증거 PDF를 이 브라우저에 두 시간 동안 보관합니다. "AG 양식 채우기" 북마크는 이를 검찰총장 양식 페이지에만 전달합니다. "내 데이터 지우기"를 누르면 바로 삭제됩니다.',
   kitMoreCardTitle: "더 많은 대응 방법",
   kitMoreCardHint: "지방검사, FTC, 소액 재판",
   kitDestDa: "지방검사 또는 시 검사 찾기",

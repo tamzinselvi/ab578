@@ -5,6 +5,7 @@ import {
   type BuiltEvidencePdf,
 } from "../../lib/evidence";
 import { DEFAULT_LOCALE, t, type Locale } from "../../i18n";
+import { saveHandoffEvidence } from "../../lib/agfill/handoff";
 import "./evidence.css";
 
 export interface EvidenceBundlerProps {
@@ -14,6 +15,8 @@ export interface EvidenceBundlerProps {
   date?: string;
   /** UI locale for every string. Defaults to English. */
   locale?: Locale;
+  /** Called once a built PDF is saved for the fill-the-AG-form bookmark. */
+  onPdfReady?: (filename: string) => void;
 }
 
 interface EvidenceItem {
@@ -126,6 +129,11 @@ export default function EvidenceBundler(props: EvidenceBundlerProps) {
       objectUrls.current.add(url);
       setResultUrl(url);
       setResult(built);
+      // Keep the PDF on this device so the fill-the-AG-form bookmark can
+      // attach it. Best effort: the download link works either way.
+      void saveHandoffEvidence(built.blob, built.filename).then(() =>
+        props.onPdfReady?.(built.filename),
+      );
     } catch (cause) {
       setError(
         cause instanceof Error && cause.message.length > 0

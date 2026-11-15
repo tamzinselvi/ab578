@@ -271,21 +271,21 @@ export const zhHans: Messages = {
   kitAgMailInNote: "你也可以打印{language}的投诉表格并邮寄。",
   kitAgMailInLink: "下载{language}邮寄表格（PDF）",
   kitAgFillHeading: "让电脑帮你填",
-  kitAgFillIntro: "一个书签会用你的答案填好州总检察长的表格。只需设置一次。",
+  kitAgFillIntro:
+    "一个书签会用你的答案填好州总检察长的表格，并附上你的证据 PDF。只需设置一次。",
   kitAgFillStep1: "把这个按钮拖到浏览器的书签栏：",
   kitAgFillBookmarkName: "填写 AG 表格",
   kitAgFillBarHint: "看不到书签栏？按 Ctrl+Shift+B，Mac 请按 ⌘+Shift+B。",
-  kitAgFillStep2: "复制你的答案：",
+  kitAgFillStep2: "选填：在下方第 3 步生成你的证据 PDF。书签会帮你附上。",
   kitAgFillCopy: "复制我的答案",
-  kitAgFillStep3:
-    "打开州总检察长表格，点一下“填写 AG 表格”书签，再按 Ctrl+V 粘贴（Mac 请按 ⌘+V）。",
-  kitAgFillStep4:
-    "检查答案，附上你的证据 PDF，回答最下面的问题，然后点 Submit。",
+  kitAgFillStep3: "打开州总检察长表格，然后点一下“填写 AG 表格”书签。",
+  kitAgFillStep4: "检查答案，回答最下面的问题，然后点 Submit。",
   kitAgFillDragHint: "请把这个按钮拖到书签栏。在这里点击不会有任何作用。",
   kitAgFillNoContact:
     "在上方添加你的联系信息，书签也会一并填入你的姓名和地址。",
   kitAgManualSummary: "改为逐一复制答案",
-  agFillPrompt: "在这里粘贴你的答案：按 Ctrl+V，Mac 请按 ⌘+V。",
+  agFillPrompt:
+    "无法打开你的投诉材料。请从投诉材料复制答案，再按 Ctrl+V 粘贴到这里（Mac 请按 ⌘+V）。",
   agFillPasteLabel: "在这里粘贴你的答案",
   agFillWrongPage: "请先打开州总检察长的投诉表格，再点一次这个书签。",
   agFillOpenForm: "打开州总检察长投诉表格",
@@ -294,6 +294,25 @@ export const zhHans: Messages = {
   agFillDone:
     "完成。已填入 {count} 个答案。请检查答案，附上证据，回答最下面的问题，然后点 Submit。",
   agFillClose: "关闭",
+  kitAgFillEvidenceLink: "前往第 3 步",
+  kitAgFillEvidenceReady: "已就绪：将附上 {filename}。",
+  kitAgFillFallback:
+    "没有反应，或浏览器拦截了弹出窗口？请复制你的答案，再点一次书签并粘贴。",
+  agFillWaiting: "正在从你的投诉材料获取答案…",
+  agFillNoHandoff:
+    "在这台电脑上找不到你的答案。请从投诉材料复制答案，再按 Ctrl+V 粘贴到这里（Mac 请按 ⌘+V）。",
+  agFillDoneFile:
+    "完成。已填入 {count} 个答案并附上你的证据 PDF。请检查答案，回答最下面的问题，然后点 Submit。",
+  agfillPageTitle: "正在发送你的答案",
+  agfillPageSending: "正在把你的答案发送到州总检察长表格…",
+  agfillPageSent: "已发送。这个窗口即将关闭。",
+  agfillPageNoData:
+    "在这台电脑上找不到答案。请先在这个浏览器打开你的投诉材料，再点一次书签。",
+  agfillPageNoOpener:
+    "请打开州总检察长的投诉表格，然后在那里点一下“填写 AG 表格”书签。",
+  agfillPageOpenKit: "打开你的投诉材料",
+  privacyP4:
+    "为了帮你填写州总检察长的表格，投诉工具会把你的答案和证据 PDF 保存在这个浏览器中两小时。“填写 AG 表格”书签只会把它们交给州总检察长的表格页面。“清除我的数据”会立即删除它们。",
   kitMoreCardTitle: "更多行动方式",
   kitMoreCardHint: "你所在地的地区检察官、FTC 和小额诉讼法庭",
   kitDestDa: "找到你的地区检察官或市检察官",

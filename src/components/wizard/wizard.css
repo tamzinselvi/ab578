@@ -17,7 +17,6 @@
 
 .wizard-progress li {
   flex: 1;
-  padding: 0.375rem 0.25rem;
   border-block-end: 4px solid var(--color-line);
   border-radius: 2px;
   font-size: 0.75rem;
@@ -25,6 +24,36 @@
   color: var(--color-muted);
   text-align: center;
   overflow-wrap: anywhere;
+}
+
+.wizard-progress li > button,
+.wizard-progress li > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-block-size: 44px;
+  inline-size: 100%;
+  padding: 0.375rem 0.25rem;
+}
+
+.wizard-progress button {
+  border: 0;
+  border-radius: 2px;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.wizard-progress button:hover,
+.wizard-progress button:focus-visible {
+  background-color: var(--color-wash);
+  color: var(--color-text);
+  text-decoration: underline;
+}
+
+.wizard [tabindex="-1"]:focus {
+  outline: none;
 }
 
 .wizard-progress li[data-done="true"],
@@ -275,6 +304,7 @@
 }
 
 .wizard-actions {
+  margin-block-start: 1.25rem;
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;

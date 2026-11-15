@@ -292,23 +292,25 @@ export const es: Messages = {
     "Descargar el formulario en {language} para enviar por correo (PDF)",
   kitAgFillHeading: "Deja que tu computadora lo llene",
   kitAgFillIntro:
-    "Un marcador llena el formulario del Fiscal General con tus respuestas. Lo configuras una sola vez.",
+    "Un marcador llena el formulario del Fiscal General con tus respuestas y adjunta tu PDF de evidencia. Lo configuras una sola vez.",
   kitAgFillStep1: "Arrastra este botón a tu barra de marcadores:",
   kitAgFillBookmarkName: "Llenar formulario AG",
   kitAgFillBarHint:
     "¿No ves la barra de marcadores? Presiona Ctrl+Shift+B, o ⌘+Shift+B en una Mac.",
-  kitAgFillStep2: "Copia tus respuestas:",
+  kitAgFillStep2:
+    "Opcional: crea tu PDF de evidencia en el paso 3 más abajo. El marcador lo adjunta por ti.",
   kitAgFillCopy: "Copiar mis respuestas",
   kitAgFillStep3:
-    "Abre el formulario del Fiscal General, haz clic en tu marcador Llenar formulario AG y pega con Ctrl+V (⌘+V en una Mac).",
+    "Abre el formulario del Fiscal General y haz clic en tu marcador Llenar formulario AG.",
   kitAgFillStep4:
-    "Revisa las respuestas, adjunta tu PDF de evidencia, contesta las preguntas del final y presiona Submit.",
+    "Revisa las respuestas, contesta las preguntas del final y presiona Submit.",
   kitAgFillDragHint:
     "Arrastra este botón a tu barra de marcadores. Hacer clic aquí no hace nada.",
   kitAgFillNoContact:
     "Agrega tus datos de contacto arriba para que también llene tu nombre y dirección.",
   kitAgManualSummary: "Mejor copiar las respuestas una por una",
-  agFillPrompt: "Pega tus respuestas aquí: presiona Ctrl+V, o ⌘+V en una Mac.",
+  agFillPrompt:
+    "No se pudo abrir tu kit. Copia tus respuestas desde tu kit y pégalas aquí con Ctrl+V (⌘+V en una Mac).",
   agFillPasteLabel: "Pega tus respuestas aquí",
   agFillWrongPage:
     "Primero abre el formulario de quejas del Fiscal General y luego haz clic otra vez en este marcador.",
@@ -318,6 +320,26 @@ export const es: Messages = {
   agFillDone:
     "Listo. Se llenaron {count} respuestas. Revísalas, adjunta tu evidencia, contesta las preguntas del final y presiona Submit.",
   agFillClose: "Cerrar",
+  kitAgFillEvidenceLink: "Ir al paso 3",
+  kitAgFillEvidenceReady: "Listo: se adjuntará {filename}.",
+  kitAgFillFallback:
+    "¿No pasó nada o tu navegador bloqueó una ventana emergente? Copia tus respuestas, haz clic otra vez en el marcador y pega.",
+  agFillWaiting: "Obteniendo tus respuestas de tu kit…",
+  agFillNoHandoff:
+    "No se encontraron tus respuestas en esta computadora. Cópialas desde tu kit y pégalas aquí con Ctrl+V (⌘+V en una Mac).",
+  agFillDoneFile:
+    "Listo. Se llenaron {count} respuestas y se adjuntó tu PDF de evidencia. Revísalas, contesta las preguntas del final y presiona Submit.",
+  agfillPageTitle: "Enviando tus respuestas",
+  agfillPageSending:
+    "Enviando tus respuestas al formulario del Fiscal General…",
+  agfillPageSent: "Enviado. Esta ventana se cerrará.",
+  agfillPageNoData:
+    "No se encontraron respuestas en esta computadora. Primero abre tu kit de queja en este navegador y luego haz clic otra vez en el marcador.",
+  agfillPageNoOpener:
+    "Abre el formulario de quejas del Fiscal General y haz clic ahí en tu marcador Llenar formulario AG.",
+  agfillPageOpenKit: "Abrir tu kit de queja",
+  privacyP4:
+    "Para llenar el formulario del Fiscal General por ti, el kit guarda tus respuestas y tu PDF de evidencia en este navegador durante dos horas. El marcador Llenar formulario AG solo se las entrega a la página del formulario del Fiscal General. «Borrar mis datos» las elimina de inmediato.",
   kitMoreCardTitle: "Más formas de actuar",
   kitMoreCardHint:
     "Tu fiscal de distrito, la FTC y la corte de reclamos menores",

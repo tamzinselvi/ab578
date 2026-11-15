@@ -1,23 +1,27 @@
 /**
  * The fill-the-AG-form bookmark's exact source, run on the AG complaint page.
- * bookmarklet.ts swaps in the UI messages and the form's id and URL, then
- * turns it into a javascript: link. Keep it plain ES2017 with no imports, no
- * backticks, no backslashes, no comments inside the code and no personal data.
- * It never submits the form. It only sets values the person pasted from their
- * kit, using .value and clicks, never innerHTML. Unit tests check it parses;
- * the e2e suite runs it against a copy of the AG form.
+ * bookmarklet.ts swaps in the UI messages (M) and the config (C: form id and
+ * URL, the handoff page URL, upload field names), then turns it into a
+ * javascript: link. Keep it plain ES2017 with no imports, no backticks, no
+ * backslashes, no comments inside the code and no personal data.
+ *
+ * Flow on the AG form: open the site's handoff page in a small popup, wait
+ * for its message (answers plus the optional evidence PDF) from exactly the
+ * handoff page's origin, fill the fields, attach the PDF. If the popup is
+ * blocked or nothing arrives in time, show a paste box for the copied
+ * answers instead. It never submits the form and never writes HTML.
  */
 export const BOOKMARKLET_SOURCE = String.raw`(function () {
   var M = { __AB578_MESSAGES__: 1 };
+  var C = { __AB578_CONFIG__: 1 };
   var PREFIX = "AB578-AGFILL:v1:";
-  var FORM_ID = "__AB578_FORM_ID__";
-  var FORM_URL = "__AB578_FORM_URL__";
   var BOX_ID = "ab578-agfill";
+  var SITE_ORIGIN = new URL(C.handoffUrl).origin;
 
   var old = document.getElementById(BOX_ID);
   if (old) old.parentNode.removeChild(old);
 
-  var form = document.getElementById(FORM_ID);
+  var form = document.getElementById(C.formId);
   if (!form) {
     var marker = document.querySelector(
       '[name="submitted[complaint][complaint_description]"]',
@@ -82,7 +86,7 @@ export const BOOKMARKLET_SOURCE = String.raw`(function () {
   if (!form) {
     say(M.wrongPage);
     var link = document.createElement("a");
-    link.href = FORM_URL;
+    link.href = C.formUrl;
     link.textContent = M.openForm;
     link.style.display = "inline-block";
     link.style.margin = "0 12px 12px 0";
@@ -93,26 +97,7 @@ export const BOOKMARKLET_SOURCE = String.raw`(function () {
     return;
   }
 
-  say(M.prompt);
-  var area = document.createElement("textarea");
-  area.setAttribute("aria-label", M.pasteLabel);
-  area.placeholder = M.pasteLabel;
-  area.rows = 2;
-  var a = area.style;
-  a.display = "block";
-  a.width = "100%";
-  a.boxSizing = "border-box";
-  a.margin = "0 0 12px";
-  a.padding = "10px";
-  a.font = "inherit";
-  a.fontSize = "15px";
-  a.border = "2px dashed #1d4ed8";
-  a.borderRadius = "10px";
-  a.background = "#eef2fb";
-  a.color = "#15171a";
-  box.appendChild(area);
   box.appendChild(close);
-  area.focus();
 
   function fire(el, type) {
     el.dispatchEvent(new Event(type, { bubbles: true }));
@@ -144,6 +129,7 @@ export const BOOKMARKLET_SOURCE = String.raw`(function () {
       if (!el.checked) el.click();
       return true;
     }
+    if (el.type === "file") return false;
     if (el.disabled) return false;
     if (el.tagName === "SELECT") {
       el.value = value;
@@ -156,8 +142,48 @@ export const BOOKMARKLET_SOURCE = String.raw`(function () {
     return true;
   }
 
+  function attach(evidence) {
+    if (!evidence || !evidence.bytes) return false;
+    setOne(C.upload.question, C.upload.questionYes);
+    var input = find(C.upload.file)[0];
+    if (!input) return false;
+    try {
+      var transfer = new DataTransfer();
+      transfer.items.add(
+        new File([evidence.bytes], String(evidence.name || "evidence.pdf"), {
+          type: "application/pdf",
+        }),
+      );
+      input.files = transfer.files;
+      fire(input, "change");
+    } catch (error) {
+      return false;
+    }
+    if (!input.files || !input.files.length) return false;
+    setOne(C.upload.description, C.upload.descriptionText);
+    setOne(C.upload.secondQuestion, C.upload.secondQuestionNo);
+    return true;
+  }
+
   var done = false;
-  function fill(text) {
+  var area = null;
+
+  function apply(pairs, evidence) {
+    if (done) return;
+    done = true;
+    var count = 0;
+    for (var i = 0; i < pairs.length; i++) {
+      var pair = pairs[i];
+      if (pair && setOne(String(pair[0]), String(pair[1]))) count++;
+    }
+    var attached = attach(evidence);
+    var text = attached ? M.doneFile : M.done;
+    say(text.replace("{count}", String(count)));
+    if (area && area.parentNode) area.parentNode.removeChild(area);
+    if (form.scrollIntoView) form.scrollIntoView({ block: "start" });
+  }
+
+  function fromPaste(text) {
     if (done) return;
     text = String(text || "").trim();
     if (!text) return;
@@ -165,7 +191,7 @@ export const BOOKMARKLET_SOURCE = String.raw`(function () {
     if (text.indexOf(PREFIX) === 0) {
       try {
         data = JSON.parse(text.slice(PREFIX.length));
-      } catch {
+      } catch (error) {
         data = null;
       }
     }
@@ -174,29 +200,74 @@ export const BOOKMARKLET_SOURCE = String.raw`(function () {
       area.value = "";
       return;
     }
-    done = true;
-    var count = 0;
-    for (var i = 0; i < data.f.length; i++) {
-      var pair = data.f[i];
-      if (pair && setOne(String(pair[0]), String(pair[1]))) count++;
-    }
-    say(M.done.replace("{count}", String(count)));
-    if (form.scrollIntoView) form.scrollIntoView({ block: "start" });
-    if (area.parentNode) area.parentNode.removeChild(area);
-    close.textContent = M.close;
+    apply(data.f, null);
   }
 
-  area.addEventListener("paste", function (event) {
-    var clip = event.clipboardData || window.clipboardData;
-    if (!clip) return;
-    var text = clip.getData("text");
-    if (text) {
-      event.preventDefault();
-      fill(text);
+  function showPaste(text) {
+    if (done || area) return;
+    say(text || M.prompt);
+    area = document.createElement("textarea");
+    area.setAttribute("aria-label", M.pasteLabel);
+    area.placeholder = M.pasteLabel;
+    area.rows = 2;
+    var a = area.style;
+    a.display = "block";
+    a.width = "100%";
+    a.boxSizing = "border-box";
+    a.margin = "0 0 12px";
+    a.padding = "10px";
+    a.font = "inherit";
+    a.fontSize = "15px";
+    a.border = "2px dashed #1d4ed8";
+    a.borderRadius = "10px";
+    a.background = "#eef2fb";
+    a.color = "#15171a";
+    box.insertBefore(area, close);
+    area.addEventListener("paste", function (event) {
+      var clip = event.clipboardData || window.clipboardData;
+      if (!clip) return;
+      var pasted = clip.getData("text");
+      if (pasted) {
+        event.preventDefault();
+        fromPaste(pasted);
+      }
+    });
+    area.addEventListener("input", function () {
+      fromPaste(area.value);
+    });
+    area.focus();
+  }
+
+  var timer = null;
+  function onMessage(event) {
+    if (event.origin !== SITE_ORIGIN) return;
+    var data = event.data;
+    if (!data || data.type !== C.messageType) return;
+    window.removeEventListener("message", onMessage);
+    if (timer) clearTimeout(timer);
+    if (data.error || !data.pairs || !data.pairs.length) {
+      showPaste(M.noHandoff);
+      return;
     }
-  });
-  area.addEventListener("input", function () {
-    fill(area.value);
-  });
+    apply(data.pairs, data.evidence || null);
+  }
+
+  say(M.waiting);
+  window.addEventListener("message", onMessage);
+  var popup = null;
+  try {
+    popup = window.open(C.handoffUrl, "ab578agfill", "width=460,height=360");
+  } catch (error) {
+    popup = null;
+  }
+  if (!popup) {
+    window.removeEventListener("message", onMessage);
+    showPaste(M.prompt);
+  } else {
+    timer = setTimeout(function () {
+      window.removeEventListener("message", onMessage);
+      showPaste(M.noHandoff);
+    }, 8000);
+  }
 })();
 `;

@@ -1,0 +1,117 @@
+---
+// The fill-the-AG-form handoff page. The bookmark, clicked on the AG's
+// complaint form, opens this page in a small popup. It reads the answers and
+// evidence PDF the kit saved on this device and posts them to the AG page
+// (window.opener) with https://oag.ca.gov as the only allowed target origin,
+// then closes. Not linked anywhere, not in the sitemap, not indexed.
+import "../styles/global.css";
+import { localeList, t } from "../i18n";
+
+const messages = Object.fromEntries(
+  localeList.map((locale) => [
+    locale,
+    {
+      title: t(locale, "agfillPageTitle"),
+      sending: t(locale, "agfillPageSending"),
+      sent: t(locale, "agfillPageSent"),
+      noData: t(locale, "agfillPageNoData"),
+      noOpener: t(locale, "agfillPageNoOpener"),
+      openKit: t(locale, "agfillPageOpenKit"),
+    },
+  ]),
+);
+const kitUrl = `${import.meta.env.BASE_URL.replace(/\/$/, "")}/file`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>{t("en", "agfillPageTitle")}</title>
+  </head>
+  <body>
+    <main
+      class="container agfill-page"
+      data-messages={JSON.stringify(messages)}
+      data-kit-url={kitUrl}
+    >
+      <p class="agfill-status" role="status" aria-live="polite">
+        {t("en", "agfillPageSending")}
+      </p>
+      <p class="agfill-kit" hidden>
+        <a class="button" href={kitUrl}>
+          {t("en", "agfillPageOpenKit")}
+        </a>
+      </p>
+    </main>
+    <style>
+      .agfill-page {
+        padding-block: 2rem;
+      }
+      .agfill-status {
+        font-size: 1.125rem;
+        font-weight: 600;
+      }
+    </style>
+    <script>
+      import { LANGUAGE_STORAGE_KEY, localeList } from "../i18n";
+      import { AG_ORIGIN, buildHandoffMessage } from "../lib/agfill/handoff";
+
+      type Messages = Record<string, Record<string, string>>;
+
+      const main = document.querySelector<HTMLElement>(".agfill-page");
+      const status = document.querySelector<HTMLElement>(".agfill-status");
+      const kitLink = document.querySelector<HTMLElement>(".agfill-kit");
+      const all = JSON.parse(main?.dataset.messages ?? "{}") as Messages;
+
+      function pickLocale(): string {
+        let saved: string | null;
+        try {
+          saved = localStorage.getItem(LANGUAGE_STORAGE_KEY);
+        } catch {
+          saved = null;
+        }
+        const known = localeList as readonly string[];
+        if (saved && known.includes(saved)) return saved;
+        const browser = (navigator.language || "en").toLowerCase();
+        const match = known.find((locale) => browser.startsWith(locale));
+        return match ?? "en";
+      }
+
+      const locale = pickLocale();
+      const m = all[locale] ?? all.en ?? {};
+      document.documentElement.lang = locale;
+      if (m.title) document.title = m.title;
+      const say = (text: string | undefined) => {
+        if (status && text) status.textContent = text;
+      };
+      const kitAnchor = kitLink?.querySelector("a");
+      if (kitAnchor && m.openKit) kitAnchor.textContent = m.openKit;
+
+      async function run() {
+        const opener = window.opener as Window | null;
+        if (!opener) {
+          say(m.noOpener);
+          if (kitLink) kitLink.hidden = false;
+          return;
+        }
+        say(m.sending);
+        const message = await buildHandoffMessage();
+        // Only the AG's origin can receive this; the browser drops it
+        // anywhere else.
+        opener.postMessage(message, AG_ORIGIN);
+        if (message.error) {
+          say(m.noData);
+          if (kitLink) kitLink.hidden = false;
+          return;
+        }
+        say(m.sent);
+        setTimeout(() => window.close(), 700);
+      }
+
+      void run();
+    </script>
+  </body>
+</html>
