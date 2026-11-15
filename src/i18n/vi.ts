@@ -336,7 +336,9 @@ export const vi: Messages = {
     "Hãy mở mẫu khiếu nại của Tổng Chưởng lý, rồi bấm vào dấu trang Điền mẫu AG ở đó.",
   agfillPageOpenKit: "Mở bộ khiếu nại của bạn",
   privacyP4:
-    'Để điền mẫu đơn của Tổng Chưởng lý giúp bạn, bộ khiếu nại giữ câu trả lời và PDF bằng chứng của bạn trong trình duyệt này trong hai giờ. Dấu trang Điền mẫu AG chỉ trao chúng cho trang mẫu đơn của Tổng Chưởng lý. "Xóa dữ liệu của tôi" sẽ xóa chúng ngay lập tức.',
+    'Để điền mẫu đơn của Tổng Chưởng lý giúp bạn, bộ khiếu nại giữ câu trả lời và PDF bằng chứng của bạn trong trình duyệt này trong hai giờ. Dấu trang Điền mẫu AG chỉ trao chúng cho trang mẫu đơn của Tổng Chưởng lý. "Xóa dữ liệu của tôi" sẽ xóa chúng ngay lập tức. Tên và địa chỉ của bạn chỉ được đưa vào nếu bạn đã chọn "Ghi nhớ trên thiết bị này".',
+  kitAgFillRememberHint:
+    'Để dấu trang điền luôn tên và địa chỉ của bạn, hãy đánh dấu "Ghi nhớ trên thiết bị này" ở trên rồi thêm lại thông tin.',
   kitMoreCardTitle: "Thêm cách để hành động",
   kitMoreCardHint: "Biện lý quận của bạn, FTC, và tòa án khiếu nại nhỏ",
   kitDestDa: "Tìm biện lý quận hoặc luật sư thành phố của bạn",

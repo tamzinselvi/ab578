@@ -337,7 +337,9 @@ export const tl: Messages = {
     "Buksan ang complaint form ng Attorney General, tapos i-click doon ang bookmark mong Punan ang AG form.",
   agfillPageOpenKit: "Buksan ang complaint kit mo",
   privacyP4:
-    'Para mapunan ang form ng AG para sa iyo, itinatabi ng kit ang mga sagot mo at ang evidence PDF mo sa browser na ito nang dalawang oras. Ibinibigay lang ito ng bookmark na Punan ang AG form sa pahina ng form ng Attorney General. Agad itong binubura ng "Burahin ang data ko".',
+    'Para mapunan ang form ng AG para sa iyo, itinatabi ng kit ang mga sagot mo at ang evidence PDF mo sa browser na ito nang dalawang oras. Ibinibigay lang ito ng bookmark na Punan ang AG form sa pahina ng form ng Attorney General. Agad itong binubura ng "Burahin ang data ko". Kasama lang ang pangalan at address mo kung pinili mo ang "Tandaan sa device na ito".',
+  kitAgFillRememberHint:
+    'Para mapunan din ng bookmark ang pangalan at address mo, lagyan ng check ang "Tandaan sa device na ito" sa itaas at idagdag ulit ang detalye mo.',
   kitMoreCardTitle: "Iba pang paraan para kumilos",
   kitMoreCardHint: "Ang district attorney mo, ang FTC, at small claims court",
   kitDestDa: "Hanapin ang district attorney o city attorney mo",

@@ -339,7 +339,9 @@ export const es: Messages = {
     "Abre el formulario de quejas del Fiscal General y haz clic ahí en tu marcador Llenar formulario AG.",
   agfillPageOpenKit: "Abrir tu kit de queja",
   privacyP4:
-    "Para llenar el formulario del Fiscal General por ti, el kit guarda tus respuestas y tu PDF de evidencia en este navegador durante dos horas. El marcador Llenar formulario AG solo se las entrega a la página del formulario del Fiscal General. «Borrar mis datos» las elimina de inmediato.",
+    "Para llenar el formulario del Fiscal General por ti, el kit guarda tus respuestas y tu PDF de evidencia en este navegador durante dos horas. El marcador Llenar formulario AG solo se las entrega a la página del formulario del Fiscal General. «Borrar mis datos» las elimina de inmediato. Tu nombre y dirección solo se incluyen si elegiste «Recordar en este dispositivo».",
+  kitAgFillRememberHint:
+    "Para que el marcador también llene tu nombre y dirección, marca «Recordar en este dispositivo» arriba y agrega tus datos otra vez.",
   kitMoreCardTitle: "Más formas de actuar",
   kitMoreCardHint:
     "Tu fiscal de distrito, la FTC y la corte de reclamos menores",

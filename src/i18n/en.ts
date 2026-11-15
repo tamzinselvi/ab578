@@ -353,7 +353,9 @@ const source = {
     "Open the Attorney General's complaint form, then click your Fill AG form bookmark there.",
   agfillPageOpenKit: "Open your complaint kit",
   privacyP4:
-    'To fill in the AG form for you, the kit keeps your answers and your evidence PDF in this browser for two hours. The Fill AG form bookmark hands them only to the Attorney General\'s form page. "Clear my data" removes them right away.',
+    'To fill in the AG form for you, the kit keeps your answers and your evidence PDF in this browser for two hours. The Fill AG form bookmark hands them only to the Attorney General\'s form page. "Clear my data" removes them right away. Your name and address are included only if you chose "Remember on this device".',
+  kitAgFillRememberHint:
+    'To have the bookmark fill in your name and address too, tick "Remember on this device" above and add your details again.',
   kitMoreCardTitle: "More ways to act",
   kitMoreCardHint: "Your district attorney, the FTC, and small claims court",
   kitDestDa: "Find your district attorney or city attorney",

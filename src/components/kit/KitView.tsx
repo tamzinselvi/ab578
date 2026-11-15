@@ -4,7 +4,12 @@ import { localePath, locales, t, type Locale } from "../../i18n";
 import type { MessageKey } from "../../i18n/en";
 import { bookmarkletHref } from "../../lib/agfill/bookmarklet";
 import { saveHandoffAnswers } from "../../lib/agfill/handoff";
-import { agFillPairs, buildAgFillPayload } from "../../lib/agfill/payload";
+import {
+  agFillPairs,
+  buildAgFillPayload,
+  isContactField,
+} from "../../lib/agfill/payload";
+import { loadRememberedContact } from "../wizard/state";
 import type { ComplaintKit, LocalizedText } from "../../lib/complaint/types";
 import EvidenceBundler from "../evidence/EvidenceBundler";
 import {
@@ -61,6 +66,7 @@ export default function KitView({ kit }: { kit: ComplaintKit }) {
   );
   const [dragHint, setDragHint] = useState(false);
   const [evidenceReady, setEvidenceReady] = useState<string | null>(null);
+  const [handoffHasContact, setHandoffHasContact] = useState(false);
 
   useEffect(
     () => () => {
@@ -112,8 +118,17 @@ export default function KitView({ kit }: { kit: ComplaintKit }) {
   }, [locale]);
 
   // Keep the AG answers on this device for the bookmark's one-click handoff.
+  // Name, address, email and phone are only included when the person chose
+  // "Remember on this device"; otherwise contact details never touch storage.
   useEffect(() => {
-    saveHandoffAnswers(agFillPairs(kit.agForm.fields));
+    const remembered = loadRememberedContact() !== null;
+    const fields = remembered
+      ? kit.agForm.fields
+      : kit.agForm.fields.filter((field) => !isContactField(field.order));
+    saveHandoffAnswers(agFillPairs(fields));
+    setHandoffHasContact(
+      remembered && kit.agForm.fields.some((field) => field.order === 1),
+    );
   }, [kit]);
   const hasContact = kit.agForm.fields.some((field) => field.order === 1);
 
@@ -435,6 +450,9 @@ export default function KitView({ kit }: { kit: ComplaintKit }) {
                 </a>
                 {!hasContact && (
                   <p class="kit-agfill-hint">{tt("kitAgFillNoContact")}</p>
+                )}
+                {hasContact && !handoffHasContact && (
+                  <p class="kit-agfill-hint">{tt("kitAgFillRememberHint")}</p>
                 )}
               </li>
               <li>

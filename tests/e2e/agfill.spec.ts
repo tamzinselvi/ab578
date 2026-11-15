@@ -41,6 +41,24 @@ async function openFixture(page: Page) {
   await page.goto(AG_FORM_URL);
 }
 
+/** Opt in to "Remember on this device", as the wizard's checkbox does. */
+async function rememberContact(page: Page) {
+  await page.goto(`${BASE}/`);
+  await page.evaluate(() =>
+    localStorage.setItem(
+      "ab578.wizard.contact",
+      JSON.stringify({
+        firstName: "Maria",
+        lastName: "Lopez",
+        street: "1234 Palm Ave",
+        city: "Los Angeles",
+        state: "CA",
+        zip: "90001",
+      }),
+    ),
+  );
+}
+
 const value = (page: Page, name: string) =>
   page.locator(`[name="${name}"]`).inputValue();
 
@@ -78,6 +96,7 @@ test.describe("fill-the-AG-form bookmark", () => {
   test("one click fills the AG form and attaches the evidence PDF", async ({
     page,
   }) => {
+    await rememberContact(page);
     const { code } = await kitBookmark(page);
 
     // Build an evidence PDF in the kit; it is kept on the device for the
@@ -149,17 +168,33 @@ test.describe("fill-the-AG-form bookmark", () => {
     );
   });
 
-  test("without a PDF it fills the answers and leaves the upload alone", async ({
+  test("without Remember, the handoff leaves out name and address", async ({
     page,
   }) => {
     const { code } = await kitBookmark(page);
+    await expect(
+      page.getByText(/tick "Remember on this device"/),
+    ).toBeVisible();
+    const saved = await page.evaluate(() =>
+      localStorage.getItem("ab578.agfill.answers"),
+    );
+    expect(saved).toContain("company_name");
+    expect(saved).not.toContain("Lopez");
+    expect(saved).not.toContain("first_name");
+
     await openFixture(page);
     await page.evaluate(code);
     const box = page.locator("#ab578-agfill");
     await expect(box).toContainText(/Done\. \d+ answers filled in\. Check/);
     expect(
       await value(page, "submitted[enter_your_information][first_name]"),
-    ).toBe("Maria");
+    ).toBe("");
+    expect(
+      await value(
+        page,
+        "submitted[business_information_complaint_against][company_name]",
+      ),
+    ).toBe("DoorDash, Inc.");
     const files = await page
       .locator(`[name="${FILE_INPUT}"]`)
       .evaluate((input: HTMLInputElement) => input.files?.length ?? 0);
