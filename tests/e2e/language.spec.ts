@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-const BASE = process.env.BASE_PATH ?? "/ab578";
+const BASE = (process.env.BASE_PATH ?? "/").replace(/\/+$/, "");
 const STORAGE_KEY = "ab578.lang";
 
 test("switching language keeps the same page and survives a reload", async ({

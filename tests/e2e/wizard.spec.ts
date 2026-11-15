@@ -2,7 +2,7 @@ import { expect, test, type Locator, type Page } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import { DEFAULT_LOCALE, localeList, type Locale } from "../../src/i18n/index";
 
-const BASE = process.env.BASE_PATH ?? "/ab578";
+const BASE = (process.env.BASE_PATH ?? "/").replace(/\/+$/, "");
 const DRAFT_KEY = "ab578.wizard.draft";
 const CONTACT_KEY = "ab578.wizard.contact";
 

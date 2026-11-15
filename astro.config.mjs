@@ -2,12 +2,12 @@
 import { defineConfig } from "astro/config";
 import preact from "@astrojs/preact";
 
-// SITE_URL is the origin only, for example https://owner.github.io.
-// Set it in CI and deploys; the default is a placeholder for local dev.
-// BASE_PATH is '/ab578' on GitHub Pages project sites and '/' on a custom
-// domain. Switching to a custom domain only needs BASE_PATH='/'.
-const SITE_URL = process.env.SITE_URL ?? "https://owner.github.io";
-const BASE_PATH = process.env.BASE_PATH ?? "/ab578";
+// The site is served from the custom domain https://ab578.com at the root.
+// SITE_URL is the origin only; BASE_PATH is the deploy base. Override both to
+// serve from a GitHub Pages project URL instead (for example
+// SITE_URL=https://<owner>.github.io BASE_PATH=/ab578).
+const SITE_URL = process.env.SITE_URL ?? "https://ab578.com";
+const BASE_PATH = process.env.BASE_PATH ?? "/";
 
 export default defineConfig({
   site: SITE_URL,

@@ -32,8 +32,6 @@ jobs:
       - run: npm ci
 
       - run: npm run build
-        env:
-          SITE_URL: https://${{ github.repository_owner }}.github.io
 
       - uses: actions/upload-pages-artifact@v3
         with:

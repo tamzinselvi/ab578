@@ -7,7 +7,7 @@ import {
   solidPaint,
 } from "./helpers/png";
 
-const BASE = process.env.BASE_PATH ?? "/ab578";
+const BASE = (process.env.BASE_PATH ?? "/").replace(/\/+$/, "");
 const FOUR_MB = 4 * 1024 * 1024;
 
 const fixtures = [
