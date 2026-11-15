@@ -71,6 +71,17 @@ export interface Platform {
   readonly legalName: string;
   /** Mailing address for legal notices, quoted from the current terms. */
   readonly mailingAddress: string;
+  /**
+   * The same address split for the AG form's Company Address, City, State
+   * and Zip Code fields. The street part must fit the form's 50-character
+   * limit (no company name or attention line).
+   */
+  readonly mailingParts: {
+    readonly street: string;
+    readonly city: string;
+    readonly state: string;
+    readonly zip: string;
+  };
   /** Published customer support phone number, when one exists. */
   readonly phone?: string;
   readonly website: string;

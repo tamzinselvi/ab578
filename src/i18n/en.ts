@@ -306,6 +306,34 @@ const source = {
   kitAgMailInNote:
     "You can also print a complaint form in {language} and mail it in.",
   kitAgMailInLink: "Download the {language} mail-in form (PDF)",
+  kitAgFillHeading: "Let your computer fill it in",
+  kitAgFillIntro:
+    "A bookmark fills in the AG form with your answers. You set it up once.",
+  kitAgFillStep1: "Drag this button up to your bookmarks bar:",
+  kitAgFillBookmarkName: "Fill AG form",
+  kitAgFillBarHint:
+    "No bookmarks bar? Press Ctrl+Shift+B, or ⌘+Shift+B on a Mac.",
+  kitAgFillStep2: "Copy your answers:",
+  kitAgFillCopy: "Copy my answers",
+  kitAgFillStep3:
+    "Open the AG form, click your Fill AG form bookmark, then paste with Ctrl+V (⌘+V on a Mac).",
+  kitAgFillStep4:
+    "Check the answers, attach your evidence PDF, answer the questions at the bottom and press Submit.",
+  kitAgFillDragHint:
+    "Drag this button to your bookmarks bar. Clicking it here does nothing.",
+  kitAgFillNoContact:
+    "Add your contact details above so it fills in your name and address too.",
+  kitAgManualSummary: "Copy the answers one by one instead",
+  agFillPrompt: "Paste your answers here: press Ctrl+V, or ⌘+V on a Mac.",
+  agFillPasteLabel: "Paste your answers here",
+  agFillWrongPage:
+    "Open the Attorney General's complaint form first, then click this bookmark again.",
+  agFillOpenForm: "Open the AG complaint form",
+  agFillNotKit:
+    "That doesn't look like your answers. Go back to your kit, click Copy my answers, and paste again.",
+  agFillDone:
+    "Done. {count} answers filled in. Check them, attach your evidence, answer the questions at the bottom and press Submit.",
+  agFillClose: "Close",
   kitMoreCardTitle: "More ways to act",
   kitMoreCardHint: "Your district attorney, the FTC, and small claims court",
   kitDestDa: "Find your district attorney or city attorney",

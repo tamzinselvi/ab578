@@ -1,0 +1,218 @@
+<!doctype html>
+<!--
+  A trimmed copy of the California AG's "Consumer Complaint Against A
+  Business/Company" form, for testing the fill-the-form bookmark offline.
+  Field names, types, radio values and maxlengths match the live form as
+  read on 2026-11-15. The small script mimics the live form's conditional
+  logic: the contact-history fields stay disabled until "Have you contacted
+  the company" is Yes, so the test proves choices are applied first.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Consumer Complaint Against A Business/Company (fixture)</title>
+  </head>
+  <body>
+    <form id="webform-client-form-572546" action="/never-submit" method="post">
+      <input
+        name="submitted[enter_your_information][first_name]"
+        maxlength="128"
+      />
+      <input
+        name="submitted[enter_your_information][middle_initial]"
+        maxlength="1"
+      />
+      <input
+        name="submitted[enter_your_information][last_name]"
+        maxlength="128"
+      />
+      <input
+        name="submitted[enter_your_information][address_line]"
+        maxlength="50"
+      />
+      <input
+        name="submitted[enter_your_information][address_line_2]"
+        maxlength="50"
+      />
+      <input name="submitted[enter_your_information][city]" maxlength="50" />
+      <select name="submitted[enter_your_information][state]">
+        <option value="AL">AL</option>
+        <option value="CA">CA</option>
+        <option value="IL">IL</option>
+      </select>
+      <input name="submitted[enter_your_information][zip_code]" maxlength="5" />
+      <input name="submitted[enter_your_information][zip4]" maxlength="4" />
+      <input
+        type="email"
+        name="submitted[enter_your_information][email_address]"
+      />
+      <input
+        type="email"
+        name="submitted[enter_your_information][confirm_email_address]"
+      />
+      <input
+        name="submitted[enter_your_information][area_code]"
+        maxlength="3"
+      />
+      <input
+        name="submitted[enter_your_information][phone_number]"
+        maxlength="7"
+      />
+      <input
+        type="radio"
+        name="submitted[enter_your_information][submitting_on_behalf]"
+        value="Y"
+      />
+      <input
+        type="radio"
+        name="submitted[enter_your_information][submitting_on_behalf]"
+        value="N"
+      />
+
+      <input
+        name="submitted[business_information_complaint_against][company_name]"
+        maxlength="128"
+      />
+      <input
+        name="submitted[business_information_complaint_against][company_address]"
+        maxlength="50"
+      />
+      <input
+        name="submitted[business_information_complaint_against][company_address_2]"
+        maxlength="50"
+      />
+      <input
+        name="submitted[business_information_complaint_against][company_city]"
+        maxlength="50"
+      />
+      <select
+        name="submitted[business_information_complaint_against][company_state]"
+      >
+        <option value="none"></option>
+        <option value="CA">CA</option>
+        <option value="IL">IL</option>
+      </select>
+      <input
+        name="submitted[business_information_complaint_against][company_zip_code]"
+        maxlength="5"
+      />
+      <input
+        name="submitted[business_information_complaint_against][co_area_code]"
+        maxlength="3"
+      />
+      <input
+        name="submitted[business_information_complaint_against][co_phone_number]"
+        maxlength="7"
+      />
+      <input
+        name="submitted[business_information_complaint_against][co_website]"
+        maxlength="128"
+      />
+
+      <input
+        class="form-number"
+        name="submitted[complaint][amount_in_dispute]"
+      />
+      <textarea name="submitted[complaint][complaint_description]"></textarea>
+      <input
+        name="submitted[complaint][reasonable_resolution]"
+        maxlength="128"
+      />
+      <input
+        type="radio"
+        name="submitted[complaint][contacte_company]"
+        value="Y"
+      />
+      <input
+        type="radio"
+        name="submitted[complaint][contacte_company]"
+        value="N"
+      />
+      <input
+        name="submitted[complaint][date_of_last_contact]"
+        maxlength="128"
+        disabled
+      />
+      <input
+        type="checkbox"
+        name="submitted[complaint][communication_means][select][email]"
+        value="email"
+        disabled
+      />
+      <input
+        type="checkbox"
+        name="submitted[complaint][communication_means][select][in-person]"
+        value="in-person"
+        disabled
+      />
+      <input
+        type="checkbox"
+        name="submitted[complaint][communication_means][select][phone]"
+        value="phone"
+        disabled
+      />
+      <input
+        type="checkbox"
+        name="submitted[complaint][communication_means][select][mail]"
+        value="mail"
+        disabled
+      />
+      <input
+        type="checkbox"
+        name="submitted[complaint][communication_means][select][select_or_other]"
+        value="select_or_other"
+        disabled
+      />
+      <input
+        name="submitted[complaint][communication_means][other]"
+        maxlength="128"
+        disabled
+      />
+      <input
+        name="submitted[complaint][person_communicated_with]"
+        maxlength="128"
+        disabled
+      />
+      <input
+        name="submitted[complaint][results_of_communication]"
+        maxlength="128"
+        disabled
+      />
+
+      <input type="radio" name="submitted[statement][affirm_yn]" value="Y" />
+      <input type="radio" name="submitted[statement][affirm_yn]" value="N" />
+      <button type="submit">Submit</button>
+    </form>
+    <script>
+      document
+        .getElementById("webform-client-form-572546")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+          document.body.setAttribute("data-submitted", "true");
+        });
+      document
+        .querySelectorAll('[name="submitted[complaint][contacte_company]"]')
+        .forEach(function (radio) {
+          radio.addEventListener("change", function () {
+            var yes = radio.value === "Y" && radio.checked;
+            [
+              "date_of_last_contact",
+              "communication_means][select][email",
+              "communication_means][select][in-person",
+              "communication_means][select][phone",
+              "communication_means][select][mail",
+              "communication_means][select][select_or_other",
+              "communication_means][other",
+              "person_communicated_with",
+              "results_of_communication",
+            ].forEach(function (key) {
+              var el = document.querySelector(
+                '[name="submitted[complaint][' + key + ']"]',
+              );
+              if (el) el.disabled = !yes;
+            });
+          });
+        });
+    </script>
+  </body>
+</html>

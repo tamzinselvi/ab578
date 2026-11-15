@@ -317,6 +317,11 @@ export default function Wizard({ locale }: { locale: Locale }) {
             <li
               key={step}
               aria-current={step === draft.step ? "step" : undefined}
+              data-done={
+                STEPS.indexOf(step) < STEPS.indexOf(draft.step)
+                  ? "true"
+                  : undefined
+              }
             >
               {t(locale, STEP_NAME_KEY[step])}
             </li>
@@ -744,7 +749,11 @@ export default function Wizard({ locale }: { locale: Locale }) {
                 onSave={handleContactSave}
               />
               <div class="wizard-actions">
-                <button type="button" class="button" onClick={startOver}>
+                <button
+                  type="button"
+                  class="button button-quiet"
+                  onClick={startOver}
+                >
                   {t(locale, "wizardStartOver")}
                 </button>
               </div>

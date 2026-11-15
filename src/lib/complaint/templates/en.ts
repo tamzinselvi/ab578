@@ -336,6 +336,13 @@ function agDescription(ctx: TemplateContext): string {
   return parts.join("\n\n");
 }
 
+/**
+ * The AG form's resolution field holds at most AG_RESOLUTION_MAX characters
+ * (the form's maxlength; longer text is cut off or rejected). The full
+ * reasoning, including the floor, lives in the complaint description.
+ */
+export const AG_RESOLUTION_MAX = 128;
+
 function agResolution(ctx: TemplateContext): string {
   const parts: string[] = [];
   const fullRefundAsk =
@@ -343,31 +350,43 @@ function agResolution(ctx: TemplateContext): string {
     ctx.incident.issues.includes("wrong_order") ||
     ctx.incident.issues.includes("wrong_items") ||
     ctx.incident.issues.includes("missing_items");
+  const argued = arguedIssues(ctx).length > 0;
   if (refundClaimed(ctx)) {
     if (fullRefundAsk) {
       parts.push(
-        `A full refund of ${ctx.money.total}, including all taxes, commissions, fees, and gratuities, paid to my original payment method, not app credit.`,
+        argued
+          ? `Full refund of ${ctx.money.total} to my original payment method.`
+          : `Full refund of ${ctx.money.total} with fees and tip, to my original payment method, not app credit.`,
       );
     } else if (ctx.incident.issues.includes("unusable_items")) {
-      parts.push(
-        "A refund of the unusable items with their taxes, fees, and tip, or a full refund if the whole order was unusable, paid to my original payment method.",
-      );
+      parts.push("Refund of the unusable items to my original payment method.");
     } else {
       parts.push(
-        `A refund of ${ctx.money.inDispute} under the platform's own policy, paid to my original payment method.`,
+        `Refund of ${ctx.money.inDispute} under the app's own policy, to my original payment method.`,
       );
     }
-    const floor = floorLine(ctx);
-    if (floor) parts.push(floor);
-    if (ctx.incident.issues.includes("no_human")) parts.push(HUMAN_LINE);
+    // The floor is required for argued asks and must survive the limit.
+    if (argued) {
+      parts.push(
+        "At minimum, no charge for items not received (§ 22599.2(d)).",
+      );
+    }
+    if (ctx.incident.issues.includes("no_human")) {
+      parts.push("And access to a natural person.");
+    }
   } else if (ctx.incident.issues.includes("no_human")) {
     parts.push("A prompt connection to a natural person who can resolve this.");
   } else {
-    parts.push(
-      "A full refund, which I have already received. I want the practice recorded.",
-    );
+    parts.push("I was refunded. I want the practice recorded and stopped.");
   }
-  return parts.join(" ");
+  // Add sentences only while they fit the form's limit.
+  let out = "";
+  for (const part of parts) {
+    const next = out ? `${out} ${part}` : part;
+    if (next.length > AG_RESOLUTION_MAX) break;
+    out = next;
+  }
+  return out;
 }
 
 function demandLetter(ctx: TemplateContext): string {

@@ -287,6 +287,35 @@ export const vi: Messages = {
   kitAgMailInNote:
     "Bạn cũng có thể in mẫu khiếu nại bằng {language} và gửi qua bưu điện.",
   kitAgMailInLink: "Tải mẫu gửi qua bưu điện bằng {language} (PDF)",
+  kitAgFillHeading: "Để máy tính điền giúp bạn",
+  kitAgFillIntro:
+    "Một dấu trang sẽ điền mẫu đơn của Tổng Chưởng lý bằng câu trả lời của bạn. Bạn chỉ cần cài đặt một lần.",
+  kitAgFillStep1: "Kéo nút này lên thanh dấu trang của bạn:",
+  kitAgFillBookmarkName: "Điền mẫu AG",
+  kitAgFillBarHint:
+    "Không thấy thanh dấu trang? Nhấn Ctrl+Shift+B, hoặc ⌘+Shift+B trên máy Mac.",
+  kitAgFillStep2: "Sao chép câu trả lời của bạn:",
+  kitAgFillCopy: "Sao chép câu trả lời của tôi",
+  kitAgFillStep3:
+    "Mở mẫu đơn của Tổng Chưởng lý, bấm vào dấu trang Điền mẫu AG, rồi dán bằng Ctrl+V (⌘+V trên máy Mac).",
+  kitAgFillStep4:
+    "Kiểm tra câu trả lời, đính kèm PDF bằng chứng, trả lời các câu hỏi ở cuối và bấm Submit.",
+  kitAgFillDragHint:
+    "Hãy kéo nút này lên thanh dấu trang. Bấm vào đây sẽ không có tác dụng gì.",
+  kitAgFillNoContact:
+    "Thêm thông tin liên lạc ở trên để dấu trang điền luôn tên và địa chỉ của bạn.",
+  kitAgManualSummary: "Sao chép từng câu trả lời thay vào đó",
+  agFillPrompt:
+    "Dán câu trả lời của bạn vào đây: nhấn Ctrl+V, hoặc ⌘+V trên máy Mac.",
+  agFillPasteLabel: "Dán câu trả lời của bạn vào đây",
+  agFillWrongPage:
+    "Hãy mở mẫu khiếu nại của Tổng Chưởng lý trước, rồi bấm lại vào dấu trang này.",
+  agFillOpenForm: "Mở mẫu khiếu nại của Tổng Chưởng lý",
+  agFillNotKit:
+    "Đây có vẻ không phải câu trả lời của bạn. Hãy quay lại bộ khiếu nại, bấm Sao chép câu trả lời của tôi, rồi dán lại.",
+  agFillDone:
+    "Xong. Đã điền {count} câu trả lời. Hãy kiểm tra, đính kèm bằng chứng, trả lời các câu hỏi ở cuối và bấm Submit.",
+  agFillClose: "Đóng",
   kitMoreCardTitle: "Thêm cách để hành động",
   kitMoreCardHint: "Biện lý quận của bạn, FTC, và tòa án khiếu nại nhỏ",
   kitDestDa: "Tìm biện lý quận hoặc luật sư thành phố của bạn",

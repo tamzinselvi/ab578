@@ -89,6 +89,7 @@ interface ResolvedPlatform {
   humanTips: string[];
   legalName?: string;
   mailingAddress?: string;
+  mailingParts?: Platform["mailingParts"];
   phone?: string;
   website?: string;
   smallClaims: { allowed: boolean; note: string };
@@ -240,6 +241,7 @@ function resolvePlatform(incident: Incident): ResolvedPlatform {
     humanTips,
     legalName: platform.legalName,
     mailingAddress: platform.mailingAddress,
+    mailingParts: platform.mailingParts,
     phone: platform.phone,
     website: platform.website,
     smallClaims: {
@@ -423,7 +425,10 @@ function agFieldDrafts(
     drafts.push({ order: 6, text: contact.city });
     drafts.push({ order: 7, text: contact.state });
     drafts.push({ order: 8, text: contact.zip });
-    if (contact.email) drafts.push({ order: 10, text: contact.email });
+    if (contact.email) {
+      drafts.push({ order: 10, text: contact.email });
+      drafts.push({ order: 11, text: contact.email });
+    }
     const phone = splitPhone(contact.phone ?? "");
     if (contact.phone) {
       if (phone.area) drafts.push({ order: 12, text: phone.area });
@@ -436,16 +441,22 @@ function agFieldDrafts(
   } else if (incident.otherPlatformName?.trim()) {
     drafts.push({ order: 15, text: incident.otherPlatformName.trim() });
   }
-  if (platform.mailingAddress)
-    drafts.push({ order: 16, text: platform.mailingAddress });
+  // The AG form splits the company address and limits the street line to 50
+  // characters, so use the structured parts, not the one-line address.
+  if (platform.mailingParts) {
+    drafts.push({ order: 16, text: platform.mailingParts.street });
+    drafts.push({ order: 18, text: platform.mailingParts.city });
+    drafts.push({ order: 19, text: platform.mailingParts.state });
+    drafts.push({ order: 20, text: platform.mailingParts.zip });
+  }
   if (platform.phone) {
     const phone = splitPhone(platform.phone);
     if (phone.area) drafts.push({ order: 22, text: phone.area });
     drafts.push({ order: 23, text: phone.rest });
   }
   if (platform.website) drafts.push({ order: 25, text: platform.website });
-  if (inDispute > 0)
-    drafts.push({ order: 26, text: formatMoney(locale, inDispute) });
+  // The AG form's amount field is numeric: digits and a decimal point only.
+  if (inDispute > 0) drafts.push({ order: 26, text: inDispute.toFixed(2) });
   drafts.push({
     order: 27,
     text: out.agDescription,

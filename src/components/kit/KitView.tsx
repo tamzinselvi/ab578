@@ -1,7 +1,9 @@
-import { useEffect, useRef, useState } from "preact/hooks";
+import { useEffect, useMemo, useRef, useState } from "preact/hooks";
 import { agFormFacts } from "../../data/destinations";
 import { localePath, locales, t, type Locale } from "../../i18n";
 import type { MessageKey } from "../../i18n/en";
+import { bookmarkletHref } from "../../lib/agfill/bookmarklet";
+import { buildAgFillPayload } from "../../lib/agfill/payload";
 import type { ComplaintKit, LocalizedText } from "../../lib/complaint/types";
 import EvidenceBundler from "../evidence/EvidenceBundler";
 import {
@@ -47,6 +49,16 @@ export default function KitView({ kit }: { kit: ComplaintKit }) {
   const [manualText, setManualText] = useState<string | null>(null);
   const manualRef = useRef<HTMLTextAreaElement | null>(null);
   const copiedTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // The fill-the-form bookmark needs a mouse and a bookmarks bar; on phones
+  // and tablets the kit shows the field-by-field copy list instead.
+  const [canBookmark] = useState(
+    () =>
+      typeof window !== "undefined" &&
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(min-width: 48rem)").matches &&
+      !window.matchMedia("(pointer: coarse)").matches,
+  );
+  const [dragHint, setDragHint] = useState(false);
 
   useEffect(
     () => () => {
@@ -65,6 +77,24 @@ export default function KitView({ kit }: { kit: ComplaintKit }) {
   const side = (item: LocalizedText) => sideText(item, sendInUi);
   const tt = (key: MessageKey, vars?: Record<string, string>) =>
     t(locale, key, vars);
+  const agFillPayload = useMemo(
+    () => buildAgFillPayload(kit.agForm.fields),
+    [kit],
+  );
+  const agFillHref = useMemo(
+    () =>
+      bookmarkletHref({
+        prompt: t(locale, "agFillPrompt"),
+        pasteLabel: t(locale, "agFillPasteLabel"),
+        wrongPage: t(locale, "agFillWrongPage"),
+        openForm: t(locale, "agFillOpenForm"),
+        notKit: t(locale, "agFillNotKit"),
+        done: t(locale, "agFillDone"),
+        close: t(locale, "agFillClose"),
+      }),
+    [locale],
+  );
+  const hasContact = kit.agForm.fields.some((field) => field.order === 1);
 
   const markCopied = (id: string) => {
     setCopiedId(id);
@@ -175,6 +205,51 @@ export default function KitView({ kit }: { kit: ComplaintKit }) {
     </div>
   );
 
+  /** The AG form's answers in form order, one copy button each. */
+  const agFieldList = () => (
+    <div class="kit-ag-list">
+      <p>{tt("kitAgIntro")}</p>
+      <p class="kit-noprint">
+        <a
+          class="kit-secondary"
+          href={kit.agForm.formUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {tt("kitAgOpenForm")}
+        </a>
+      </p>
+      <ol class="kit-ag-fields">
+        {kit.agForm.fields.map((field) => (
+          <li class="kit-ag-field" key={field.order}>
+            <div class="kit-ag-field-text">
+              <p class="kit-ag-label">
+                <span class="kit-ag-label-en">{field.label}</span>
+                {field.labelTranslation && (
+                  <span class="kit-ag-label-ui">{field.labelTranslation}</span>
+                )}
+              </p>
+              <p class="kit-ag-value">{outgoing(field.value)}</p>
+              {side(field.value) && (
+                <p class="kit-translation">
+                  <span class="kit-translation-tag">
+                    {tt("kitTranslationLabel")}
+                  </span>
+                  {side(field.value)}
+                </p>
+              )}
+            </div>
+            {copyButton(
+              `kit-ag-${field.order}`,
+              field.label,
+              outgoing(field.value),
+            )}
+          </li>
+        ))}
+      </ol>
+    </div>
+  );
+
   const askLabelLine = (kind: AskKind) =>
     kind === "settled"
       ? tt("kitAskLabelSettled")
@@ -246,7 +321,7 @@ export default function KitView({ kit }: { kit: ComplaintKit }) {
         )}
       </section>
 
-      <section class="kit-card" aria-labelledby="kit-platform-heading">
+      <section class="kit-card kit-step" aria-labelledby="kit-platform-heading">
         <h2 id="kit-platform-heading" class="kit-heading">
           {tt("kitPlatformCardTitle", { platform })}
         </h2>
@@ -255,15 +330,10 @@ export default function KitView({ kit }: { kit: ComplaintKit }) {
           tt("kitMessageShortLabel"),
           kit.platformRequest.short,
         )}
-        {message(
-          "kit-copy-long",
-          tt("kitMessageLongLabel"),
-          kit.platformRequest.long,
-        )}
         {kit.platformRequest.supportUrl && (
           <p class="kit-noprint">
             <a
-              class="kit-link-button"
+              class="kit-primary"
               href={kit.platformRequest.supportUrl}
               target="_blank"
               rel="noopener noreferrer"
@@ -272,55 +342,98 @@ export default function KitView({ kit }: { kit: ComplaintKit }) {
             </a>
           </p>
         )}
-        <h3 class="kit-message-label">{tt("kitHumanTipsHeading")}</h3>
-        <ul class="kit-tips">
-          {kit.platformRequest.humanTips.map((tip) => (
-            <li key={tip}>{tip}</li>
-          ))}
-        </ul>
+        <details class="kit-fold">
+          <summary>{tt("kitMessageLongLabel")}</summary>
+          {message(
+            "kit-copy-long",
+            tt("kitMessageLongLabel"),
+            kit.platformRequest.long,
+            { ownHeading: false },
+          )}
+        </details>
+        <details class="kit-fold">
+          <summary>{tt("kitHumanTipsHeading")}</summary>
+          <ul class="kit-tips">
+            {kit.platformRequest.humanTips.map((tip) => (
+              <li key={tip}>{tip}</li>
+            ))}
+          </ul>
+        </details>
       </section>
 
-      <section class="kit-card" aria-labelledby="kit-ag-heading">
+      <section class="kit-card kit-step" aria-labelledby="kit-ag-heading">
         <h2 id="kit-ag-heading" class="kit-heading">
           {tt("kitAgCardTitle")}
         </h2>
-        <p>{tt("kitAgIntro")}</p>
-        <p class="kit-noprint">
-          <a
-            class="kit-link-button"
-            href={kit.agForm.formUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {tt("kitAgOpenForm")}
-          </a>
-        </p>
-        <ol class="kit-ag-fields">
-          {kit.agForm.fields.map((field) => (
-            <li class="kit-ag-field" key={field.order}>
-              <p class="kit-ag-label">
-                <span class="kit-ag-label-en">{field.label}</span>
-                {field.labelTranslation && (
-                  <span class="kit-ag-label-ui">{field.labelTranslation}</span>
-                )}
-              </p>
-              <p class="kit-outgoing">{outgoing(field.value)}</p>
-              {side(field.value) && (
-                <p class="kit-translation">
-                  <span class="kit-translation-tag">
-                    {tt("kitTranslationLabel")}
-                  </span>
-                  {side(field.value)}
+
+        {canBookmark && (
+          <div class="kit-agfill kit-noprint">
+            <h3 class="kit-agfill-title">{tt("kitAgFillHeading")}</h3>
+            <p class="kit-agfill-intro">{tt("kitAgFillIntro")}</p>
+            <ol class="kit-agfill-steps">
+              <li>
+                <p>{tt("kitAgFillStep1")}</p>
+                <a
+                  class="kit-bookmarklet"
+                  href={agFillHref}
+                  draggable
+                  onClick={(event) => {
+                    event.preventDefault();
+                    setDragHint(true);
+                  }}
+                >
+                  {tt("kitAgFillBookmarkName")}
+                </a>
+                <p
+                  class="kit-agfill-hint"
+                  role={dragHint ? "alert" : undefined}
+                >
+                  {dragHint ? tt("kitAgFillDragHint") : tt("kitAgFillBarHint")}
                 </p>
-              )}
-              {copyButton(
-                `kit-ag-${field.order}`,
-                field.label,
-                outgoing(field.value),
-              )}
-            </li>
-          ))}
-        </ol>
+              </li>
+              <li>
+                <p>{tt("kitAgFillStep2")}</p>
+                <button
+                  type="button"
+                  class="kit-primary"
+                  data-payload={agFillPayload}
+                  onClick={() => void copy("kit-agfill-copy", agFillPayload)}
+                >
+                  {copiedId === "kit-agfill-copy"
+                    ? tt("kitCopied")
+                    : tt("kitAgFillCopy")}
+                </button>
+                {!hasContact && (
+                  <p class="kit-agfill-hint">{tt("kitAgFillNoContact")}</p>
+                )}
+              </li>
+              <li>
+                <p>{tt("kitAgFillStep3")}</p>
+                <a
+                  class="kit-secondary"
+                  href={kit.agForm.formUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {tt("kitAgOpenForm")}
+                </a>
+              </li>
+              <li>
+                <p>{tt("kitAgFillStep4")}</p>
+              </li>
+            </ol>
+          </div>
+        )}
+
+        {canBookmark ? (
+          <details class="kit-fold kit-ag-manual">
+            <summary>{tt("kitAgManualSummary")}</summary>
+            {agFieldList()}
+          </details>
+        ) : (
+          agFieldList()
+        )}
+
         <h3 class="kit-message-label">{tt("kitAgUploadHeading")}</h3>
         <p>
           {tt("kitAgUploadGuidance", {
@@ -342,7 +455,7 @@ export default function KitView({ kit }: { kit: ComplaintKit }) {
         )}
       </section>
 
-      <div id="kit-evidence" class="kit-evidence">
+      <div id="kit-evidence" class="kit-evidence kit-step">
         <EvidenceBundler platform={platform} locale={locale} />
       </div>
 

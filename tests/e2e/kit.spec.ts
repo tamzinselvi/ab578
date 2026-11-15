@@ -1,5 +1,5 @@
 import { readFileSync } from "node:fs";
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import {
   agFormFacts,
@@ -14,6 +14,15 @@ function destinationUrl(id: string): string {
   const found = destinations.find((destination) => destination.id === id);
   if (!found) throw new Error(`missing destination ${id}`);
   return found.url;
+}
+
+/** On computers the field-by-field AG list sits in a fold-out; open it. */
+async function openAgList(page: Page) {
+  const fold = page.locator(".kit-ag-manual");
+  await expect(page.locator(".kit-ag-fields")).toHaveCount(1);
+  if ((await fold.count()) > 0 && !(await fold.getAttribute("open"))) {
+    await fold.locator("summary").click();
+  }
 }
 
 test.describe("kit screen", () => {
@@ -57,9 +66,7 @@ test.describe("kit screen", () => {
     await expect(support).toHaveAttribute("target", "_blank");
     await expect(support).toHaveAttribute("rel", "noopener noreferrer");
 
-    await expect(
-      page.getByRole("heading", { name: "How to reach a real person" }),
-    ).toBeVisible();
+    await page.getByText("How to reach a real person").click();
     // Tips come from verified platform data: the help center entry point and
     // the around-the-clock human contact route.
     await expect(page.locator(".kit-tips li").first()).toContainText(
@@ -73,6 +80,7 @@ test.describe("kit screen", () => {
   }) => {
     await page.goto(`${BASE}/dev/kit`);
 
+    await openAgList(page);
     const labels = page.locator(".kit-ag-label-en");
     // count() does not wait; let the island hydrate first.
     await expect(labels.first()).toBeVisible();
@@ -89,7 +97,7 @@ test.describe("kit screen", () => {
     await expect(labels.first()).toHaveText("First Name");
     await expect(page.getByText("Complaint description")).toBeVisible();
 
-    const form = page.getByRole("link", { name: "Open the AG form" });
+    const form = page.getByRole("link", { name: "Open the AG form" }).first();
     await expect(form).toHaveAttribute("href", agFormFacts.formUrl);
     await expect(form).toHaveAttribute("target", "_blank");
     await expect(form).toHaveAttribute("rel", "noopener noreferrer");
@@ -286,9 +294,11 @@ test.describe("kit screen: outgoing language", () => {
     ).toBeVisible();
 
     // AG answers copy their outgoing value too, under the exact form label.
+    await openAgList(page);
     const description = page
       .locator(".kit-ag-field", { hasText: "Complaint description" })
-      .locator(".kit-outgoing");
+      .first()
+      .locator(".kit-ag-value");
     const descriptionOutgoing = (await description.textContent())?.trim() ?? "";
     await page
       .getByRole("button", { name: "Copiar Complaint description" })

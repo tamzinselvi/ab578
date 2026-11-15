@@ -350,3 +350,77 @@ export const agFormFields: readonly AgFormField[] = [
     type: "radio",
   },
 ] as const;
+
+/** How the fill-the-form bookmark sets one AG form field. */
+export interface AgFormInput {
+  /** The input's exact `name` attribute on the live form. */
+  readonly name: string;
+  readonly kind: "text" | "textarea" | "select" | "radio" | "checkbox";
+  /** The input's maxlength on the live form; longer values are cut to fit. */
+  readonly maxLength?: number;
+  /** For radios: the kit's Yes/No answer mapped to the input's value. */
+  readonly values?: Readonly<Record<string, string>>;
+}
+
+const YES_NO = { Yes: "Y", No: "N" } as const;
+const ME = "submitted[enter_your_information]";
+const CO = "submitted[business_information_complaint_against]";
+const CX = "submitted[complaint]";
+
+/**
+ * The AG form's input names, keyed by the field's order in agFormFields, as
+ * read from the live page on the verified date. Only fields the kit fills are
+ * listed. The affirmation and authorization statements (orders 61 and 62),
+ * the upload questions and file inputs are deliberately absent: the person
+ * answers those themselves before submitting. A weekly CI check
+ * (scripts/check-ag-form.ts) fails if any of these names disappears.
+ */
+export const agFormInputs: Readonly<Record<number, AgFormInput>> = {
+  1: { name: `${ME}[first_name]`, kind: "text", maxLength: 128 },
+  3: { name: `${ME}[last_name]`, kind: "text", maxLength: 128 },
+  4: { name: `${ME}[address_line]`, kind: "text", maxLength: 50 },
+  5: { name: `${ME}[address_line_2]`, kind: "text", maxLength: 50 },
+  6: { name: `${ME}[city]`, kind: "text", maxLength: 50 },
+  7: { name: `${ME}[state]`, kind: "select" },
+  8: { name: `${ME}[zip_code]`, kind: "text", maxLength: 5 },
+  9: { name: `${ME}[zip4]`, kind: "text", maxLength: 4 },
+  10: { name: `${ME}[email_address]`, kind: "text" },
+  11: { name: `${ME}[confirm_email_address]`, kind: "text" },
+  12: { name: `${ME}[area_code]`, kind: "text", maxLength: 3 },
+  13: { name: `${ME}[phone_number]`, kind: "text", maxLength: 7 },
+  14: { name: `${ME}[submitting_on_behalf]`, kind: "radio", values: YES_NO },
+  15: { name: `${CO}[company_name]`, kind: "text", maxLength: 128 },
+  16: { name: `${CO}[company_address]`, kind: "text", maxLength: 50 },
+  18: { name: `${CO}[company_city]`, kind: "text", maxLength: 50 },
+  19: { name: `${CO}[company_state]`, kind: "select" },
+  20: { name: `${CO}[company_zip_code]`, kind: "text", maxLength: 5 },
+  22: { name: `${CO}[co_area_code]`, kind: "text", maxLength: 3 },
+  23: { name: `${CO}[co_phone_number]`, kind: "text", maxLength: 7 },
+  25: { name: `${CO}[co_website]`, kind: "text", maxLength: 128 },
+  26: { name: `${CX}[amount_in_dispute]`, kind: "text" },
+  27: { name: `${CX}[complaint_description]`, kind: "textarea" },
+  28: { name: `${CX}[reasonable_resolution]`, kind: "text", maxLength: 128 },
+  29: { name: `${CX}[contacte_company]`, kind: "radio", values: YES_NO },
+  30: { name: `${CX}[date_of_last_contact]`, kind: "text", maxLength: 128 },
+  31: { name: `${CX}[communication_means][select][email]`, kind: "checkbox" },
+  32: {
+    name: `${CX}[communication_means][select][in-person]`,
+    kind: "checkbox",
+  },
+  33: { name: `${CX}[communication_means][select][phone]`, kind: "checkbox" },
+  34: { name: `${CX}[communication_means][select][mail]`, kind: "checkbox" },
+  35: {
+    name: `${CX}[communication_means][select][select_or_other]`,
+    kind: "checkbox",
+  },
+  36: {
+    name: `${CX}[communication_means][other]`,
+    kind: "text",
+    maxLength: 128,
+  },
+  37: { name: `${CX}[person_communicated_with]`, kind: "text", maxLength: 128 },
+  38: { name: `${CX}[results_of_communication]`, kind: "text", maxLength: 128 },
+};
+
+/** The AG complaint form's element id, used by the bookmark to find it. */
+export const agFormElementId = "webform-client-form-572546";

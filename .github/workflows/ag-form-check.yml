@@ -1,0 +1,26 @@
+name: AG form check
+
+# The fill-the-AG-form bookmark depends on the AG form's input names. This
+# fetches the live form weekly and fails if any mapped field disappears.
+on:
+  schedule:
+    - cron: "17 15 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run check:ag-form

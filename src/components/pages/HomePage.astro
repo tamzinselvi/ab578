@@ -17,11 +17,15 @@ const { locale } = Astro.props;
   <section class="hero">
     <h1>{t(locale, "homeHeadline")}</h1>
     <p class="subhead">{t(locale, "homeSubhead")}</p>
-    <a class="button" href={localePath(locale, "/file")}>
-      {t(locale, "homeCta")}
-    </a>
-    <p>
-      <a href={localePath(locale, "/about")}>{t(locale, "homeHow")}</a>
-    </p>
+    <div class="hero-actions">
+      <a class="button" href={localePath(locale, "/file")}>
+        {t(locale, "homeCta")}
+      </a>
+      <p>
+        <a class="hero-how" href={localePath(locale, "/about")}>
+          {t(locale, "homeHow")}
+        </a>
+      </p>
+    </div>
   </section>
 </Base>

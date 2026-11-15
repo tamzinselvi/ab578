@@ -46,6 +46,13 @@ Bill context (secondary, read 2026-11-14): LegiScan chaptered text https://legis
 - Public Inquiry Unit, phone (800) 952-5225, mail "Attn: Public Inquiry Unit": https://oag.ca.gov/contact
 - Information Collection, Use and Access notice (linked from the form): https://oag.ca.gov/sites/all/files/agweb/pdfs/contact/business_info_cua.pdf
 
+### Filling the AG form (read 2026-11-15)
+
+- The form is a Drupal 7 Webform (`webform-client-form-572546`). It ignores URL query parameters, and browsers do not let one site fill another site's form, so the kit cannot open it pre-filled.
+- On computers the kit offers a bookmark (a `javascript:` link) instead. The bookmark holds no personal data. The person copies their answers from the kit, clicks the bookmark on the AG page, and pastes. The bookmark sets each field by its exact `name` (see `agFormInputs` in `src/data/destinations.ts`), applying radios and checkboxes first so the form's conditional sections open. It never submits, never touches the upload, affirmation or authorization questions, and never writes HTML.
+- Field limits read from the live form: address lines and company address 50 characters, the reasonable-resolution field 128, area code 3, phone 7, ZIP 5, ZIP+4 4; the amount in dispute is a number field. The kit's answers are fitted to these limits.
+- Verified on the live form on 2026-11-15 with test data (28 answers filled, conditional contact-history fields opened, nothing submitted). `npm run check:ag-form` (run weekly by `.github/workflows/ag-form-check.yml`) fails if any mapped field name disappears.
+
 ## Other destinations
 
 - CDAA roster of California prosecutors (all 58 county district attorneys plus several city attorneys): https://www.cdaa.org/CDAAweb/CDAAweb/About-Us/California-District-Attorney-Offices.aspx. Note: `cdaa.org/da-roster/` returns 404; the `.aspx` page above is the live roster ("California Prosecutors").
